@@ -34,13 +34,15 @@ export default function () {
   const showAd = useAdsgram({ blockId: "3925", onReward, onError });
 
   const handlePlayGame = (link: string) => {
-    if (userInfo?.ticket > 0) {
-      navigate(link)
-      hapticFeedback.notificationOccurred('success')
-    } else {
-      setShowInvite(true)
-      hapticFeedback.notificationOccurred('warning')
-    }
+    // if (userInfo?.ticket > 0) {
+    //   navigate(link)
+    //   hapticFeedback.notificationOccurred('success')
+    // } else {
+    //   setShowInvite(true)
+    //   hapticFeedback.notificationOccurred('warning')
+    // }
+    navigate(link)
+    hapticFeedback.notificationOccurred('success')
   }
 
   const handleNotice = () => {

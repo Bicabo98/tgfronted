@@ -56,11 +56,11 @@ function PriceComp() {
   }
   useEffect(() => {
     setInterval(() => {
-      setIndex(p => p + 1)
+      //setIndex(p => p + 1)
     }, 10000);
   }, [])
   useEffect(() => {
-    initPrice()
+    //initPrice()
   }, [index])
   return <div className='price-comp' onClick={() => handleOpenDogs()}>
     <div className='left'>

@@ -1,3 +1,4 @@
+
 import { lazy, type ComponentType, type JSX } from 'react';
 
 const HomePage = lazy(() => import('@/pages/Home'))
@@ -12,6 +13,9 @@ const DetailPage = lazy(() => import('@/pages/Detail'))
 const SecondPage = lazy(() => import('@/pages/Second'))
 const CheckInlPage = lazy(() => import('@/pages/CheckIn'))
 const GameLeaderBoardPage = lazy(() => import('@/pages/GameLeaderBoard'))
+const TaskPage = lazy(() => import('@/pages/Task'))
+const AccountPage = lazy(() => import('@/pages/Account'))
+const CareerPage = lazy(() => import('@/pages/Career'))
 
 interface Route {
   path: string;
@@ -27,10 +31,15 @@ export const routes: Route[] = [
   { path: '/emoji', Component: EmojiGamePage },
   { path: '/fall', Component: FallGamePage },
   { path: '/memory', Component: MemoryGamePage },
-  { path: '/leaderBoard', Component: LeaderBoardPage },
+  //{ path: '/leaderBoard', Component: LeaderBoardPage },
+  { path: '/earn', Component: TaskPage },
   { path: '/gameleaderboard', Component: GameLeaderBoardPage },
   { path: '/frens', Component: FrensPage },
   { path: '/game', Component: GamePage },
   { path: '/detail', Component: DetailPage },
   { path: '/checkIn', Component: CheckInlPage },
+  { path: '/account', Component: AccountPage},
+  { path: '/career', Component: CareerPage},
+  // { path: '/account', Component: GamePage},
+
 ];

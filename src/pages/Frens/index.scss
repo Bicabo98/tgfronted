@@ -7,69 +7,224 @@
   align-items: center;
   padding: 22px 0;
   overflow: auto;
-  color: #fff;
-  padding-bottom: 6rem;
+  //color: #fff;
+  padding-bottom: 12rem;
+
   .adm-list-default .adm-list-body {
     border: none;
+    background-color: rgba(255, 255, 255, 0.08);
   }
+
   .adm-list-item-content {
     border-top-color: #312d2d;
   }
+
   .adm-list-item-content {
     border: none;
     padding-right: 0;
   }
+
   .adm-list-item {
-    padding: 0;
-    background: rgba($color: #000000, $alpha: 0.9);
-    border: none;
+    //padding: 0;
+    // background: rgba($color: #000000, $alpha: 0.1);
+    //background:#494949;
+    //border: none;
+    background-color: rgba(255, 255, 255, 0.01);
   }
+
   .friends-title {
-    text-align: center;
-    margin: 1rem 0;
-    font-family: Bold;
-    font-size: 2.5rem;
+    display: flex;
+    align-items: flex-start;
+    padding-left: 20px;
   }
+
+  .friends-title-image {
+    margin-right: 10px;
+    width: 75px;
+    height: 81px;
+    // vertical-align: middle;
+  }
+
+  .friends-title-text {
+    font-family: 'UniSansHeavyCAPS';
+    font-size: 30px;
+    //align-items: center; 
+    font-style: normal;
+    text-align: left;
+    font-weight: bold;
+  }
+
+  .friends-title2 {
+    display: flex;
+    align-items: center;
+    background: rgba($color: #fff, $alpha: 0.1);
+    padding: 20px 20px;
+    border-radius: 5px;
+    width: calc(100% - 20px);
+    margin-bottom: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+
+    .friends-title2-text {
+      flex-grow: 1;
+      word-wrap: break-word;
+      white-space: normal;
+      font-family: "PingFang-SC, PingFang-SC";
+      font-size: 14px;
+      color: #BEC4D5;
+      padding-right: 20px;
+      line-height: 25px;
+      margin-left: 15px;
+      font-weight: bold;
+    }
+
+    .friends-title2-image {
+      width: 34px;
+      height: 34px;
+    }
+
+    .highlight-yellow {
+      color: #FFD255;
+    }
+
+    .highlight-blue {
+      color: #07D9FF;
+    }
+  }
+
+  .friends-title3 {
+    position: relative;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 15px 0;
+    margin-bottom: 40px;
+  }
+
+  .horizontal-line {
+    width: calc(100% - 40px);
+    height: 2px;
+    background-color: black;
+    margin: 10px auto;
+  }
+
+
+  .friends-context {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 20px;
+    box-sizing: border-box;
+    width: 100%;
+  }
+
+  .friend-box {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
+    flex: 1;
+    text-align: center;
+  }
+
+  .friend-box.left {
+    margin-right: 5px;
+  }
+
+  .friend-box-image {
+    // max-width: 100%;
+    // height: auto; 
+    width: 26px;
+    height: 25px;
+  }
+
+  .friend-box-text.left {
+    margin-top: 10px;
+    font-size: 16px;
+    font-family: 'PingFang-SC, PingFang-SC';
+    color: #34DBBC;
+  }
+
+  .friend-box-text.right {
+    margin-top: 10px;
+    font-size: 16px;
+    font-family: 'PingFang-SC, PingFang-SC';
+    color: #FFD255;
+  }
+
+
   .tap-desc {
     font-family: Bold;
     font-size: 1.8rem;
     text-align: center;
+    font-family: 'PingFang-SC, PingFangs-SC';
+    margin-top: 30px;
   }
+
   .logo {
     margin: 2rem 0;
+
     svg {
       width: 170px;
       height: 140px;
     }
   }
-  .friends-list-wrapper {
-    width: 100%;
+
+  .friends-list-test {
+    width: 98%;
+
+
+    .friends-list-header {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 20px;
+      font-weight: bold;
+      font-family: 'PingFang-SC, PingFang-SC';
+      background-color: rgba($color: #fff, $alpha: 0.1);
+      font-size: 16px;
+      border-bottom: 1px solid rgba($color: #fff, $alpha: 0.2);
+      margin-top: 25px;
+
+      .friends-list-header-text {
+        color: #BEC4D5;
+      }
+
+    }
+
+
     .friends-list-title {
-      font-size: 1.8rem;
+      font-size: 1.2rem;
       font-weight: bold;
       margin-bottom: 1.5rem;
       padding: 0 12px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      margin-top: 15px;
     }
+
     .friends-list {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      padding: 0 12px;
+    
+      //justify-content: center;
+      padding: 10px 12px;
+      //border-bottom: 1px solid rgba($color: #fff, $alpha: 0.2);
+
     }
+
     .icon {
       border-radius: 50%;
       font-family: Bold;
       margin-right: 1rem;
       text-transform: uppercase;
-      min-width: 42px;
-      min-height: 42px;
+      min-width: 36px;
+      min-height: 36px;
       display: flex;
       align-items: center;
       justify-content: center;
+
     }
+
     .name {
       font-weight: bold;
       font-size: 1.3rem;
@@ -78,32 +233,123 @@
       flex: 1;
       text-overflow: ellipsis;
     }
+
     .fl-left {
       display: flex;
       align-items: center;
       flex: 1;
     }
+
     .fl-right {
       font-family: Bold;
       font-size: 1.3rem;
-       min-width: fit-content;
-       padding-left: 0.5rem;
+      padding-left: 0.5rem;
+      color: #FFD255;
+      align-items: center;
     }
   }
+
   .invite-btn {
     position: fixed;
     bottom: 72px;
-    padding: 1rem 1.5rem;
+    padding: 2rem 1.5rem;
     width: 100%;
-    background: #000;
+    //background: #000;
     display: flex;
     gap: 4px;
+    height: 18%;
+
     .copy {
       font-weight: bold;
+
       span {
         display: flex;
         align-items: center;
       }
     }
+
+    Button {
+      background: #00A995;
+      border-radius: 10px;
+      color: #FFFFFF;
+      font-family: 'PingFang-SC, PingFang-SC';
+      border-style: solid;
+      border-width: 0px;
+      font-size: 18px;
+
+      box-shadow: 1px 4px 2px rgba($color: #00665A, $alpha: 1.0)
+    }
+  }
+
+
+}
+
+
+.adm-popup-body{
+  background: linear-gradient(to top, #0F141E, #32161D); 
+  position: fixed;
+}
+
+.popup-rule-content {
+  margin: 0 auto;
+  max-width: 450px;
+}
+
+.popup-rule-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  //padding: 5px;
+  font-family: 'bold';
+  font-size: 1.3rem;
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+
+  .close-svg {
+    position: absolute;
+    right: 12px;
+    top: 20px;
+    transform: translate(0, -50%);
   }
 }
+
+.popup-rule-wrapper {  
+  display: flex;  
+  flex-direction: column;  
+  align-items: center;  
+  padding: 60px 5px;
+}  
+  
+.popup-custom-button {  
+  display: block;  
+  cursor: pointer; 
+  padding: 20px 20px;
+  margin: 10px 0;  
+  background-color: rgba($color: #fff, $alpha: 0.1); 
+  display: flex;
+  width: 100%;
+  border-radius: 10px;
+  justify-content: center;  
+  align-items: center;     
+
+
+  .popup-button-image {  
+    width: 24px;
+    height: 24px;
+    margin-right: 12px;
+   }  
+   .popyp-button-text {
+     color:white;
+     font-size: 16px;
+     font-family: 'PingFang-SC, PingFang-SC';
+     font-weight: bold;
+   }
+     
+}  
+
+
+  
+
+
+  

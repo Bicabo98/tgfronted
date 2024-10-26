@@ -16,14 +16,15 @@ export default function () {
     }
     const [menu, setMenu] = useState([
         {
-            title: '𝗛𝗼𝗺𝗲',
+            title: 'Game',
             icon: HomeIcon,
             to: '/'
         },
         {
-            title: '𝗟𝗲𝗮𝗱𝗲𝗿𝗯𝗼𝗮𝗿𝗱',
+            title: 'Earn',
             icon: LeaderBoardIcon,
-            to: '/leaderBoard',
+            to: '/earn',
+            // to:'/gameleaderboard'
         },
         {
             title: '𝗙𝗿𝗶𝗲𝗻𝗱𝘀',
@@ -31,9 +32,9 @@ export default function () {
             to: '/frens'
         },
         {
-            title: '𝗚𝗮𝗺𝗲',
+            title: 'Account',
             icon: gameIcon,
-            to: '/game',
+            to: '/account',
         },
     ])
     useEffect(() => {

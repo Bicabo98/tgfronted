@@ -1,6 +1,7 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
 import { addPending, removePending } from './pending';
-import WebApp from '@twa-dev/sdk'
+import { certificate } from './certificate';
+import {initInitData} from '@telegram-apps/sdk';
 
 // 处理响应
 const handleResponse = (data: GlobalRequest.Response<any>) => {
@@ -14,57 +15,77 @@ const handleResponse = (data: GlobalRequest.Response<any>) => {
 };
 // 处理错误
 const handleError = (res: any) => {
-  if (!res) {
-    return;
-  }
- 
+  console.log("res:",res)
+  return res.data.code
+  // if (!res) {
+  //   return;
+  // }
+  // return res;
 };
 
-// 创建请求实例
+
 const instance = axios.create({
-  baseURL: '/api',
+  baseURL: '/apis/v1/',
   timeout: 500000,
   headers: {
     'Content-Type': 'application/json;charset=UTF-8',
   },
 });
 
+
+
 // 添加请求拦截器
 instance.interceptors.request.use(
   (config: any) => {
     if (typeof window !== 'undefined') {
+      const initData = initInitData() as any;
+      // if (authorization) {
+      //   config.headers = {
+      //     ...config.headers,
+      //     'authorization': `Bearer ${authorization}`,
+      //   };
+      // }
+      config.headers = {
+        ...config.headers,
+        'TG_ID': `${initData.user.id}`,
+        'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
+        'Token_Source': 'MiniApp',
+      }
       const authorization = localStorage.getItem('authorization');
-      if (authorization) {
+      const id = localStorage.getItem('id');
+      if(authorization && id) {
         config.headers = {
           ...config.headers,
-          'authorization': `Bearer ${authorization}`,
-        };
-      }
+          'ID':`${id}`,
+          'Authorization':`Bearer ${authorization}`,
+        }
+      } 
+
     }
     removePending(config);
     addPending(config);
-    // 发送请求之前做些什么
+
     return config;
   },
   (err) => {
-    // 对请求错误做些什么
+
     return Promise.reject(err);
   }
 );
 
-// 添加响应拦截器
+
 instance.interceptors.response.use(
   (response: AxiosResponse) => {
     const data: GlobalRequest.Response<any> = response.data;
-    // 对响应数据做些什么
     removePending(response);
     handleResponse(data);
     return response;
   },
   (err) => {
-    // 对响应错误做些什么
-    handleError(err.response);
-    return Promise.reject(err);
+    let handleerr = handleError(err.response);
+    console.log("handleerr:",handleerr)
+    //return Promise.reject(err);
+    return handleerr;
   }
 );
 

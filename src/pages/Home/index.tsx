@@ -1,260 +1,818 @@
-import './index.scss'
-import EventBus from "@/utils/eventBus";
-import { FC, useEffect, useState } from "react";
-import starIcon from '@/assets/h-star.png'
-import checkIcon from '@/assets/h-right.png'
-import friendsIcon from '@/assets/h-friends.png'
-import gameIcon from '@/assets/game.png'
-import taskIcon from '@/assets/task.png'
-import walletIcon from '@/assets/wallet.png'
+import './index.scss';
+import { FC, useEffect, useRef, useState, useCallback } from "react";
 import { Modal, Popup, ProgressCircle, Swiper } from "antd-mobile";
-import { judgeIsCheckIn } from '@/utils/common'
 import { useDispatch, useSelector } from "react-redux";
 import { userCheckReq, bindWalletReq } from "@/api/common";
 import { initUtils, useHapticFeedback } from '@telegram-apps/sdk-react';
 import { setUserInfoAction } from "@/redux/slices/userSlice";
-import LogoIcon from '@/assets/logo.jpg'
 import { useTonWallet, useTonConnectModal, useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
-import { useNavigate } from "react-router-dom";
-import BackTop from "@/components/BackTop";
+import { useAdsgram } from '@/hooks/useAdsgram';
+
 
 export default function Home() {
-  const userInfo = useSelector((state: any) => state.user.info);
-  const hmstrInfo = useSelector((state: any) => state.user.hmstr);
-  const eventBus = EventBus.getInstance()
+  const [isShowRules, setShowRules] = useState(false);
+  const [inputRoomName, setInputRoomName] = useState("Text Room")
+  const [showAdvancedSettings, setShowAdvancedSettings] = useState(false); // control show advancedsetting
+  const [isCreatingGame, setIsCreatingGame] = useState(false); //  control if create game
+
+  const [inputCreateGameMustValues, setInputCreateGameMustValues] = useState(["1", "2", ""]);   // Must values
+  const inputCreateGameRefs = useRef({});  // save create game input
+
+  // Ante  Auto-starddle 
+  const [inputCreateGameValues, setInputCreateGameValues] = useState(["", ""]);
+  const [anteMinPlacehoder, setMinAntePlacehoder] = useState(0);
+  const [anteMaxPlacehoder, setMaxAntePlacehoder] = useState(100);
+  const [auto_starddleMinPlacehoder, setAuto_starddleMinPlacehoder] = useState(2);
+  const [auto_starddleMaxPlacehoder, setAuto_starddleMaxPlacehoder] = useState(20);
+
+  const [inputValues, setInputValues] = useState(["", "", "", "", ""]); // save join room value
+  const inputRefs = useRef([]); // save join game input
+  const wallet = useTonWallet();
+  const dispatch = useDispatch();
   const utils = initUtils();
-  const [loading, setLoading] = useState(false)
-  const [isShowRules, setShowRules] = useState(false)
-  const wallet = useTonWallet()
-  const dispatch = useDispatch()
-  const navigate = useNavigate()
-  const hapticFeedback = useHapticFeedback()
-  const modal = useTonConnectModal()
-  const [tonConnectUi] = useTonConnectUI()
-  const [visible, setVisible] = useState(false)
-  const handleToScore = async () => {
-    navigate('/second?last=true')
+
+  //min buy in
+  const [minBuyin, setMinBuyin] = useState(100);
+  const [sliderMinMinBuyin, setSliderMinMinBuyin] = useState(100);
+  const [sliderMinMaxBuyin, setSliderMinMaxBuyin] = useState(1000);
+  const [stepMinBuyin, setStepMinBuyin] = useState(100);
+
+  // max buy in
+  const [maxBuyin, setMaxBuyin] = useState(200);
+  const [sliderMaxMinBuyin, setSliderMaxMinBuyin] = useState(200);
+  const [sliderMaxMaxBuyin, setSliderMaxMaxBuyin] = useState(2000);
+  const [stepMaxBuyin, setStepMaxBuyin] = useState(200);
+
+  const [tablePlayer, setTablePlayer] = useState(9);
+
+  const [tableDuration, setTableDuration] = useState(6);
+  const [tableAutoStart, setTableAutoStart] = useState(2);
+
+  const [toggleStates, setToggleStates] = useState({
+    autoRoundDown: false,
+    disableDecimal: false,
+    insurance: false,
+    runMultipleTimes: false,
+    buyinApproval: false,
+    voiceChatting: false,
+    lookRemainingCards: false,
+    rabbitHunt: false,
+    postBB: false,
+    autoMuck: false,
+    delayedHand: false,
+    gpsRestriction: false,
+    randomSeat: false,
+    spectatorMute: false,
+    hidePlayerStats: false,
+    hidePlayerProfit: false,
+    minTableVpip: false,
+  });
+
+  const [activeGame, setActiveGame] = useState('NLH');  //default active NLH
+  const [activeFeesMode, setActiveFeesMode] = useState('Fees-free');
+  const [showMinTableVPIP, setShowMinTableVPIP] = useState(false);
+  const [minTableVpipValues, setMinTableVpipValues] = useState([15,0]);
+
+
+
+
+  const handleTableSize = (e: any) => {
+    const newTableSize = parseInt(e, 10);
+    if (newTableSize == 6 || newTableSize == 5 || newTableSize == 4 || newTableSize == 3 || newTableSize == 2) {
+      setTableAutoStart(newTableSize);
+    }
+    setTablePlayer(newTableSize)
   }
-  const handleClaim = () => {
-    hapticFeedback.notificationOccurred('success')
-    if (!tonConnectUi.connected) {
-      modal.open()
-    } else {
-      setVisible(true)
+
+  const handleAutoStart = (e: any) => {
+    const newAutoStart = parseInt(e, 10);
+    if (newAutoStart <= tablePlayer) {
+      setTableAutoStart(newAutoStart)
     }
   }
-  const handleCheckIn = async () => {
-    if (judgeIsCheckIn(userInfo?.check_date)) {
-      return
+
+  const getDisplayValue = () => {
+    return tableAutoStart === 1 ? 'Close' : tableAutoStart;
+  };
+
+  const handleToggle = (id: any) => {
+    var test = {
+      ...toggleStates,
+      [id]: !toggleStates[id],
     }
-    setLoading(true)
-    const res = await userCheckReq()
-    if (res.code == 0) {
-      eventBus.emit('showCongrates', { time: 2000, visible: true })
-      dispatch(setUserInfoAction(res.data))
+    console.log("toggleStates:", test)
+
+    setToggleStates((prevState) => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+
+    if (id == 'minTableVpip') {
+      setShowMinTableVPIP(!showMinTableVPIP)
     }
-    setLoading(false)
-  }
+  };
+
+
 
 
   useEffect(() => {
     if (wallet?.account) {
       bindWalletReq({ wallet: wallet?.account?.address }).then(res => {
-        dispatch(setUserInfoAction(res.data))
-      })
+        dispatch(setUserInfoAction(res.data));
+      });
     }
-  }, [wallet])
+  }, [wallet]);
+
+  //Create game
+  const handleCreateGame = () => {
+    setIsCreatingGame(true);
+  };
+
+  const handleAdvancedSettingsToggle = () => {
+    setShowAdvancedSettings(!showAdvancedSettings);
+  };
+
+  const handleActiveClick = (game: any) => {
+    setActiveGame(game);
+  };
+
+
+  // active fees mod button
+  const handleFeesModeClick = (item: any) => {
+    setActiveFeesMode(item);
+  };
+
+  const handleMinTableVpipValue = (index:any, value:any) => {
+    const newVlaues = [...minTableVpipValues];
+    newVlaues[index] = value;
+    setMinTableVpipValues(newVlaues);
+  }
+
+
+  // Create room must value
+  const handleInputCreateRoomMustChange = (index: any, value: any) => {
+    const newInputCreateGameValues = [...inputCreateGameMustValues];
+    newInputCreateGameValues[index] = value;
+    // Current is SB
+    if (index == 0) {
+      let newValue = value * 2;
+      newInputCreateGameValues[index + 1] = newValue.toString();
+      setMinBuyin(value * 100);
+      setSliderMinMinBuyin(value * 100);
+      setSliderMinMaxBuyin(value * 1000);
+      setStepMinBuyin(value * 100);
+
+      setMaxBuyin(value * 200);
+      setSliderMaxMinBuyin(value * 200);
+      setSliderMaxMaxBuyin(value * 2000);
+      setStepMaxBuyin(value * 200);
+      setMaxAntePlacehoder(value * 10);
+      setAuto_starddleMinPlacehoder(newValue);
+      setAuto_starddleMaxPlacehoder(newValue * 10);
+    }
+    // Current is BB
+    else if (index == 1) {
+      let newValue = value / 2;
+      newInputCreateGameValues[index - 1] = newValue.toString();
+      setMaxBuyin(newValue * 200);
+      setSliderMaxMinBuyin(newValue * 200);
+      setSliderMaxMaxBuyin(newValue * 2000);
+      setStepMaxBuyin(newValue * 200);
+
+      setMinBuyin(newValue * 100);
+      setSliderMinMinBuyin(newValue * 100);
+      setSliderMinMaxBuyin(newValue * 1000);
+      setStepMinBuyin(newValue * 100);
+
+      setMaxAntePlacehoder(newValue * 10);
+      setAuto_starddleMinPlacehoder(value);
+      setAuto_starddleMaxPlacehoder(value * 10);
+    }
+
+    setInputCreateGameMustValues(newInputCreateGameValues);
+
+  }
+
+  // SB小盲滑动条
+  const handleMinBuyinChange = (e: any) => {
+    const newMinBuyin = parseInt(e, 10);
+    if ((newMinBuyin + maxBuyin) - (maxBuyin * 2) == 0) {
+      const newMaxBuyin = Number(inputCreateGameMustValues[1]) * 100
+      setMaxBuyin(newMinBuyin + newMaxBuyin);
+    }
+    setMinBuyin(newMinBuyin)
+  };
+
+  // BB大盲滑动条
+  const handleMaxBuyinChange = (e: any) => {
+    const newMaxBuyin = parseInt(e, 10);
+    const BB = Number(inputCreateGameMustValues[1]) * 100
+    if ((newMaxBuyin - minBuyin) == 0) {
+      const newMinBuyin = minBuyin - BB
+      setMinBuyin(newMinBuyin)
+    }
+    setMaxBuyin(newMaxBuyin);
+  }
+
+
+  // Ante and Auto-straddle
+  const handleInputCreateRoomChange = (index: any, value: any) => {
+    const newInputCreateGameValues = [...inputCreateGameValues];
+    // Current is Ante
+    if (index == 0) {
+      if (value < anteMinPlacehoder || value > anteMaxPlacehoder) {
+        newInputCreateGameValues[index] = "";
+        setInputCreateGameValues(newInputCreateGameValues);
+        return
+      }
+    }
+    // Current is Auto-straddle
+    else if (index == 1) {
+      if (value < auto_starddleMinPlacehoder || value > auto_starddleMaxPlacehoder) {
+        newInputCreateGameValues[index] = "";
+        setInputCreateGameValues(newInputCreateGameValues);
+        return
+      }
+    }
+    newInputCreateGameValues[index] = value
+    setInputCreateGameValues(newInputCreateGameValues);
+  }
+
+
+
+
+  // join room
+  const handleInputJoinRoomChange = (index: any, value: any) => {
+    if (value.length > 1) return;
+    const newInputValues = [...inputValues];
+    newInputValues[index] = value;
+    setInputValues(newInputValues);
+    if (value && index < inputRefs.current.length - 1) {
+      inputRefs.current[index + 1].focus(); // focus next input box
+    }
+    else if (index === inputRefs.current.length - 1 && newInputValues[index] !== "") {
+
+      // TODO 跳转到某个页面
+      console.log("输入完成:", newInputValues);
+      utils.openLink("https://www.google.com/")
+      setInputValues(["", "", "", "", ""])
+      inputRefs.current[0].focus();
+    }
+  };
+
+  const handleKeyDown = (index: any, event: any) => {
+    if (event.key === "Backspace" && inputValues[index] === "") {
+      if (index > 0) {
+        inputRefs.current[index - 1].focus(); // focus last input box
+      }
+    }
+  };
 
   return (
     <main>
       <div className="home fadeIn">
-        <div className="top" onClick={() => handleToScore()}>
-          <div className="top-inner">
-            {videoIcon}
-            <span>Your Score</span>
-          </div>
-        </div>
-        <div className="logo">
-          <img src={LogoIcon} alt="logo" style={{ width: '30vw', objectFit: 'contain' }} />
-          {/* <Button className="sign" onClick={() => handleCheckIn()} size="small" loading={loading}>
-            {judgeIsCheckIn(userInfo?.check_date) ? 'checked' : 'Check In'}
-          </Button> */}
-          <div className="question" onClick={() => setShowRules(true)}>
-            <img src="/assets/question.png" width={20} />
-          </div>
-        </div>
-        <div className="score">
-          <div style={{ fontSize: '1.5rem', opacity: 0.9, lineHeight: '24px' }}>𝗔𝘀𝘀𝗲𝘁𝘀 ($𝗛𝗠𝗦𝗧𝗥)</div>
-          <div className="amount">{userInfo?.score?.toLocaleString()}</div>
-          {/* <div className="really-price">&asymp; ${(Math.round(userInfo?.score * hmstrInfo?.price * 100) / 100).toFixed(2)}</div> */}
-        </div>
-        <div className="wallet">
-          <div className="wallet-inner" onClick={() => handleClaim()}>
-            𝘾𝙡𝙖𝙞𝙢 𝘼𝙞𝙧𝙙𝙧𝙤𝙥
-            <img src="/assets/airdrop.png" />
-          </div>
-        </div>
         <div className="wrapper">
-          <Swiper autoplay loop>
-            <Swiper.Item key={3}>
-              <div className="community">
-                <div className="Hamsters-com">Hamster Developers Community</div>
-                <div className="home-tg">Business Cooperation Channel</div>
-                <div className="join-btn" onClick={() => {
-                  utils.openTelegramLink('https://t.me/+CFUnnwrLIcgzOWFl')
-                }}>𝒟𝒾𝓈𝒸ℴ𝓋ℯ𝓇 🪜</div>
-                <div className="heart">🥮</div>
-              </div>
-            </Swiper.Item>
-            <Swiper.Item key={1}>
-              <div className="community">
-                <div className="Hamsters-com">Hamster COMMUNITY</div>
-                <div className="home-tg">Home for Telegram OGs</div>
-                <div className="join-btn" onClick={() => {
-                  utils.openTelegramLink('https://t.me/hamstermemedapp')
-                }}>𝒥ℴ𝒾𝓃 💰</div>
-                <div className="heart">💖</div>
-              </div>
-            </Swiper.Item>
-            <Swiper.Item key={2}>
-              <div className="community">
-                <div className="Hamsters-com">FOLOW US ON X.COM</div>
-                <div className="home-tg">stay updated with the latest news</div>
-                <div className="join-btn follow-btn" onClick={() => {
-                  window.open('https://x.com/Hamster_meme_')
-                }}>ℱℴ𝓁𝓁ℴ𝓌 🐹</div>
-                <div className="heart">💥</div>
-              </div>
-            </Swiper.Item>
-          </Swiper>
-          <div className="reward">
-            🆈🅾🆄🆁 🆁🅴🆆🅰🆁🅳🆂
-          </div>
-          <div className="list">
-            <div className="left">
-              <div className="img-wrapper"><img src={starIcon} alt="star" /></div>
-              <span>Account Age</span></div>
-            <div className="right">+{userInfo?.account_age_score || 0}&nbsp;<span className="unit">HMSTR</span></div>
-          </div>
-          {
-            userInfo?.invite_friends_score ? <div className="list">
-              <div className="left">
-                <div className="img-wrapper"><img src={friendsIcon} alt="star" /></div>
-                <span>Invited Friends</span></div>
-              <div className="right">+{userInfo?.invite_friends_score || 0}&nbsp;<span className="unit">HMSTR</span></div>
-            </div> : ''
-          }
-          {
-            userInfo?.game_score ? <div className="list">
-              <div className="left">
-                <div className="img-wrapper"><img src={gameIcon} alt="star" /></div>
-                <span>Play Game</span></div>
-              <div className="right">{userInfo.game_score > 0 ? `+${userInfo.game_score}` : userInfo.game_score}&nbsp;<span className="unit">HMSTR</span></div>
-            </div> : ''
-          }
-          {
-            userInfo?.check_score ? <div className="list">
-              <div className="left">
-                <div className="img-wrapper"><img src={taskIcon} alt="star" /></div>
-                <span>Daily Check-in</span></div>
-              <div className="right">+{userInfo.check_score || 0}&nbsp;<span className="unit">HMSTR</span></div>
-            </div> : ''
-          }
-          {
-            userInfo?.bind_wallet_score ? <div className="list">
-              <div className="left">
-                <div className="img-wrapper"><img src={walletIcon} alt="star" /></div>
-                <span>Connect Wallet</span></div>
-              <div className="right">+{userInfo.bind_wallet_score || 0}&nbsp;<span className="unit">HMSTR</span></div>
-            </div> : ''
-          }
-          <div className="list">
-            <div className="left">
-              <div className="img-wrapper"><img src={checkIcon} alt="star" /></div>
-              <span>Telegram Premium</span></div>
-            <div className="right">{userInfo?.telegram_premium ? `+${userInfo?.telegram_premium}` : 0}&nbsp;<span className="unit">HMSTR</span></div>
-          </div>
-        </div>
-      </div>
-      <Popup
-        visible={isShowRules}
-        onMaskClick={() => {
-          setShowRules(false)
-        }}
-        bodyStyle={{
-          borderTopLeftRadius: '8px',
-          borderTopRightRadius: '8px',
-        }}
-        className='popup-rule'
-      >
-        <div className='popup-rule-content'>
-          <div className='popup-rule-title'>
-            <div>Rules</div>
-            <svg onClick={() => setShowRules(false)} className="close-svg" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5777" width="18" height="18"><path d="M597.795527 511.488347 813.564755 295.718095c23.833825-23.833825 23.833825-62.47489 0.001023-86.307691-23.832801-23.832801-62.47489-23.833825-86.307691 0L511.487835 425.180656 295.717583 209.410404c-23.833825-23.833825-62.475913-23.833825-86.307691 0-23.832801 23.832801-23.833825 62.47489 0 86.308715l215.769228 215.769228L209.410915 727.258599c-23.833825 23.833825-23.833825 62.47489 0 86.307691 23.832801 23.833825 62.473867 23.833825 86.307691 0l215.768205-215.768205 215.769228 215.769228c23.834848 23.833825 62.475913 23.832801 86.308715 0 23.833825-23.833825 23.833825-62.47489 0-86.307691L597.795527 511.488347z" fill="#000" p-id="5778"></path></svg>
-          </div>
-          <div className='popup-rule-wrapper'>
-            <div className='popup-rule-content'>
-              <div className='popup-rule-content-title'>
-                <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5414" width="16" height="16"><path d="M845.902988 0.000232H178.097244A177.864812 177.864812 0 0 0 0.000232 178.097244v667.805744a177.864812 177.864812 0 0 0 178.097012 178.097012h667.805744a177.864812 177.864812 0 0 0 178.097012-178.097012V178.097244A177.864812 177.864812 0 0 0 845.902988 0.000232zM512.000116 911.615445A75.929234 75.929234 0 1 1 587.929351 835.91841a77.090232 77.090232 0 0 1-75.929235 75.697035z m75.929235-340.172258v51.548287a75.929234 75.929234 0 0 1-151.858469 0v-114.938749a75.697035 75.697035 0 0 1 75.929234-75.929235A84.056217 84.056217 0 1 0 428.176099 348.299473a76.161434 76.161434 0 1 1-152.090669 0 235.914686 235.914686 0 1 1 311.843921 223.375913z" fill="#000" p-id="5415"></path></svg>
-                How to Earn
-                <img src='/assets/logo.png' alt='logo' width={16} height={16} />
-              </div>
-              <ul>
-                <li>Check in daily to get <img src='/assets/logo.png' alt='logo' width={16} height={16} /> and an additional <img src='/assets/logo.png' alt='logo' width={16} height={16} /> if you do it consecutively!</li>
-                <li>Check in daily to receive <img src='/assets/common/ticket.png' alt='logo' width={16} height={16} /> and earn more <img src='/assets/logo.png' alt='logo' width={16} height={16} />.</li>
-                <li>Invite frens to earn more <img src='/assets/logo.png' alt='logo' width={16} height={16} />,Get 10% of Your Fren's  unit Yields in Rewards
-                </li>
-                <li>Play games to earn more <img src='/assets/logo.png' alt='logo' width={16} height={16} />.</li>
-                <li>
-                  <svg viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3174" data-spm-anchor-id="a313x.search_index.0.i5.2b3c3a81TUgFeH" width="16" height="16"><path d="M42.666667 896l938.666667 0-469.333333-810.666667-469.333333 810.666667zM554.666667 768l-85.333333 0 0-85.333333 85.333333 0 0 85.333333zM554.666667 597.333333l-85.333333 0 0-170.666667 85.333333 0 0 170.666667z" fill="#ecc115" p-id="3175" data-spm-anchor-id="a313x.search_index.0.i0.2b3c3a81TUgFeH" ></path></svg>
-                  &nbsp;<img src='/assets/common/ticket.png' alt='logo' width={16} height={16} /> will be reset at 00:00 AM (UTC+0) every day!</li>
-              </ul>
+          <div className="first-box-container">
+            {/* first box */}
+            <div className={`box ${isCreatingGame ? 'active' : ''}`} onClick={handleCreateGame}>
+              {!isCreatingGame ? (
+                <div className='first-box-title'>
+                  <div className='first-box-title-text'>CREATE GAME</div>
+                  <img src="assets/common/home-create2.png" alt="Score Icon" className='first-box-icon' />
+                </div>
+              ) : (
+                <>
+                  <div className="button-group">
+                    <button
+                      className={`game-button ${activeGame === 'NLH' ? 'active' : ''}`}
+                      onClick={() => handleActiveClick('NLH')}
+                    >
+                      NLH
+                    </button>
+                    <button
+                      className={`game-button ${activeGame === 'TRUCO' ? 'active' : ''}`}
+                      onClick={() => handleActiveClick('TRUCO')}
+                    >
+                      TRUCO
+                    </button>
+                    <button
+                      className={`game-button ${activeGame === 'RUMMY' ? 'active' : ''}`}
+                      onClick={() => handleActiveClick('RUMMY')}
+                    >
+                      RUMMY
+                    </button>
+                    <button
+                      className={`game-button ${activeGame === 'DOMINO' ? 'active' : ''}`}
+                      onClick={() => handleActiveClick('DOMINO')}
+                    >
+                      DOMINO
+                    </button>
+                  </div>
+
+                  {activeGame == 'NLH' && (
+                    <div className='NLH-create-game-info'>
+                      <div className='NLH-title'>MTT Name *</div>
+                      <input
+                        type="text"
+                        placeholder="name"
+                        onChange={(e) => setInputRoomName(e.target.value)}
+                        className="digst-input-value"
+                      />
+                      <div className="first-box-input-group">
+                        <div className="input-wrapper">
+                          <div className='NLH-title'>SB *</div>
+                          <input
+                            id="sb"
+                            type="text"
+                            placeholder="0.05 - 1000"
+                            value={inputCreateGameMustValues[0]}
+                            onChange={(e) => handleInputCreateRoomMustChange(0, e.target.value)}
+
+                            className="digst-input-value"
+                          />
+                        </div>
+                        <div className="input-wrapper">
+                          <div className='NLH-title'>BB *</div>
+                          <input
+                            id="bb"
+                            type="text"
+                            placeholder='1 SB - 10 SB'
+                            value={inputCreateGameMustValues[1]}
+                            onChange={(e) => handleInputCreateRoomMustChange(1, e.target.value)}
+
+                            className="digst-input-value"
+                          />
+                        </div>
+
+                      </div>
+                      <div className="first-box-input-group">
+                        <div className="input-wrapper">
+                          <div className='NLH-title'>Ante</div>
+                          <input
+                            id="ante"
+                            type="text"
+                            placeholder={`${anteMinPlacehoder} ~ ${anteMaxPlacehoder}`}
+                            value={inputCreateGameValues[0]}
+                            onChange={(e) => handleInputCreateRoomChange(0, e.target.value)}
+                            className="digst-input-value"
+                          />
+                        </div>
+                        <div className="input-wrapper">
+                          <div className='NLH-title'>Auto-straddle</div>
+                          <input
+                            id="auto-start"
+                            type="text"
+                            placeholder={`${auto_starddleMinPlacehoder} ~ ${auto_starddleMaxPlacehoder}`}
+                            value={inputCreateGameValues[1]}
+                            onChange={(e) => handleInputCreateRoomChange(1, e.target.value)}
+                            className="digst-input-value"
+                          />
+                        </div>
+                      </div>
+
+                      <div className="slider-wrapper">
+                        <label htmlFor="min-buyin">Minimum buy-in</label>
+                        <input
+                          id="min-buyin"
+                          type="range"
+                          min={sliderMinMinBuyin}
+                          max={sliderMinMaxBuyin}
+                          step={stepMinBuyin}
+                          value={minBuyin}
+                          onChange={(e) => handleMinBuyinChange(e.target.value)}
+                          className="slider"
+                        />
+                        <div className="slider-values">
+                          <span className="min-value">{sliderMinMinBuyin}</span>
+                          <span className="current-value" style={{ left: `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}>{minBuyin}</span>
+                          <span className="max-value">{sliderMinMaxBuyin}</span>
+                        </div>
+                      </div>
+
+                      <div className="slider-wrapper">
+                        <label htmlFor="max-buyin">Maximum buy-in</label>
+                        <input
+                          id="max-buyin"
+                          type="range"
+                          min={sliderMaxMinBuyin}
+                          max={sliderMaxMaxBuyin}
+                          step={stepMaxBuyin}
+                          value={maxBuyin}
+                          onChange={(e) => handleMaxBuyinChange(e.target.value)}
+                          className="slider"
+                        />
+                        <div className="slider-values">
+                          <span className="min-value">{sliderMaxMinBuyin}</span>
+                          <span className="current-value" style={{ left: `${(maxBuyin / sliderMaxMaxBuyin) * 100}%` }}>{maxBuyin}</span>
+                          <span className="max-value">{sliderMaxMaxBuyin}</span>
+                        </div>
+                      </div>
+
+                      <div className="slider-wrapper">
+                        <label htmlFor="table-player">Table size (players)</label>
+                        <input
+                          id="table-player"
+                          type="range"
+                          min="2"
+                          max="9"
+                          value={tablePlayer}
+                          //onChange={(e) => setTablePlayer(e.target.value)}
+                          onChange={(e) => handleTableSize(e.target.value)}
+                          className="slider"
+                        />
+                        <div className="slider-values">
+                          <span className="min-value">2</span>
+                          {/* <span className="current-value" style={{ left: `${((tablePlayer - 2) / 9) * 100}%` }}>{tablePlayer}</span> */}
+                          <span className="current-value" style={{ left: `${((tablePlayer - 2) / (9 - 2)) * 100}%`, position: 'absolute', top: '-55px' }}>{tablePlayer}</span>
+                          <span className="max-value">9</span>
+                        </div>
+                      </div>
+
+
+                      <div className="slider-wrapper">
+                        <label htmlFor="table-duration">Duration (hours)</label>
+                        <input
+                          id="table-duration"
+                          type="range"
+                          min="0.5"
+                          max="6"
+                          step="0.5"
+                          value={tableDuration}
+                          onChange={(e) => setTableDuration(e.target.value)}
+                          className="slider"
+                        />
+                        <div className="slider-values">
+                          <span className="min-value">0.5</span>
+                          <span className="current-value" style={{ left: `${((tableDuration - 0.25) / 6) * 100}%` }}>{tableDuration}</span>
+                          <span className="max-value">6</span>
+                        </div>
+                      </div>
+
+                      <div className="slider-wrapper">
+                        <label htmlFor="table-AutoStart">Auto-start (players)</label>
+                        <input
+                          id="table-AutoStart"
+                          type="range"
+                          min="1"
+                          max="6"
+                          value={tableAutoStart}
+                          // onChange={handleSliderChange}
+                          onChange={(e) => handleAutoStart(e.target.value)}
+                          className="slider"
+                        />
+                        <div className="slider-values">
+                          <span className="min-value">Close</span>
+                          <span className="current-value" style={{ left: `${((tableAutoStart - 0.35) / 6) * 100}%` }}>{getDisplayValue()}</span>
+                          <span className="max-value">6</span>
+                        </div>
+                      </div>
+
+                      <div className='separator' />
+
+                      <div className="second-bot-input-group">
+                        <div className="input-wrapper">
+                          <label htmlFor="autoRoundDown">Auto round down</label>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              id="autoRoundDown"
+                              checked={toggleStates.autoRoundDown}
+                              onChange={() => handleToggle('autoRoundDown')}
+                            />
+                            <span className="slider" />
+                          </label>
+                        </div>
+
+                        <div className='separator' />
+
+                        <div className="input-wrapper">
+                          <label htmlFor="insurance">Insurance</label>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              id="insurance"
+                              checked={toggleStates.insurance}
+                              onChange={() => handleToggle('insurance')}
+                            />
+                            <span className="slider" />
+                          </label>
+                        </div>
+
+                        <div className='separator' />
+
+                        <div className="input-wrapper">
+                          <label htmlFor="runMultipleTimes">Run multiple times</label>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              id="runMultipleTimes"
+                              checked={toggleStates.runMultipleTimes}
+                              onChange={() => handleToggle('runMultipleTimes')}
+                            />
+                            <span className="slider" />
+                          </label>
+                        </div>
+
+                        <div className='separator' />
+
+                        <div className="input-wrapper">
+                          <label htmlFor="buyinApproval">Buy-in approval</label>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              id="buyinApproval"
+                              checked={toggleStates.buyinApproval}
+                              onChange={() => handleToggle('buyinApproval')}
+                            />
+                            <span className="slider" />
+                          </label>
+                        </div>
+
+                        <div className='separator' />
+
+                        <div className="input-wrapper">
+                          <label htmlFor="voiceChatting">Voice chatting</label>
+                          <label className="toggle-switch">
+                            <input
+                              type="checkbox"
+                              id="voiceChatting"
+                              checked={toggleStates.voiceChatting}
+                              onChange={() => handleToggle('voiceChatting')}
+                            />
+                            <span className="slider" />
+                          </label>
+                        </div>
+
+                        <button onClick={handleAdvancedSettingsToggle} className={`advanced-settings-button ${showAdvancedSettings ? 'expanded' : ''}`} >
+                          More
+                        </button>
+
+
+                      </div>
+
+                      <div className="button-container">
+                        {showAdvancedSettings && (
+                          <>
+                            <div className='separator' />
+                            <div className="second-bot-input-group">
+
+                              <div className="input-wrapper">
+                                <label htmlFor="rabbitHunt">Rabbit hunt</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="rabbitHunt"
+                                    checked={toggleStates.rabbitHunt}
+                                    onChange={() => handleToggle('rabbitHunt')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="postBB">Post BB</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="postBB"
+                                    checked={toggleStates.postBB}
+                                    onChange={() => handleToggle('postBB')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="autoMuck">Auto-muck</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="autoMuck"
+                                    checked={toggleStates.autoMuck}
+                                    onChange={() => handleToggle('autoMuck')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="delayedHand">Delayed hand</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="delayedHand"
+                                    checked={toggleStates.delayedHand}
+                                    onChange={() => handleToggle('delayedHand')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="gpsRestriction">GPS/IP restriction</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="gpsRestriction"
+                                    checked={toggleStates.gpsRestriction}
+                                    onChange={() => handleToggle('gpsRestriction')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="ramdomSet">Random seat</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="ramdomSet"
+                                    checked={toggleStates.ramdomSet}
+                                    onChange={() => handleToggle('ramdomSet')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="spectatorMute">Spectator mute</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="spectatorMute"
+                                    checked={toggleStates.spectatorMute}
+                                    onChange={() => handleToggle('spectatorMute')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="hidePlayerStats">Hide player stats</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="hidePlayerStats"
+                                    checked={toggleStates.hidePlayerStats}
+                                    onChange={() => handleToggle('hidePlayerStats')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="hidePlayerProfit">Hide player profit</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="hidePlayerProfit"
+                                    checked={toggleStates.hidePlayerProfit}
+                                    onChange={() => handleToggle('hidePlayerProfit')}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='separator' />
+
+                              <div className="input-wrapper">
+                                <label htmlFor="minTableVpip">Min. Table VPIP (%)</label>
+                                <label className="toggle-switch">
+                                  <input
+                                    type="checkbox"
+                                    id="minTableVpip"
+                                    checked={toggleStates.minTableVpip}
+                                    onChange={() => handleToggle('minTableVpip')}
+                                  //onChange={() => setShowMinTableVPIP(!showMinTableVPIP)}
+                                  />
+                                  <span className="slider" />
+                                </label>
+                              </div>
+
+                              <div className='NLH-create-game-info'>{showMinTableVPIP && (
+                                <>
+                                  <div className="slider-wrapper">
+                                    <input
+                                      id="minTableVpip1"
+                                      type="range"
+                                      min='15'
+                                      max='70'
+                                      step='1'
+                                      value={minTableVpipValues[0]}
+                                      onChange={(e) => handleMinTableVpipValue(0,e.target.value)}
+                                      className="slider"
+                                    />
+                                    <div className="slider-values">
+                                      <span className="min-value">15</span>
+                                      <span className="current-value" style={{ left: `${(minTableVpipValues[0] / 70) * 100}%` }}>{minTableVpipValues[0]}</span>
+                                      <span className="max-value">70</span>
+                                    </div>
+                                  </div>
+
+                                  <div className="slider-wrapper">
+                                    <input
+                                      id="minTableVpip2"
+                                      type="range"
+                                      min='0'
+                                      max='100'
+                                      step='1'
+                                      value={minTableVpipValues[1]}
+                                      onChange={(e) => handleMinTableVpipValue(1,e.target.value)}
+                                      className="slider"
+                                    />
+                                    <div className="slider-values">
+                                      <span className="min-value">0</span>
+                                      <span className="current-value" style={{ left: `${(minTableVpipValues[1] / 100) * 100}%` }}>{minTableVpipValues[1]}</span>
+                                      <span className="max-value">100</span>
+                                    </div>
+                                  </div>
+                                </>
+                              )}</div>
+
+                              <div className='showAdvancedSettings-bottom'>
+                                <div className='showAdvancedSettings-bottom-title'>Fees mode</div>
+                                <div className='showAdvancedSettings-bottom-box'>
+                                  <div
+                                    className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Fees-free' ? 'active' : ''}`}
+                                    onClick={() => handleFeesModeClick('Fees-free')}
+                                  >
+                                    Fees-free
+                                  </div>
+                                  <div
+                                    className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Pot fees' ? 'active' : ''}`}
+                                    onClick={() => handleFeesModeClick('Pot fees')}
+                                  >
+                                    Pot fees
+                                  </div>
+                                  <div
+                                    className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Profit fees' ? 'active' : ''}`}
+                                    onClick={() => handleFeesModeClick('Profit fees')}
+                                  >
+                                    Profit fees
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </>
+                        )}
+                        <button onClick={handleCreateGame}>Confirm</button>
+                      </div>
+                    </div>
+                  )}
+
+
+                </>
+              )}
             </div>
           </div>
+
+
+
+
+
+          {/* Second box */}
+          {!isCreatingGame && (
+            <div className="box-second">
+              {/* <img src="assets/common/home-joingame.png" alt="Score Icon" className='second-box-title-pic'/> */}
+              <div className='box-second-title'>
+                JOIN GAME
+              </div>
+              <div className="input-group">
+                {inputValues.map((value, index) => (
+                  <input
+                    key={index}
+                    type="text"
+                    value={value}
+                    ref={(el) => (inputRefs.current[index] = el)}
+                    onChange={(e) => handleInputJoinRoomChange(index, e.target.value)}
+                    onKeyDown={(e) => handleKeyDown(index, e)}
+                    className="digit-input"
+                  />
+                ))}
+              </div>
+            </div>
+          )}
+
         </div>
-      </Popup>
-      <Modal
-        visible={visible}
-        content={<AirDrop />}
-        closeOnAction
-        closeOnMaskClick
-        onClose={() => {
-          setVisible(false)
-        }}
-
-        actions={[
-          {
-            key: 'confirm',
-            text: 'Get More',
-          },
-        ]}
-      />
-      <BackTop />
-    </main>
-  )
-}
-
-const AirDrop: FC = () => {
-  return <div className='airdrop'>
-    <div className='airdrop-inner'>
-      <div className='title'>Airdrop is Coming!</div>
-      <div className='p-wrapper'>
-        <ProgressCircle
-          percent={64}
-          style={{
-            '--size': '110px',
-            '--track-width': '4px',
-          }}
-        >
-          <div className={'p-title'}>Total Supply</div>
-          <div className={'p-total'}>100</div>
-          <div className={'p-unit'}>Billion</div>
-        </ProgressCircle>
       </div>
-      <div className='p-desc'>In the first season, we generously distributed <b>64.3 billion HMSTR</b> tokens to 56 million users as a preliminary gift for our community building. As the project continues to develop, we are excited to announce that the second season will airdrop another <b>30 billion HMSTR</b> tokens to our users. We sincerely invite every user to join this exciting journey and witness and participate in the growth and prosperity of our project together. Take immediate action, seize the opportunity, <b>let's work together to create a brilliant future</b>!
-      </div>
-    </div>
-  </div>
+    </main >
+  );
 }
-var videoIcon = <svg className="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="22188" xmlnsXlink="http://www.w3.org/1999/xlink" width="18" height="18"><path d="M509.866667 32C245.333333 32 32 247.466667 32 512s213.333333 480 477.866667 480c264.533333 0 477.866667-215.466667 477.866666-480S774.4 32 509.866667 32z m0 896C281.6 928 96 742.4 96 512S281.6 96 509.866667 96 923.733333 281.6 923.733333 512s-185.6 416-413.866666 416z" fill="#ffffff" p-id="22189"></path><path d="M433.066667 354.133333c-6.4-4.266667-17.066667 0-17.066667 10.666667V661.333333c0 8.533333 8.533333 14.933333 17.066667 10.666667l234.666666-149.333333c6.4-4.266667 6.4-14.933333 0-19.2l-234.666666-149.333334z" fill="#ffffff" p-id="22190"></path></svg>
-

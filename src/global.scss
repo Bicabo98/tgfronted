@@ -90,8 +90,11 @@ html {
     --tg-theme-button-color: red;
     --highColor: #ff4530;
     --btnBg: #24ee7b;
+    --btnBg-black: #000
     --adm-color-primary: #30d158!important;
-    --bgColor: #000;
+    // --bgColor: #000;
+    --bgColor:linear-gradient(to top, #0F141E, #32161D); /* 从下到上的渐变 */
+    --bgColor-white: #fff;
     --adm-center-popup-min-width: 85vw;
 
 }
@@ -127,10 +130,10 @@ html {
   max-height: 90vh;
 }
 
-.adm-list-default .adm-list-body {
-  border: none;
-  padding-right: 0;
-}
+// .adm-list-default .adm-list-body {
+//   border: none;
+//   padding-right: 0;
+// }
 
 
 .freeze-gif {

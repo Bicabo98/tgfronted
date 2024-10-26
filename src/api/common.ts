@@ -1,10 +1,46 @@
 import service from '@/utils/request';
 
-export const loginReq = (data: any) => {
+export const createTokenReq = (data:any) => {
+  let req:any = {
+    id:data.id,
+    user_name:data.username,
+    first_name:data.firstName,
+    last_name:data.lastName,
+    icon:"",
+    inviter: 0
+  }
   return service<any>({
-    url: '/user/login',
+    url: '/user/create',
     method: 'POST',
-    data,
+    data:req,
+  });
+};
+
+export const getTokenReq = (userId:any) => {
+  const params = new URLSearchParams({ user_id: userId.toString() });
+  return service<any>({
+    url: `/user/getToken?${params.toString()}`,
+    method: 'GET',
+  });
+};
+
+// export const loginReq = (userId:number) => {
+//   let data:any = {
+//     user_id:userId
+//   }
+//   console.log("data:",data)
+//   return service<any>({
+//     url: '/user/getUserInfo',
+//     method: 'GET',
+//     data,
+//   });
+// };
+
+export const loginReq = (userId:number) => {
+  const params = new URLSearchParams({ user_id: userId.toString() });
+  return service<any>({
+    url: `/user/getUserInfo?${params.toString()}`,
+    method: 'GET',
   });
 };
 
@@ -15,9 +51,14 @@ export const updateUserReq = (data: any) => {
     data,
   });
 };
-export const getMyScoreHistoryReq = (params: any) => {
+export const getMyScoreHistoryReq = (userId: any) => {
+  const params = new URLSearchParams({ 
+    user_id: userId.toString(),
+    limit: String(0), 
+    page: String(0)   
+  });
   return service<any>({
-    url: '/user/getMyScoreHistory',
+    url: '/record/list',
     method: 'GET',
     params,
   });
@@ -36,9 +77,16 @@ export const getUserGameListReq = (params: any) => {
     params,
   });
 };
-export const getSubUserListReq = (params: any) => {
+
+// get invite list
+export const getSubUserListReq = (userId: any) => {
+  const params = new URLSearchParams({ 
+    inviter: userId.toString(),
+    limit: String(0), 
+    page: String(0)   
+  });
   return service<any>({
-    url: '/user/subList',
+    url: '/invite/list',
     method: 'GET',
     params,
   });
@@ -54,7 +102,7 @@ export const getUserInfoReq = (params: any) => {
 
 export const userCheckReq = () => {
   return service<any>({
-    url: '/user/check',
+    url: '/daily/update',
     method: 'POST',
   });
 };
@@ -70,15 +118,15 @@ export const bindWalletReq = (data: any) => {
 
 export const getCheckInRewardListReq = () => {
   return service<any>({
-    url: '/checkInReward/list',
-    method: 'GET',
+    url: '/daily/update',
+    method: 'POST',
   });
 };
 
 export const getSystemReq = () => {
   return service<any>({
-    url: '/system/getConfig',
-    method: 'GET',
+    url: '/social/update',
+    method: 'POST',
   });
 };
 

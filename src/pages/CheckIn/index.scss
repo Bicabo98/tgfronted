@@ -1,6 +1,7 @@
 .checkIn-container {
   height: 100%;
-  background: var(--bgColor);
+  //background: var(--bgColor);
+  background: #000000;
   width: 100%;
   .checkIn-first {
     display: flex;
@@ -22,11 +23,12 @@
     }
     .day {
       text-align: center;
-      font-size: 4rem;
-      color: #FFF200;
-      text-shadow: 1px 2px 1px #000;
+      font-size: 18rem;
+      color: #fff;
+      text-shadow: 1px 2px 1px #fff;
       animation: displayNone forwards 0.2s 4s;
-      margin-bottom: 12px;
+      font-family: 'PingFang-SC, PingFang-SC';
+      font-weight: 800;
     }
 
     .daily-reward {
@@ -34,20 +36,28 @@
       font-family: 'bold';
       animation: scaleBig forwards 1s;
       transition: all 1s;
+      color: #fff;
+      font-weight: bold;
+      margin: 0 auto;
+      align-items: center; 
+      justify-content: center; 
+      text-align: center; 
+      font-family: 'PingFang-SC, PingFang-SC';
     }
-    .change-daily {
-      font-size: 1.8rem;
-    }
+
     .rewards-container {
-      background: #515151;
+      //background: #515151;
+      color: #FFD255;
       display: flex;
       align-items: center;
       border-radius: 10px;
       padding: 6px 14px;
-      margin-top: 32px;
+      margin-top: 3px;
       gap: 4px;
-      font-size: 1.2rem;
+      font-size: 1.7rem;
       opacity: 0;
+      //animation: scaleBig forwards 1s;
+      transition: all 1s;
       .rewards-logo {
         width: 18px;
         height: 18px;
@@ -68,102 +78,38 @@
         display: block;
       }
       to {
-        display: none;
+        //display: none;
       }
     }
   }
   .rewards-detail {
     padding: 18px 12px 32px 12px;
     width: 100%;
-    opacity: 0;
+    opacity: 1;
     flex: 1;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    animation: scaleBig forwards 1s;
+    margin-top: 30px;
   }
-  .rewards-two {
-    display: flex;
-    width: 100%;
-    gap: 10px;
-    .rewards-one {
-      flex: 1;
-      text-align: center;
-      background: #313131;
-      border-radius: 12px;
-      padding: 15px 0;
-      img {
-        width: 30px;
-        height: 30px;
-      }
-      .reward-number {
-        color: var(--highColor);
-        font-size: 1.6rem;
-        font-weight: bold;
-        font-family: 'number';
-        margin-top: 8px;
-      }
-      .unit {
-        margin-top: 5px;
-        font-size: 1.2rem;
-      }
-    }
-  }
+  
   .check-in-title {
     margin: 2rem 0 1rem 0;
     font-size: 1.2rem;
   }
-  .rewards-list {
-    display: grid;
-    position: relative;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    .rewards-item {
-      background: #2E2E2E;
-      display: flex;
-      justify-content: space-between;
-      padding: 0.7rem 0.8rem;
-      align-items: center;
-      font-family: 'number';
-      font-size: 1.2rem;
-      .desc {
-        font-size: 0.9rem;
-        font-family: 'regular';
-      }
-      .rewards-item-right {
-        line-height: 16px;
-        .score-ticket {
-          display: flex;
-          align-items: center;
-          justify-content: flex-end;
-          font-family: 'number';
-          font-size: 0.8rem;
-        }
-        .ticket-pic{
-          margin-top: 6px;
-        }
-        img {
-          width: 16px;
-          height: 16px;
-        }
-      }
-    }
-    .rewards-item-active {
-      background: #41532B;
-    }
-    .rewards-item:last-child {
-      position: absolute;
-      width: 100%;
-      top: calc(100% + 2px);
-    }
-  }
   .rewards-detail-top {
-    width: 100%;
+    width: 90%;
+    margin: 0 auto;
     button {
-      margin-top: 72px;
+      color:#fff;
+      background-color: #00A995;
+      margin-top: 35px;
       width: 100%;
-      border-radius: 32px;
-      background: var(--btnBg);
+      border-radius: 12px;
       border: none;
+      height: 70%;
+      box-shadow: 0px 3px 4px 0px #00665A;
     }
   }
 }

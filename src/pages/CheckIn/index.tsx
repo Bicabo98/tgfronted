@@ -3,12 +3,14 @@ import './index.scss'
 import { getCheckInRewardListReq, userCheckReq } from '@/api/common'
 import { formatNumber } from '@/utils/common'
 import { Button } from 'antd-mobile'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setUserInfoAction } from '@/redux/slices/userSlice'
 import EventBus from '@/utils/eventBus'
 import { useNavigate } from 'react-router-dom'
+import { updateSigninReq } from '@/api/signin'
 
 function CheckInPage() {
+  const userInfo = useSelector((state: any) => state.user.info);
   const dispatch = useDispatch()
   const eventBus = EventBus.getInstance()
   const [checkObj, setCheckObj] = useState<any>()
@@ -16,12 +18,39 @@ function CheckInPage() {
   const [rewardsList, setRewardList] = useState([])
   const navigate = useNavigate()
   const checkIn = async () => {
-    const res = await userCheckReq()
-    setCheckObj(res.data)
-    dispatch(setUserInfoAction(res.data))
-    setTimeout(() => {
-      eventBus.emit('showCongrates', { time: 1500, visible: true })
-    }, 2000);
+
+    const checkinRes = await updateSigninReq({ name: userInfo.name, user_id: userInfo.user_id })
+    if (checkinRes.code == 200) {
+      let mergedData =  {
+        ...userInfo,
+        ...checkinRes.data,
+      }
+      console.log("checkin mergedData:",mergedData)
+      setCheckObj(mergedData)
+      
+      dispatch(setUserInfoAction(mergedData))
+      setTimeout(() => {
+        eventBus.emit('showCongrates', { time: 1500, visible: true })
+      }, 1100);
+    }
+
+      // let testdata = {
+      //   continuous:3,
+      //   score:1000
+      // }
+   
+      // let mergedData =  {
+      //   ...userInfo,
+      //   ...testdata
+      // }
+      // console.log("checkin mergedData:",mergedData)
+      // setCheckObj(mergedData)
+      // dispatch(setUserInfoAction(mergedData))
+      // setTimeout(() => {
+      //   eventBus.emit('showCongrates', { time: 2000, visible: true })
+      // }, 1100);
+    
+
   }
 
   const handleContinue = () => {
@@ -29,88 +58,36 @@ function CheckInPage() {
   }
   useEffect(() => {
     checkIn()
-    getCheckInRewardListReq().then(res => {
-      if (res.code == 0) {
-        setRewardList(res.data)
-      }
-    })
   }, [])
 
 
   useEffect(() => {
-    if (checkObj?.day) {
-      setTimeout(() => {
-        setChangeScale(true)
-      }, 4000);
-    }
+    setChangeScale(true)
   }, [checkObj])
 
-  return <div className='checkIn-container'>
-    <div className='checkIn-first'>
-      <img src='/assets/common/congrate.png' alt='hooray' className={`hooray ${changeScale ? 'change-hooray' : ''}`} />
-      <div className={`daily-reward ${changeScale ? 'change-daily' : ''}`}>
-        {
-          !changeScale ? <div className='day'>
-            {checkObj?.day}
-          </div> : null
-        }
-        Daily Rewards
-      </div>
-      {
-        !changeScale ? <div className={`rewards-container ${checkObj?.reward_score ? 'fadeIn' : ''}`}>
-          <span>Rewards</span>
-          <img src="/assets/common/cat.webp" alt="logo" className='rewards-logo' />
-          {checkObj?.reward_score}
-        </div> : null
-      }
-      <div className={`${changeScale ? 'fadeIn' : ''} rewards-detail`}>
-        <div className='rewards-detail-top'>
-          <div className='rewards-two'>
-            <div className='rewards-one'>
-              <img src='/assets/common/cat.webp' alt='logo' />
-              <div className='reward-number'>{checkObj?.reward_score}</div>
-              <div className='unit'>$HMSTR</div>
-            </div>
-            <div className='rewards-one'>
-              <img src='/assets/common/ticket.png' alt='logo' />
-              <div className='reward-number'>{checkObj?.reward_ticket}</div>
-              <div className='unit'>Ticket</div>
-            </div>
+  return (
+    <div className='checkIn-container'>
+      <div className='checkIn-first'>
+        {/* <img src='/assets/common/congrate.png' alt='hooray' className='hooray' /> */}
+        <div className='daily-reward'>
+          <div className='day'>
+            {checkObj?.continuous}
           </div>
-          <div className='check-in-title'>Daily Check-in Rewards</div>
-          <div className='rewards-list'>
-            {
-              rewardsList.map((item: any, index) => {
-                return <div key={index} className={`rewards-item ${checkObj?.day > index ? 'rewards-item-active' : ''}`}>
-                  <div className='rewards-item-left'>
-                    <div className='count'>{item.day}</div>
-                    <div className='desc'>Day</div>
-                  </div>
-                  <div className='rewards-item-right'>
-                    {
-                      checkObj?.day > index ? <img src="/assets/toast-success.webp" alt="check" /> : <>
-                        <div className='score-ticket'>
-                          {formatNumber(item.score)}&nbsp;
-                          <img src='/assets/common/cat.webp' alt='logo' />
-                        </div>
-                        <div className='score-ticket ticket-pic'>
-                          {item.ticket}&nbsp;
-                          <img src='/assets/common/ticket.png' alt='logo' />
-                        </div>
-                      </>
-                    }
-                  </div>
-                </div>
-              })
-            }
-          </div>
+          Days streak
         </div>
-        <div className='rewards-detail-top'>
-          <Button style={{ fontWeight: 'bold', flex: 1 }} onClick={() => handleContinue()}>Continue</Button>
+        <div className={`rewards-container ${checkObj?.score ? 'fadeIn' : ''}`}>
+          +{checkObj?.score}
+          <> BP</>
+          <img src="assets/common/coin.png" alt="Score Icon" className='score-coin' />
+        </div>
+        <div className='rewards-detail'>
+          <div className='rewards-detail-top'>
+            <Button style={{ fontWeight: 'bold', flex: 1 }} onClick={handleContinue}>Continue</Button>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  )
 }
 
 export default CheckInPage

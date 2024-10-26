@@ -19,13 +19,15 @@ import {
 import { routes } from '@/navigation/routes';
 import Footer from './Footer';
 import { useDispatch } from 'react-redux';
-import { getSystemReq, loginReq } from '@/api/common';
+import { createTokenReq, getSystemReq, getTokenReq, loginReq } from '@/api/common';
 import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
 import Congrates from './Congrates';
 import EventBus from '@/utils/eventBus';
 import Loading from './Loading';
-import moment from 'moment';
 import PriceComp from './Price';
+import { signinReq, updateSigninReq } from '@/api/signin';
+import { bindReq } from '@/api/bind';
+import { callBackendAPI, getRequestData } from '@/utils/gameConfig';
 
 export const App: FC = () => {
   const [backButton] = initBackButton()
@@ -43,27 +45,31 @@ export const App: FC = () => {
 
   const login = async () => {
     setLoading(true)
+
+    //let test = await callBackendAPI()
+
+    // 测试签到页面
+    //navigate('/checkIn')
+
     try {
       const initData = initInitData() as any;
       let resArray: any;
       if (initData && initData.user && initData.user.id) {
         const user = initData.initData.user
         const data = { ...initData.initData, ...user }
-        resArray = await Promise.all([loginReq(data), getSystemReq()])
-      }
-      const [res, sys] = resArray
-      if (sys.code == 0) {
-        dispatch(setSystemAction(sys.data))
-      }
-      if (res.code == 0) {
-        localStorage.setItem('authorization', res.data.token)
-        dispatch(setUserInfoAction(res.data))
-        const check_date = res.data.check_date
-        const today = moment().utc().format('MM-DD')
-        if (res.data.is_New) {
-          navigate('/begin')
-        } else if (!check_date || check_date && check_date != today) {
-          navigate('/checkIn')
+        console.log("App.tsx:", initData.initData)
+        console.log("initData.user:", initData.user)
+        console.log("telegram initdata:", window.Telegram.WebView.initParams.tgWebAppData)
+        resArray = await (createTokenReq(initData.user))
+        console.log("resArray:", resArray)
+        if (resArray.code == 200) {
+          loginSuccessful(resArray,initData)
+        }
+        else if (resArray == undefined) {
+          let getReq = await getTokenReq(initData.user.id)
+          if (getReq.code == 200) {
+            loginSuccessful(getReq,initData)
+          }
         }
       }
       setLoading(false)
@@ -71,6 +77,57 @@ export const App: FC = () => {
       setLoading(false)
     }
   }
+
+
+  const loginSuccessful = async (res: any,initData:any) => {
+    localStorage.setItem('authorization', res.data.token)
+    localStorage.setItem('id', res.data.user_id)
+    let loginRes = await loginReq(res.data.user_id)
+    if (loginRes.code == 200) {
+      // check sign in
+      let signRes = await signinReq(res.data.user_id)
+      if (signRes.code == 200) {
+        console.log("signRes:",signRes)
+        if (!signRes.data.sign_in) {
+          // Today not sign in,update user sign in
+          let data = {
+            user_id: res.data.user_id,
+            name: loginRes.data.username,
+            score: loginRes.data.score,
+          }
+          let mergedData = {
+            ...res.data,
+            ...data,
+            ...signRes.data,
+          };
+          dispatch(setUserInfoAction(mergedData))
+          navigate('/checkIn')
+        } else {
+          // Dont show checkIn page
+          let mergedData = {
+            ...loginRes.data,
+            user_id: res.data.user_id,
+            
+          }
+          dispatch(setUserInfoAction(mergedData))
+        }
+      }
+
+      // binding friend
+      if (initData.initData.startParam != "" && initData.initData.startParam != undefined && initData.initData.startParam != res.data.user_id) {
+        console.log("initData.initData.startParam=",initData.initData.startParam)
+        let bindingReq = await bindReq({
+          inviter: Number(initData.initData.startParam),
+          invitee: Number(res.data.user_id)
+        });
+        console.log("绑定结果：", bindingReq)
+      }
+    }
+  }
+
+
+
+
   const expandViewPort = async () => {
     const vp = await viewport;
     if (!vp.isExpanded) {
@@ -111,7 +168,7 @@ export const App: FC = () => {
         {/* {
           import.meta.env.PROD ? <PriceComp /> : <div></div>
         } */}
-        <PriceComp />
+        {/* <PriceComp /> */}
         <div className='content'>
           <Routes>
             {routes.map((route) => <Route key={route.path} {...route} />)}
@@ -127,5 +184,6 @@ export const App: FC = () => {
     </AppRoot>
   );
 };
+
 
 

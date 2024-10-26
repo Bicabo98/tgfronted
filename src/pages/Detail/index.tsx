@@ -6,39 +6,28 @@ import { useLocation } from 'react-router-dom'
 import { stringToColor } from '@/utils/common'
 import moment from 'moment'
 import BackTop from '@/components/BackTop'
+import { useSelector } from 'react-redux'
 
 function FrensDetailPage() {
+  const userInfo = useSelector((state: any) => state.user.info);
   const [list, setList] = useState<any>([])
   const [hasMore, setHasMore] = useState(true)
   const [page, setPage] = useState(1)
   const [total, setTotal] = useState(0)
   const myLocation = useLocation()
   const [isMyself, setIsMyself] = useState(false)
-  const getList = async (mySelf: boolean, type: string) => {
-    let res: any
+  const getList = async (mySelf: boolean) => {
+    // 后端获取数据
     if (mySelf) {
-      res = await getMyScoreHistoryReq({ page, type })
-    } else {
-      res = await getSubUserListReq({ page, type })
+      let res = await getMyScoreHistoryReq(userInfo.user_id)
+      if (res.code == 200) {
+        setPage((page => page + 1))
+        setList(res.data.list)
+        return res.data.list
+      }
     }
-    setPage((page => page + 1))
-    return res.data.rows
   }
-  const getType = (type: string) => {
-    if (type == 'play_game_reward_parent') {
-      type = 'Drop Game'
-    }
-    if (type == 'play_game_reward') {
-      type = 'Drop Game'
-    }
-    if (type == 'share_playGame') {
-      type = 'Share Game'
-    }
-    if (type == 'checkIn_parent') {
-      type = 'checkIn'
-    }
-    return type
-  }
+
   async function loadMore() {
     const search = myLocation.search
     let isMyself = false
@@ -53,31 +42,34 @@ function FrensDetailPage() {
         }
       }
     }
-
-    const append = await getList(isMyself, type)
-    if (page == 1) {
-      if (append.length < 20) {
-        setHasMore(false)
-      }
-      setList(append)
-    } else {
-      setList((val: any) => [...val, ...append])
-      setHasMore(append.length > 0)
-    }
+    setHasMore(false)
+    // const append = await getList(isMyself)
+    // console.log("append:",append)
+    // if (page == 1) {
+    //   if (append.length < 20) {
+    //     setHasMore(false)
+    //   }
+    //   setList(append)
+    // } else {
+    //   setList((val: any) => [...val, ...append])
+    //   setHasMore(append.length > 0)
+    // }
   }
+
+  const safeJSONParse = (str: any, defaultValue = {}) => {
+    try {
+      return JSON.parse(str);
+    } catch (e) {
+      console.error("Failed to parse JSON:", e);
+      return defaultValue;
+    }
+  };
+
   useEffect(() => {
     const search = myLocation.search
-    if (search) {
-      const _total = search.replace('?total=', '') as any
-      if (_total) {
-        setTotal(_total)
-      }
-      if (search.includes('myself')) {
-        setIsMyself(true)
-      } else {
-        setIsMyself(false)
-      }
-    }
+    setIsMyself(true)
+    getList(true)
+
   }, [])
 
   return <div className="frens-detail-page">
@@ -90,34 +82,34 @@ function FrensDetailPage() {
       {
         list.map((item: any, index: number) => {
           return <List.Item key={index}>
-            <div className='frens-list'>
-              <div className='frens-detail-left'>
-                <div className='score ticket'>
-                  +&nbsp;{item.score.toLocaleString()}
-                  <img src='/assets/common/cat.webp' width={20} />
+            <div className='score-list'>
+              <div className='score-detail-left'>
+                <div className={item.mission_type == 'Bonus' ? 'by-user' : 'type'}>
+                  {item.mission_type == 'Bonus' ? (
+                    <>
+                      Invite <div className="user-icon" style={{ background: stringToColor(safeJSONParse(item.description, {}).username || '') }}>
+                        {(safeJSONParse(item.description, {}).username || '').slice(0, 2)}
+                      </div>
+                      {safeJSONParse(item.description, {}).username}
+                    </>
+                  ) : (
+                    item.name
+                  )}
                 </div>
-                {
-                  item.ticket != '0' ? <div className='score ticket'>
-                    +&nbsp;{item.ticket}
-                    <img src='/assets/common/ticket.png' width={20} />
-                  </div> : null
-                }
-
-                <div className='frens-detail-time'>{moment(item.createdAt).format('YYYY-MM-DD HH:mm')}</div>
+                <div className='score-detail-time'>2023-10-19-21:03:51</div>
               </div>
-              <div className='frens-detail-right'>
-                <div className='by-user'>
-                  by<div className="user-icon" style={{ background: stringToColor(item.from_username) }}>
-                    {item.from_username.slice(0, 2)}
-                  </div>
-                  <div className='frens-detail-name'>{item.from_username}</div>
-
-                </div>
-                <div className='type'>{getType(item.type)}</div>
+              <div className='score-detail-right'>
+                <>
+                  +{item.score.toLocaleString()} BP
+                  <img src="assets/common/coin.png" alt="Score Icon" className='score-coin' />
+                </>
               </div>
             </div>
+         
           </List.Item>
+        
         })
+
       }
     </List>
     <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />

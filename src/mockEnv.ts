@@ -5,7 +5,7 @@ import { mockTelegramEnv, parseInitData, retrieveLaunchParams } from '@telegram-
 // so you will not see it in your final bundle.
 if (import.meta.env.DEV) {
   let shouldMock: boolean;
-
+  
   // Try to extract launch parameters to check if the current environment is Telegram-based.
   try {
     // If we are able to extract launch parameters, it means that we are already in the

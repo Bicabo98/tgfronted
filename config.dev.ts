@@ -20,7 +20,8 @@ export default defineConfig({
     tsconfigPaths(),
     // Allows using self-signed certificates to run the dev server using HTTPS.
     // https://www.npmjs.com/package/@vitejs/plugin-basic-ssl
-    basicSsl(),
+
+    //basicSsl(),
   ],
   build: {
     outDir: 'docs'
@@ -32,12 +33,18 @@ export default defineConfig({
         changeOrigin: true, // 是否改变源地址
         rewrite: (path) => path.replace(/^\/api\/binancePrice/, ''), // 重写路径
       },
-      '/api/': {
-        target: 'http://localhost:8085', // 本地开发
-        // target: 'http://8.212.49.10:8010', // 目标服务器地址 文档地址：http://8.212.49.10:8010/api-docs/
+      '/apis': {
+        target: 'https://192.168.100.96:8888', // 本地开发
         changeOrigin: true, // 是否改变源地址
-        rewrite: (path) => path.replace(/^\/api/, '/api/'), // 重写路径
+        secure: false,
+        rewrite: (path) => path.replace(/^\/apis/, '/apis/'),
       },
+      '/images': {
+        target: 'https://192.168.100.96:8889', // 本地开发
+        changeOrigin: true, // 是否改变源地址
+        secure: false,
+        rewrite: (path) => path.replace(/^\/images/, '/images'),
+      }
     },
     fs: {
       allow: ['../sdk', './'],

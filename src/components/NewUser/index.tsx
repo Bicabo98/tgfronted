@@ -14,14 +14,15 @@ export default function ({ cStep }: { cStep?: number }) {
   const navigate = useNavigate()
   const myLocation = useLocation()
   const handleNext = async () => {
+    
     if (!isShowBtn) {
       return
     }
     if (step == 1) {
       // 这一步继续的话就算过了新人阶段
-      await updateUserReq({
-        is_New: false
-      })
+      // await updateUserReq({
+      //   is_New: false
+      // })
     }
     if (step == 2 && thirdIndex == 0) {
       setThirdIndex(1)
@@ -124,7 +125,8 @@ function Third({ cIndex, handleClick }: { cIndex: number, handleClick: (index: n
     {
       title: 'You are amazing!',
       desc: `Here is your HMSTR reward`,
-      subTitle: userInfo.score.toLocaleString(),
+      // subTitle: userInfo.score.toLocaleString(),
+      subTitle: "heh",
       center: <img src={LogoIcon} alt='logo' style={{ width: '60vw', objectFit: 'contain' }} />,
       rank1: 'Thanks for your time on Telegram 🤝',
       rank2: 'Join us to Free Pavel Durov',
