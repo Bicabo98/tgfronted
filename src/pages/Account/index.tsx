@@ -90,7 +90,7 @@ function AccountPage() {
           {userInfo?.username || 'User Name'}
         </div>
       </div>
-      <div className="button-container">
+      <div className="button-container-account">
         <Button className="custom-button" onClick={() => navigate('/career')}>
           <img src="/assets/common/account-career.png" alt="Left Image" className="button-image" />
             <div className='button-name'>Career</div>

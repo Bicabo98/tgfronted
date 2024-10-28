@@ -3,7 +3,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  height: 100vh;
+  //height: 100vh;
   //background-color: #f9f9f9;
   padding-top: 20px;
 }
@@ -13,6 +13,7 @@
   flex-direction: column;
   align-items: center;
   margin-bottom: 40px;
+
 }
 
 .profile-circle {
@@ -40,7 +41,7 @@
   color: white;
 }
 
-.button-container {  
+.button-container-account {  
   display: flex;  
   flex-direction: column; 
   width: calc(100% - 20px);  

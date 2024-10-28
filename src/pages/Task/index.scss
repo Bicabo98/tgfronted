@@ -1,14 +1,13 @@
 .task-page {
   padding: 20px;
   //background: linear-gradient(to top, #1b1a1a, #492626); /* 从下到上的渐变 */
-  min-height: 100vh;
+  //min-height: 100vh;
   // animation: fadeIn 0.5s ease-in-out;
 
   .task-title {
     text-align: center;
     margin-bottom: 20px;
     color:#000;
-    //background: linear-gradient(to right, #674103, #B79453); /* 从右到左的渐变 */
 
     background-image: url('/assets/common/task-title.png'); 
     background-size: cover; 

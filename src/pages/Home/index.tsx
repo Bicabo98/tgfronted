@@ -71,7 +71,7 @@ export default function Home() {
   const [activeGame, setActiveGame] = useState('NLH');  //default active NLH
   const [activeFeesMode, setActiveFeesMode] = useState('Fees-free');
   const [showMinTableVPIP, setShowMinTableVPIP] = useState(false);
-  const [minTableVpipValues, setMinTableVpipValues] = useState([15,0]);
+  const [minTableVpipValues, setMinTableVpipValues] = useState([15, 0]);
 
 
 
@@ -142,9 +142,10 @@ export default function Home() {
     setActiveFeesMode(item);
   };
 
-  const handleMinTableVpipValue = (index:any, value:any) => {
+  const handleMinTableVpipValue = (index: any, value: any) => {
     const newVlaues = [...minTableVpipValues];
     newVlaues[index] = value;
+
     setMinTableVpipValues(newVlaues);
   }
 
@@ -228,6 +229,7 @@ export default function Home() {
     }
     // Current is Auto-straddle
     else if (index == 1) {
+      console.log("index:",index,"value:",value)
       if (value < auto_starddleMinPlacehoder || value > auto_starddleMaxPlacehoder) {
         newInputCreateGameValues[index] = "";
         setInputCreateGameValues(newInputCreateGameValues);
@@ -360,7 +362,7 @@ export default function Home() {
                         <div className="input-wrapper">
                           <div className='NLH-title'>Auto-straddle</div>
                           <input
-                            id="auto-start"
+                            id="auto-straddle"
                             type="text"
                             placeholder={`${auto_starddleMinPlacehoder} ~ ${auto_starddleMaxPlacehoder}`}
                             value={inputCreateGameValues[1]}
@@ -381,7 +383,9 @@ export default function Home() {
                           value={minBuyin}
                           onChange={(e) => handleMinBuyinChange(e.target.value)}
                           className="slider"
+                          style={{ '--filled-width': `${(minBuyin / sliderMinMaxBuyin) * 100}%`}} 
                         />
+                        {/* <div className="slider-fill" style={{ width: `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}></div> */}
                         <div className="slider-values">
                           <span className="min-value">{sliderMinMinBuyin}</span>
                           <span className="current-value" style={{ left: `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}>{minBuyin}</span>
@@ -400,6 +404,7 @@ export default function Home() {
                           value={maxBuyin}
                           onChange={(e) => handleMaxBuyinChange(e.target.value)}
                           className="slider"
+                          style={{ '--filled-width': `${(maxBuyin / sliderMaxMaxBuyin) * 100}%`}} 
                         />
                         <div className="slider-values">
                           <span className="min-value">{sliderMaxMinBuyin}</span>
@@ -415,15 +420,18 @@ export default function Home() {
                           type="range"
                           min="2"
                           max="9"
+                          step="1"
                           value={tablePlayer}
                           //onChange={(e) => setTablePlayer(e.target.value)}
                           onChange={(e) => handleTableSize(e.target.value)}
                           className="slider"
+                          style={{ '--filled-width': `${((tablePlayer - 2) / 7  ) * 100}%`}} 
                         />
                         <div className="slider-values">
                           <span className="min-value">2</span>
                           {/* <span className="current-value" style={{ left: `${((tablePlayer - 2) / 9) * 100}%` }}>{tablePlayer}</span> */}
-                          <span className="current-value" style={{ left: `${((tablePlayer - 2) / (9 - 2)) * 100}%`, position: 'absolute', top: '-55px' }}>{tablePlayer}</span>
+                          {/* <span className="current-value" style={{ left: `${((tablePlayer - 2) / (9 - 2)) * 100}%`, position: 'absolute', top: '-55px' }}>{tablePlayer}</span> */}
+                          <span className="current-value" style={{ left: `${((tablePlayer - 2) / 7  ) * 100}%`, top: '-55px' }}>{tablePlayer}</span>
                           <span className="max-value">9</span>
                         </div>
                       </div>
@@ -440,10 +448,11 @@ export default function Home() {
                           value={tableDuration}
                           onChange={(e) => setTableDuration(e.target.value)}
                           className="slider"
+                          style={{ '--filled-width': `${((tableDuration - 0.5) / 5.5) * 100}%`}} 
                         />
                         <div className="slider-values">
                           <span className="min-value">0.5</span>
-                          <span className="current-value" style={{ left: `${((tableDuration - 0.25) / 6) * 100}%` }}>{tableDuration}</span>
+                          <span className="current-value" style={{ left: `${((tableDuration - 0.5) / 5.5) * 100}%` }}>{tableDuration}</span>
                           <span className="max-value">6</span>
                         </div>
                       </div>
@@ -459,6 +468,7 @@ export default function Home() {
                           // onChange={handleSliderChange}
                           onChange={(e) => handleAutoStart(e.target.value)}
                           className="slider"
+                          style={{ '--filled-width': `${((tableAutoStart - 0.35) / 6) * 100}%`}} 
                         />
                         <div className="slider-values">
                           <span className="min-value">Close</span>
@@ -716,12 +726,14 @@ export default function Home() {
                                       max='70'
                                       step='1'
                                       value={minTableVpipValues[0]}
-                                      onChange={(e) => handleMinTableVpipValue(0,e.target.value)}
+                                      onChange={(e) => handleMinTableVpipValue(0, e.target.value)}
                                       className="slider"
+                                      style={{ '--filled-width': `${((minTableVpipValues[0] - 15) / 55) * 100}%`}} 
                                     />
                                     <div className="slider-values">
                                       <span className="min-value">15</span>
-                                      <span className="current-value" style={{ left: `${(minTableVpipValues[0] / 70) * 100}%` }}>{minTableVpipValues[0]}</span>
+                                      {/* <span className="current-value" style={{ left: `${(minTableVpipValues[0] / 70) * 100}%` }}>{minTableVpipValues[0]}</span> */}
+                                      <span className="current-value" style={{ left: `${((minTableVpipValues[0] - 15) / 55) * 100}%` }}>{minTableVpipValues[0]}</span>
                                       <span className="max-value">70</span>
                                     </div>
                                   </div>
@@ -734,8 +746,9 @@ export default function Home() {
                                       max='100'
                                       step='1'
                                       value={minTableVpipValues[1]}
-                                      onChange={(e) => handleMinTableVpipValue(1,e.target.value)}
+                                      onChange={(e) => handleMinTableVpipValue(1, e.target.value)}
                                       className="slider"
+                                      style={{ '--filled-width': `${(minTableVpipValues[1] / 100) * 100}%`}} 
                                     />
                                     <div className="slider-values">
                                       <span className="min-value">0</span>

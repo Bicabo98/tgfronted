@@ -21,10 +21,12 @@ function CheckInPage() {
 
     const checkinRes = await updateSigninReq({ name: userInfo.name, user_id: userInfo.user_id })
     if (checkinRes.code == 200) {
+      var newScore = userInfo.score + checkinRes.data.score
       let mergedData =  {
         ...userInfo,
         ...checkinRes.data,
       }
+      mergedData.score = newScore
       console.log("checkin mergedData:",mergedData)
       setCheckObj(mergedData)
       
