@@ -1,0 +1,104 @@
+
+gun.png
+size: 2048,1024
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Sparks /Sparks_00000
+  rotate: false
+  xy: 2, 661
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00001
+  rotate: false
+  xy: 2, 378
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00002
+  rotate: false
+  xy: 504, 661
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00003
+  rotate: false
+  xy: 2, 95
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00004
+  rotate: false
+  xy: 504, 378
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00005
+  rotate: false
+  xy: 1006, 661
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00006
+  rotate: false
+  xy: 504, 95
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00007
+  rotate: false
+  xy: 1006, 378
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+Sparks /Sparks_00008
+  rotate: false
+  xy: 1508, 661
+  size: 500, 281
+  orig: 500, 281
+  offset: 0, 0
+  index: -1
+shoot_gundown
+  rotate: false
+  xy: 2, 26
+  size: 81, 67
+  orig: 81, 67
+  offset: 0, 0
+  index: -1
+shoot_gunup
+  rotate: false
+  xy: 1006, 343
+  size: 81, 33
+  orig: 81, 33
+  offset: 0, 0
+  index: -1
+shoot_plug
+  rotate: false
+  xy: 2, 2
+  size: 44, 22
+  orig: 44, 22
+  offset: 0, 0
+  index: -1
+shoot_stick
+  rotate: false
+  xy: 1508, 618
+  size: 26, 41
+  orig: 26, 41
+  offset: 0, 0
+  index: -1
+shoot_sucker
+  rotate: true
+  xy: 2010, 907
+  size: 35, 36
+  orig: 35, 36
+  offset: 0, 0
+  index: -1

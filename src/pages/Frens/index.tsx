@@ -50,29 +50,29 @@ export default function Friends() {
 
   // Get invitee list
   const getList = async () => {
-    const subUserListRes = await getSubUserListReq(userInfo.user_id)
-    if (subUserListRes.code == 200) {
-      setTotal(subUserListRes.data.list.length)
-      let allScore = getAllInviteScore(subUserListRes.data.list)
-      setTotalScore(allScore)
-      console.log("邀请res:", subUserListRes)
+    // const subUserListRes = await getSubUserListReq(userInfo.user_id)
+    // if (subUserListRes.code == 200) {
+    //   setTotal(subUserListRes.data.list.length)
+    //   let allScore = getAllInviteScore(subUserListRes.data.list)
+    //   setTotalScore(allScore)
+    //   console.log("邀请res:", subUserListRes)
 
-      return subUserListRes.data.list
-    }
-
-    // let testdata = {
-    //   data: [
-    //     { name: "test1", bonus: 100 },
-    //     { name: "test1", bonus: 100 },
-    //     { name: "test1", bonus: 100 },
-    //     { name: "test1", bonus: 100 },
-    //   ]
+    //   return subUserListRes.data.list
     // }
 
-    // setTotalScore(400)
-    // setTotal(4)
+    let testdata = {
+      data: [
+        { name: "test1", bonus: 100 },
+        { name: "test1", bonus: 100 },
+        { name: "test1", bonus: 100 },
+        { name: "test1", bonus: 100 },
+      ]
+    }
 
-    // return testdata.data
+    setTotalScore(400)
+    setTotal(4)
+
+    return testdata.data
 
   }
   const handleShare = () => {
@@ -105,6 +105,7 @@ export default function Friends() {
     <div className="friends-title">
       <img src="assets/common/invite-card.png" alt="Invite Friends Icon" className="friends-title-image" />
       <div className="friends-title-text">INVITE FRIENDS</div>
+      
       {/* <div className="friends-title-text">TO</div> */}
     </div>
     <div className="friends-title3">
@@ -142,7 +143,7 @@ export default function Friends() {
         <>
           <div className="friends-list-header">
             <div className="friends-list-header-text">Friend name</div>
-            <div className="friends-list-header-text">earned</div>
+            <div className="friends-list-header-text">Earned</div>
           </div>
           <List>
             {
@@ -150,11 +151,11 @@ export default function Friends() {
                 return <List.Item key={index}>
                   <div className="friends-list" key={index}>
                     <div className="fl-left">
-                      <div className="icon" style={{ background: stringToColor(item.name || 'cc') }}>
+                      {/* <div className="icon" style={{ background: stringToColor(item.name || 'cc') }}>
                         <span style={{ color: 'black' }}>
                           {(item.name || 'cc').slice(0, 2)}
                         </span>
-                      </div>
+                      </div> */}
                       <div className="name">{item.name || 'cc'}</div>
                     </div>
                     <div className="fl-right">
@@ -174,7 +175,7 @@ export default function Friends() {
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} children={<div></div>} />
     </div>
     <div className="invite-btn">
-      <Button color="default" style={{ fontWeight: 'bold', flex: 1 }} onClick={() => handleShare()}>👆🏻 Invite Frens</Button>
+      <Button color="default" style={{flex: 1 }} onClick={() => handleShare()}>👆🏻 Invite Frens</Button>
     </div>
 
     <Popup

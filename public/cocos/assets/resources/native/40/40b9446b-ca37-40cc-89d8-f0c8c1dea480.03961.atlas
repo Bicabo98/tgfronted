@@ -1,0 +1,55 @@
+
+飞机.png
+size: 68, 252
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+dankong
+  rotate: false
+  xy: 33, 41
+  size: 33, 31
+  orig: 37, 35
+  offset: 0, 0
+  index: -1
+dankong1
+  rotate: false
+  xy: 2, 34
+  size: 29, 38
+  orig: 34, 45
+  offset: 0, 5
+  index: -1
+dankong2
+  rotate: false
+  xy: 2, 74
+  size: 40, 38
+  orig: 45, 46
+  offset: 2, 5
+  index: -1
+dankong3
+  rotate: true
+  xy: 33, 13
+  size: 26, 33
+  orig: 29, 35
+  offset: 3, 2
+  index: -1
+feiji
+  rotate: true
+  xy: 2, 114
+  size: 136, 61
+  orig: 137, 62
+  offset: 0, 1
+  index: -1
+guang
+  rotate: false
+  xy: 44, 95
+  size: 22, 17
+  orig: 22, 17
+  offset: 0, 0
+  index: -1
+zidan
+  rotate: true
+  xy: 2, 2
+  size: 30, 27
+  orig: 32, 29
+  offset: 1, 1
+  index: -1

@@ -1,0 +1,1287 @@
+
+emoji.png
+size: 1908,160
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1/emoji_angry1
+  rotate: false
+  xy: 1531, 117
+  size: 78, 41
+  orig: 78, 41
+  offset: 0, 0
+  index: -1
+1/emoji_angry2
+  rotate: false
+  xy: 825, 63
+  size: 73, 36
+  orig: 73, 36
+  offset: 0, 0
+  index: -1
+1/emoji_angry3
+  rotate: false
+  xy: 1602, 2
+  size: 25, 26
+  orig: 25, 26
+  offset: 0, 0
+  index: -1
+1/emoji_angry4
+  rotate: true
+  xy: 1766, 9
+  size: 23, 25
+  orig: 23, 25
+  offset: 0, 0
+  index: -1
+1/emoji_angry5
+  rotate: false
+  xy: 1690, 114
+  size: 75, 44
+  orig: 75, 44
+  offset: 0, 0
+  index: -1
+1/emoji_angry6
+  rotate: false
+  xy: 390, 25
+  size: 75, 45
+  orig: 75, 45
+  offset: 0, 0
+  index: -1
+1/emoji_angry7
+  rotate: false
+  xy: 854, 5
+  size: 57, 24
+  orig: 57, 24
+  offset: 0, 0
+  index: -1
+1/emoji_angry8
+  rotate: false
+  xy: 592, 36
+  size: 62, 35
+  orig: 62, 35
+  offset: 0, 0
+  index: -1
+1/emoji_angry9
+  rotate: false
+  xy: 1841, 74
+  size: 65, 37
+  orig: 65, 37
+  offset: 0, 0
+  index: -1
+1/emoji_helpless1
+  rotate: true
+  xy: 2, 2
+  size: 67, 39
+  orig: 67, 39
+  offset: 0, 0
+  index: -1
+1/emoji_helpless2
+  rotate: false
+  xy: 1079, 95
+  size: 67, 20
+  orig: 67, 20
+  offset: 0, 0
+  index: -1
+1/emoji_helpless3
+  rotate: false
+  xy: 913, 9
+  size: 57, 20
+  orig: 57, 20
+  offset: 0, 0
+  index: -1
+1/emoji_helpless4
+  rotate: false
+  xy: 1225, 2
+  size: 21, 36
+  orig: 21, 36
+  offset: 0, 0
+  index: -1
+1/emoji_helpless5
+  rotate: false
+  xy: 1749, 36
+  size: 15, 19
+  orig: 15, 19
+  offset: 0, 0
+  index: -1
+1/emoji_shy1
+  rotate: false
+  xy: 1296, 102
+  size: 55, 13
+  orig: 55, 13
+  offset: 0, 0
+  index: -1
+1/emoji_shy2
+  rotate: false
+  xy: 526, 2
+  size: 66, 32
+  orig: 66, 32
+  offset: 0, 0
+  index: -1
+1/emoji_shy3
+  rotate: false
+  xy: 390, 2
+  size: 66, 21
+  orig: 66, 21
+  offset: 0, 0
+  index: -1
+1/emoji_shy4
+  rotate: false
+  xy: 1220, 108
+  size: 74, 7
+  orig: 74, 7
+  offset: 0, 0
+  index: -1
+1/emoji_shy5
+  rotate: false
+  xy: 937, 2
+  size: 12, 5
+  orig: 12, 5
+  offset: 0, 0
+  index: -1
+1/emoji_smile1
+  rotate: false
+  xy: 1220, 92
+  size: 62, 14
+  orig: 62, 14
+  offset: 0, 0
+  index: -1
+1/emoji_smile2
+  rotate: false
+  xy: 239, 2
+  size: 61, 9
+  orig: 61, 9
+  offset: 0, 0
+  index: -1
+1/emoji_smile3
+  rotate: false
+  xy: 1148, 82
+  size: 52, 17
+  orig: 52, 17
+  offset: 0, 0
+  index: -1
+1/emoji_unfortunately1
+  rotate: true
+  xy: 1347, 5
+  size: 50, 16
+  orig: 50, 16
+  offset: 0, 0
+  index: -1
+1/emoji_unfortunately2
+  rotate: false
+  xy: 343, 4
+  size: 34, 10
+  orig: 34, 10
+  offset: 0, 0
+  index: -1
+1/emoji_unfortunately3
+  rotate: false
+  xy: 656, 74
+  size: 82, 27
+  orig: 82, 27
+  offset: 0, 0
+  index: -1
+1/emoji_unfortunately4
+  rotate: false
+  xy: 916, 31
+  size: 53, 30
+  orig: 53, 30
+  offset: 0, 0
+  index: -1
+1/emoji_unfortunately5
+  rotate: true
+  xy: 1504, 27
+  size: 42, 19
+  orig: 42, 19
+  offset: 0, 0
+  index: -1
+1/emoji_yawn1
+  rotate: false
+  xy: 854, 31
+  size: 60, 30
+  orig: 60, 30
+  offset: 0, 0
+  index: -1
+1/emoji_yawn2
+  rotate: false
+  xy: 1408, 53
+  size: 22, 50
+  orig: 22, 50
+  offset: 0, 0
+  index: -1
+1/emoji_yawn3
+  rotate: false
+  xy: 1269, 43
+  size: 28, 47
+  orig: 28, 47
+  offset: 0, 0
+  index: -1
+1/emoji_yawn4
+  rotate: false
+  xy: 1867, 30
+  size: 19, 17
+  orig: 19, 17
+  offset: 0, 0
+  index: -1
+1/emoji_yawn5
+  rotate: true
+  xy: 1148, 2
+  size: 36, 39
+  orig: 36, 39
+  offset: 0, 0
+  index: -1
+1/emoji_yawn6
+  rotate: false
+  xy: 1365, 28
+  size: 41, 35
+  orig: 41, 35
+  offset: 0, 0
+  index: -1
+2/emoji_awesome1
+  rotate: true
+  xy: 1628, 62
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+2/emoji_awesome2
+  rotate: false
+  xy: 1860, 8
+  size: 16, 9
+  orig: 16, 9
+  offset: 0, 0
+  index: -1
+2/emoji_awesome3
+  rotate: true
+  xy: 1851, 2
+  size: 15, 7
+  orig: 15, 7
+  offset: 0, 0
+  index: -1
+2/emoji_awesome4
+  rotate: true
+  xy: 968, 63
+  size: 31, 58
+  orig: 31, 58
+  offset: 0, 0
+  index: -1
+2/emoji_awesome5
+  rotate: true
+  xy: 1829, 51
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+2/emoji_awesome6
+  rotate: true
+  xy: 972, 2
+  size: 31, 33
+  orig: 31, 33
+  offset: 0, 0
+  index: -1
+2/emoji_awesome7
+  rotate: true
+  xy: 1746, 8
+  size: 26, 18
+  orig: 26, 18
+  offset: 0, 0
+  index: -1
+2/emoji_cry1
+  rotate: false
+  xy: 1640, 44
+  size: 22, 34
+  orig: 22, 34
+  offset: 0, 0
+  index: -1
+2/emoji_cry2
+  rotate: false
+  xy: 1198, 40
+  size: 29, 40
+  orig: 29, 40
+  offset: 0, 0
+  index: -1
+2/emoji_cry3
+  rotate: false
+  xy: 1417, 2
+  size: 19, 49
+  orig: 19, 49
+  offset: 0, 0
+  index: -1
+2/emoji_cry4
+  rotate: false
+  xy: 1326, 2
+  size: 19, 51
+  orig: 19, 51
+  offset: 0, 0
+  index: -1
+2/emoji_cry5
+  rotate: true
+  xy: 379, 2
+  size: 12, 9
+  orig: 12, 9
+  offset: 0, 0
+  index: -1
+2/emoji_cry6
+  rotate: false
+  xy: 1214, 82
+  size: 11, 8
+  orig: 11, 8
+  offset: 0, 0
+  index: -1
+2/emoji_cry7
+  rotate: false
+  xy: 1463, 79
+  size: 38, 38
+  orig: 38, 38
+  offset: 0, 0
+  index: -1
+2/emoji_cry8
+  rotate: false
+  xy: 1528, 78
+  size: 38, 37
+  orig: 38, 37
+  offset: 0, 0
+  index: -1
+2/emoji_despise1
+  rotate: true
+  xy: 1007, 2
+  size: 31, 32
+  orig: 31, 32
+  offset: 0, 0
+  index: -1
+2/emoji_despise2
+  rotate: false
+  xy: 1041, 2
+  size: 30, 31
+  orig: 30, 31
+  offset: 0, 0
+  index: -1
+2/emoji_despise3
+  rotate: false
+  xy: 302, 3
+  size: 9, 8
+  orig: 9, 8
+  offset: 0, 0
+  index: -1
+2/emoji_despise4
+  rotate: false
+  xy: 1796, 32
+  size: 27, 23
+  orig: 27, 23
+  offset: 0, 0
+  index: -1
+2/emoji_despise5
+  rotate: false
+  xy: 1872, 49
+  size: 28, 23
+  orig: 28, 23
+  offset: 0, 0
+  index: -1
+2/emoji_evil1
+  rotate: true
+  xy: 202, 72
+  size: 86, 89
+  orig: 86, 89
+  offset: 0, 0
+  index: -1
+2/emoji_evil2
+  rotate: true
+  xy: 293, 72
+  size: 86, 89
+  orig: 86, 89
+  offset: 0, 0
+  index: -1
+2/emoji_evil3
+  rotate: true
+  xy: 384, 72
+  size: 86, 89
+  orig: 86, 89
+  offset: 0, 0
+  index: -1
+2/emoji_evil4
+  rotate: true
+  xy: 566, 73
+  size: 85, 88
+  orig: 85, 88
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile1
+  rotate: true
+  xy: 1274, 2
+  size: 39, 19
+  orig: 39, 19
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile2
+  rotate: true
+  xy: 1339, 57
+  size: 43, 23
+  orig: 43, 23
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile3
+  rotate: false
+  xy: 971, 35
+  size: 50, 26
+  orig: 50, 26
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile4
+  rotate: true
+  xy: 1202, 82
+  size: 17, 10
+  orig: 17, 10
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile5
+  rotate: false
+  xy: 1798, 57
+  size: 29, 29
+  orig: 29, 29
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile6
+  rotate: false
+  xy: 1820, 10
+  size: 16, 10
+  orig: 16, 10
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile7
+  rotate: false
+  xy: 1504, 2
+  size: 31, 23
+  orig: 31, 23
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile8
+  rotate: true
+  xy: 1757, 84
+  size: 28, 7
+  orig: 28, 7
+  offset: 0, 0
+  index: -1
+2/emoji_sinistersmile9
+  rotate: false
+  xy: 1569, 62
+  size: 28, 16
+  orig: 28, 16
+  offset: 0, 0
+  index: -1
+3/emoji_cool1
+  rotate: false
+  xy: 1352, 118
+  size: 87, 40
+  orig: 87, 40
+  offset: 0, 0
+  index: -1
+3/emoji_cool10
+  rotate: true
+  xy: 1558, 30
+  size: 30, 17
+  orig: 30, 17
+  offset: 0, 0
+  index: -1
+3/emoji_cool11
+  rotate: true
+  xy: 1757, 57
+  size: 25, 7
+  orig: 25, 7
+  offset: 0, 0
+  index: -1
+3/emoji_cool2
+  rotate: false
+  xy: 902, 117
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+3/emoji_cool3
+  rotate: false
+  xy: 992, 117
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+3/emoji_cool4
+  rotate: false
+  xy: 1082, 117
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+3/emoji_cool5
+  rotate: false
+  xy: 1172, 117
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+3/emoji_cool6
+  rotate: false
+  xy: 1262, 117
+  size: 88, 41
+  orig: 88, 41
+  offset: 0, 0
+  index: -1
+3/emoji_cool7
+  rotate: true
+  xy: 1838, 2
+  size: 15, 11
+  orig: 15, 11
+  offset: 0, 0
+  index: -1
+3/emoji_cool8
+  rotate: false
+  xy: 1726, 2
+  size: 17, 10
+  orig: 17, 10
+  offset: 0, 0
+  index: -1
+3/emoji_cool9
+  rotate: false
+  xy: 1720, 59
+  size: 34, 21
+  orig: 34, 21
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed1
+  rotate: true
+  xy: 1528, 62
+  size: 14, 39
+  orig: 14, 39
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed2
+  rotate: true
+  xy: 1295, 9
+  size: 32, 2
+  orig: 32, 2
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed3
+  rotate: true
+  xy: 1248, 2
+  size: 39, 24
+  orig: 39, 24
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed4
+  rotate: false
+  xy: 1463, 57
+  size: 35, 20
+  orig: 35, 20
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed5
+  rotate: true
+  xy: 651, 24
+  size: 10, 3
+  orig: 10, 3
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed6
+  rotate: false
+  xy: 1671, 36
+  size: 11, 9
+  orig: 11, 9
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed7
+  rotate: false
+  xy: 1646, 81
+  size: 35, 34
+  orig: 35, 34
+  offset: 0, 0
+  index: -1
+3/emoji_disappointed8
+  rotate: false
+  xy: 1896, 9
+  size: 8, 8
+  orig: 8, 8
+  offset: 0, 0
+  index: -1
+3/emoji_laugh1
+  rotate: true
+  xy: 202, 2
+  size: 68, 35
+  orig: 68, 35
+  offset: 0, 0
+  index: -1
+3/emoji_laugh2
+  rotate: true
+  xy: 1503, 71
+  size: 46, 23
+  orig: 46, 23
+  offset: 0, 0
+  index: -1
+3/emoji_laugh3
+  rotate: false
+  xy: 1023, 35
+  size: 40, 21
+  orig: 40, 21
+  offset: 0, 0
+  index: -1
+3/emoji_laugh4
+  rotate: false
+  xy: 913, 2
+  size: 22, 5
+  orig: 22, 5
+  offset: 0, 0
+  index: -1
+3/emoji_laugh5
+  rotate: false
+  xy: 1148, 101
+  size: 70, 14
+  orig: 70, 14
+  offset: 0, 0
+  index: -1
+3/emoji_laugh6
+  rotate: false
+  xy: 656, 41
+  size: 69, 31
+  orig: 69, 31
+  offset: 0, 0
+  index: -1
+3/emoji_laugh8
+  rotate: false
+  xy: 43, 2
+  size: 62, 9
+  orig: 62, 9
+  offset: 0, 0
+  index: -1
+3/emoji_laugh9
+  rotate: false
+  xy: 1353, 105
+  size: 57, 11
+  orig: 57, 11
+  offset: 0, 0
+  index: -1
+3/emoji_naughty1
+  rotate: false
+  xy: 737, 4
+  size: 53, 31
+  orig: 53, 31
+  offset: 0, 0
+  index: -1
+3/emoji_naughty2
+  rotate: false
+  xy: 1078, 62
+  size: 53, 31
+  orig: 53, 31
+  offset: 0, 0
+  index: -1
+3/emoji_naughty3
+  rotate: false
+  xy: 1468, 20
+  size: 34, 35
+  orig: 34, 35
+  offset: 0, 0
+  index: -1
+3/emoji_naughty4
+  rotate: false
+  xy: 1766, 34
+  size: 28, 25
+  orig: 28, 25
+  offset: 0, 0
+  index: -1
+3/emoji_naughty5
+  rotate: true
+  xy: 1683, 78
+  size: 34, 35
+  orig: 34, 35
+  offset: 0, 0
+  index: -1
+3/emoji_naughty6
+  rotate: false
+  xy: 1841, 49
+  size: 29, 23
+  orig: 29, 23
+  offset: 0, 0
+  index: -1
+3/emoji_naughty7
+  rotate: true
+  xy: 1065, 40
+  size: 16, 11
+  orig: 16, 11
+  offset: 0, 0
+  index: -1
+3/emoji_surprised1
+  rotate: true
+  xy: 475, 25
+  size: 46, 47
+  orig: 46, 47
+  offset: 0, 0
+  index: -1
+3/emoji_surprised2
+  rotate: false
+  xy: 1412, 105
+  size: 49, 11
+  orig: 49, 11
+  offset: 0, 0
+  index: -1
+3/emoji_surprised3
+  rotate: false
+  xy: 458, 2
+  size: 66, 21
+  orig: 66, 21
+  offset: 0, 0
+  index: -1
+3/emoji_surprised4
+  rotate: false
+  xy: 740, 74
+  size: 83, 25
+  orig: 83, 25
+  offset: 0, 0
+  index: -1
+3/emoji_surprised6
+  rotate: false
+  xy: 1133, 50
+  size: 13, 43
+  orig: 13, 43
+  offset: 0, 0
+  index: -1
+3/emoji_surprised7
+  rotate: true
+  xy: 1640, 32
+  size: 10, 29
+  orig: 10, 29
+  offset: 0, 0
+  index: -1
+3/emoji_threat1
+  rotate: false
+  xy: 2, 71
+  size: 101, 87
+  orig: 101, 87
+  offset: 0, 0
+  index: -1
+3/emoji_threat2
+  rotate: false
+  xy: 105, 71
+  size: 95, 87
+  orig: 95, 87
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy1
+  rotate: true
+  xy: 1116, 50
+  size: 10, 12
+  orig: 10, 12
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy10
+  rotate: false
+  xy: 1391, 2
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy11
+  rotate: false
+  xy: 1468, 2
+  size: 32, 16
+  orig: 32, 16
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy12
+  rotate: true
+  xy: 632, 2
+  size: 32, 17
+  orig: 32, 17
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy13
+  rotate: true
+  xy: 1664, 47
+  size: 32, 15
+  orig: 32, 15
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy14
+  rotate: false
+  xy: 313, 2
+  size: 28, 12
+  orig: 28, 12
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy2
+  rotate: false
+  xy: 1892, 19
+  size: 12, 9
+  orig: 12, 9
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy3
+  rotate: false
+  xy: 1577, 30
+  size: 30, 30
+  orig: 30, 30
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy4
+  rotate: false
+  xy: 1525, 30
+  size: 31, 30
+  orig: 31, 30
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy5
+  rotate: true
+  xy: 1609, 30
+  size: 30, 29
+  orig: 30, 29
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy6
+  rotate: true
+  xy: 1654, 2
+  size: 28, 30
+  orig: 28, 30
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy7
+  rotate: false
+  xy: 1365, 2
+  size: 24, 24
+  orig: 24, 24
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy8
+  rotate: false
+  xy: 1793, 7
+  size: 25, 23
+  orig: 25, 23
+  offset: 0, 0
+  index: -1
+4/emoji_dizzy9
+  rotate: false
+  xy: 1841, 24
+  size: 24, 23
+  orig: 24, 23
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak
+  rotate: false
+  xy: 656, 103
+  size: 90, 55
+  orig: 90, 55
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak1
+  rotate: false
+  xy: 128, 12
+  size: 72, 57
+  orig: 72, 57
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak2
+  rotate: false
+  xy: 748, 101
+  size: 75, 57
+  orig: 75, 57
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak3
+  rotate: false
+  xy: 239, 13
+  size: 72, 57
+  orig: 72, 57
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak4
+  rotate: false
+  xy: 825, 101
+  size: 75, 57
+  orig: 75, 57
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak5
+  rotate: false
+  xy: 43, 13
+  size: 83, 56
+  orig: 83, 56
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak6
+  rotate: true
+  xy: 1537, 2
+  size: 26, 31
+  orig: 26, 31
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak7
+  rotate: false
+  xy: 1432, 57
+  size: 29, 46
+  orig: 29, 46
+  offset: 0, 0
+  index: -1
+4/emoji_heartbreak8
+  rotate: false
+  xy: 1867, 19
+  size: 23, 9
+  orig: 23, 9
+  offset: 0, 0
+  index: -1
+4/emoji_hi1
+  rotate: false
+  xy: 1229, 43
+  size: 38, 47
+  orig: 38, 47
+  offset: 0, 0
+  index: -1
+4/emoji_hi2
+  rotate: true
+  xy: 1028, 58
+  size: 36, 48
+  orig: 36, 48
+  offset: 0, 0
+  index: -1
+4/emoji_hi3
+  rotate: false
+  xy: 1888, 38
+  size: 18, 9
+  orig: 18, 9
+  offset: 0, 0
+  index: -1
+4/emoji_hi4
+  rotate: false
+  xy: 184, 2
+  size: 16, 8
+  orig: 16, 8
+  offset: 0, 0
+  index: -1
+4/emoji_hi5
+  rotate: false
+  xy: 1706, 2
+  size: 18, 10
+  orig: 18, 10
+  offset: 0, 0
+  index: -1
+4/emoji_hi6
+  rotate: false
+  xy: 1681, 47
+  size: 30, 29
+  orig: 30, 29
+  offset: 0, 0
+  index: -1
+4/emoji_hi7
+  rotate: false
+  xy: 702, 2
+  size: 33, 33
+  orig: 33, 33
+  offset: 0, 0
+  index: -1
+4/emoji_proud
+  rotate: false
+  xy: 900, 63
+  size: 66, 35
+  orig: 66, 35
+  offset: 0, 0
+  index: -1
+4/emoji_proud2
+  rotate: false
+  xy: 1888, 30
+  size: 18, 6
+  orig: 18, 6
+  offset: 0, 0
+  index: -1
+4/emoji_proud3
+  rotate: false
+  xy: 1599, 62
+  size: 27, 16
+  orig: 27, 16
+  offset: 0, 0
+  index: -1
+4/emoji_proud4
+  rotate: false
+  xy: 1713, 14
+  size: 31, 21
+  orig: 31, 21
+  offset: 0, 0
+  index: -1
+4/emoji_sniker
+  rotate: false
+  xy: 792, 2
+  size: 60, 59
+  orig: 60, 59
+  offset: 0, 0
+  index: -1
+4/emoji_sniker2
+  rotate: false
+  xy: 1878, 10
+  size: 16, 7
+  orig: 16, 7
+  offset: 0, 0
+  index: -1
+4/emoji_yeah1
+  rotate: false
+  xy: 524, 36
+  size: 66, 35
+  orig: 66, 35
+  offset: 0, 0
+  index: -1
+4/emoji_yeah2
+  rotate: false
+  xy: 1438, 8
+  size: 28, 47
+  orig: 28, 47
+  offset: 0, 0
+  index: -1
+4/emoji_yeah3
+  rotate: false
+  xy: 1118, 2
+  size: 28, 46
+  orig: 28, 46
+  offset: 0, 0
+  index: -1
+4/emoji_yeah4
+  rotate: true
+  xy: 1825, 22
+  size: 27, 14
+  orig: 27, 14
+  offset: 0, 0
+  index: -1
+4/emoji_yeah5
+  rotate: true
+  xy: 1299, 2
+  size: 51, 25
+  orig: 51, 25
+  offset: 0, 0
+  index: -1
+4/face
+  rotate: true
+  xy: 475, 73
+  size: 85, 89
+  orig: 85, 89
+  offset: 0, 0
+  index: -1
+5/emoji_choking1
+  rotate: true
+  xy: 1189, 2
+  size: 36, 34
+  orig: 36, 34
+  offset: 0, 0
+  index: -1
+5/emoji_choking2
+  rotate: false
+  xy: 1568, 80
+  size: 37, 35
+  orig: 37, 35
+  offset: 0, 0
+  index: -1
+5/emoji_choking3
+  rotate: false
+  xy: 1607, 80
+  size: 37, 35
+  orig: 37, 35
+  offset: 0, 0
+  index: -1
+5/emoji_choking4
+  rotate: false
+  xy: 107, 2
+  size: 75, 8
+  orig: 75, 8
+  offset: 0, 0
+  index: -1
+5/emoji_choking6
+  rotate: true
+  xy: 467, 44
+  size: 26, 6
+  orig: 26, 6
+  offset: 0, 0
+  index: -1
+5/emoji_choking7
+  rotate: false
+  xy: 1438, 2
+  size: 11, 4
+  orig: 11, 4
+  offset: 0, 0
+  index: -1
+5/emoji_hope2
+  rotate: false
+  xy: 1299, 55
+  size: 38, 45
+  orig: 38, 45
+  offset: 0, 0
+  index: -1
+5/emoji_hope4
+  rotate: true
+  xy: 1073, 2
+  size: 36, 43
+  orig: 36, 43
+  offset: 0, 0
+  index: -1
+5/emoji_hope5
+  rotate: false
+  xy: 1686, 15
+  size: 25, 30
+  orig: 25, 30
+  offset: 0, 0
+  index: -1
+5/emoji_hope6
+  rotate: true
+  xy: 1766, 61
+  size: 25, 30
+  orig: 25, 30
+  offset: 0, 0
+  index: -1
+5/emoji_hope7
+  rotate: false
+  xy: 313, 16
+  size: 75, 54
+  orig: 75, 54
+  offset: 0, 0
+  index: -1
+5/emoji_kiss1
+  rotate: false
+  xy: 993, 96
+  size: 84, 19
+  orig: 84, 19
+  offset: 0, 0
+  index: -1
+5/emoji_kiss2
+  rotate: false
+  xy: 902, 100
+  size: 89, 15
+  orig: 89, 15
+  offset: 0, 0
+  index: -1
+5/emoji_kiss3
+  rotate: true
+  xy: 656, 2
+  size: 37, 44
+  orig: 37, 44
+  offset: 0, 0
+  index: -1
+5/emoji_kiss4
+  rotate: true
+  xy: 1148, 40
+  size: 40, 48
+  orig: 40, 48
+  offset: 0, 0
+  index: -1
+5/emoji_kiss5
+  rotate: false
+  xy: 1441, 119
+  size: 88, 39
+  orig: 88, 39
+  offset: 0, 0
+  index: -1
+5/emoji_love1
+  rotate: false
+  xy: 1713, 37
+  size: 34, 20
+  orig: 34, 20
+  offset: 0, 0
+  index: -1
+5/emoji_love2
+  rotate: false
+  xy: 1078, 40
+  size: 36, 20
+  orig: 36, 20
+  offset: 0, 0
+  index: -1
+5/emoji_love3
+  rotate: false
+  xy: 467, 28
+  size: 6, 14
+  orig: 6, 14
+  offset: 0, 0
+  index: -1
+5/emoji_love4
+  rotate: false
+  xy: 1408, 32
+  size: 7, 19
+  orig: 7, 19
+  offset: 0, 0
+  index: -1
+5/emoji_love5
+  rotate: false
+  xy: 594, 2
+  size: 36, 32
+  orig: 36, 32
+  offset: 0, 0
+  index: -1
+5/emoji_love6
+  rotate: false
+  xy: 1364, 65
+  size: 42, 38
+  orig: 42, 38
+  offset: 0, 0
+  index: -1
+5/emoji_prayer1
+  rotate: true
+  xy: 1611, 117
+  size: 41, 77
+  orig: 41, 77
+  offset: 0, 0
+  index: -1
+5/emoji_prayer2
+  rotate: true
+  xy: 1767, 88
+  size: 70, 72
+  orig: 70, 72
+  offset: 0, 0
+  index: -1
+5/emoji_vomiting1
+  rotate: true
+  xy: 1570, 2
+  size: 26, 30
+  orig: 26, 30
+  offset: 0, 0
+  index: -1
+5/emoji_vomiting2
+  rotate: true
+  xy: 1629, 2
+  size: 26, 23
+  orig: 26, 23
+  offset: 0, 0
+  index: -1
+5/emoji_vomiting3
+  rotate: false
+  xy: 792, 63
+  size: 24, 9
+  orig: 24, 9
+  offset: 0, 0
+  index: -1
+5/emoji_vomiting4
+  rotate: false
+  xy: 727, 37
+  size: 63, 35
+  orig: 63, 35
+  offset: 0, 0
+  index: -1
+5/emoji_vomiting5
+  rotate: false
+  xy: 1720, 82
+  size: 35, 30
+  orig: 35, 30
+  offset: 0, 0
+  index: -1
+5/emoji_wronged1
+  rotate: true
+  xy: 1686, 2
+  size: 11, 18
+  orig: 11, 18
+  offset: 0, 0
+  index: -1
+5/emoji_wronged2
+  rotate: false
+  xy: 1841, 113
+  size: 65, 45
+  orig: 65, 45
+  offset: 0, 0
+  index: -1
+5/emoji_wronged3
+  rotate: true
+  xy: 1284, 92
+  size: 14, 6
+  orig: 14, 6
+  offset: 0, 0
+  index: -1
+5/emoji_wronged4
+  rotate: true
+  xy: 1829, 69
+  size: 17, 10
+  orig: 17, 10
+  offset: 0, 0
+  index: -1

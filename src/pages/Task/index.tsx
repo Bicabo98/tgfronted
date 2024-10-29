@@ -33,13 +33,13 @@ function TaskPage() {
           utils.openLink("https://twitter.com/home?lang=zh")
         } else if (item.name == 'Subscription hummer on channel') {
           utils.openTelegramLink('https://t.me/zheshiwodeceshifreechanel')
-        } 
+        }
 
         _list[index][cIndex].status = "Claim"
         _list[index][cIndex].loading = false
 
         // 向后端发送已完成但未领取
-       // const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
+        const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
 
       } else if (item.mission_type == 'Daily') {
         if (item.id == 3) {
@@ -70,7 +70,6 @@ function TaskPage() {
       //   setList(_list)
       // }
 
-
       if (item.status == null) {
         if (localStorage.getItem('h5PcRoot') === '1' || launchParams.platform === 'tdesktop') {
           if (item.linkType === 'self') {
@@ -89,7 +88,10 @@ function TaskPage() {
         }
       }
     } else if (item.status == 'Claim') {
-      console.log("claim your reward")
+      // 向后端发送已完成但未领取
+      const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
+      console.log("Claim res = ", res)
+
     }
   }
 
@@ -130,7 +132,7 @@ function TaskPage() {
         });
 
         taskListStatusReq(userInfo.user_id).then(res => {
-          console.log("请求自己的任务状态：",res)
+          console.log("请求自己的任务状态：", res)
         })
 
 
@@ -179,11 +181,11 @@ function TaskPage() {
               {item.map((citem: any, cindex: number) => {
                 return (
                   <div key={cindex} className='task-list-item'>
-                    <div className='task-list-top-left-corner'>5/10</div> 
+                    {citem.mission_type !== 'Social' && (
+                      <div className='task-list-top-left-corner'>5/10</div>
+                    )}
                     <div className='task-list-left'>
-
                       <img src={`/assets/common/${getImgSrc(citem.name)}.png`} alt='tomato' className='middle-icon' />
-
                       <div className='middle'>
                         <div className='middle-name'>{citem.name}</div>
                         <div className='reward'>

@@ -1,5 +1,6 @@
 import CryptoJS from 'crypto-js';
-import axios, {AxiosRequestConfig, AxiosResponse} from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { initInitData } from '@telegram-apps/sdk';
 
 
 const CHANNEL = "WP_PC_001";
@@ -10,39 +11,77 @@ const TZ_NAME = "Asia/Shanghai";
 const TZ_DELTA = "GMT+8";
 const NET = "wifi";
 const DEVICE = "huaweiP10";
-const MACID = "421f53511ebad735dac0123967ad6a72";
+const MACID = "c45804c73b5d4ca21f6644a3a2d6ffb6";
 const KEY_SECRET3 = "E6RA4#b9sQkld8sz$qJh^BWjzsGbhM62";
 
 
 
-export const callBackendAPI = async () => {
-    var test = {
-        // method:"userallrecord#get_user_stats",
-        uid:"10000000",
-        method:"sysversion#getsysversion",
-        
-      }
-    const postdata = getRequestData(test);
-
-    let data = {
-        // postdata:"postdata=" + urlEncodeString(JSON.stringify(postData))
-        // postdata:postData
-        postdata:postdata
+export const getPokerCustomConf = async () => {
+    const _userId = localStorage.getItem('id')
+    var requestData = {
+        method: "pokerabout#poker_customconf",
+        uid: _userId,
     }
+    const postdata: any = getRequestData(requestData);
+    const postdata1: any = JSON.stringify(postdata)
+    const data = new FormData();
+    data.set("postdata", postdata1)
 
-    console.log("data:",data)
-
-    
-     
     try {
-        const response = await axios.post('http://192.168.100.201:8109', data, {
+        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
             headers: {
-                'Content-Type': 'application/json',
-            }
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
         });
+        
+        console.log("创建游戏数据config：",response)
 
-        console.log("Response data:", response.data);
+
         return response.data;
+
+    } catch (error) {
+        console.error("Error calling backend API:", error);
+    }
+}
+
+
+
+
+export const callBackendAPI = async (deskId: any) => {
+    const _userId = localStorage.getItem('id')
+    var requestData = {
+        method: "pokerabout#get_enter_desk_info",
+        desk_id: deskId,
+        uid: _userId,
+        get_type: 1,
+    }
+    const postdata: any = getRequestData(requestData);
+    const postdata1: any = JSON.stringify(postdata)
+    const data = new FormData();
+    data.set("postdata", postdata1)
+    try {
+        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        });
+        const initData = initInitData() as any;
+        const mergeData = {
+            desk: response.data.data.desk,
+            tg_create: {
+                user_id: _userId,
+                token: localStorage.getItem('authorization')
+            },
+            tg_user: {
+                hash: initData.hash,
+                chatInstance: initData.chatInstance,
+                user: initData.user
+            }
+        }
+        const mergedata = JSON.stringify(mergeData);
+        const params = JSON.parse(mergedata);
+        return mergedata;
+
     } catch (error) {
         console.error("Error calling backend API:", error);
     }
@@ -53,10 +92,7 @@ export const getRequestData = (req: any) => {
     const pub = getRequestPublic()
     const ext = getRequestExtend();
     const sig = getRequestSign(getRequestSignMap2(req));
-    // let token = localStorage.getItem('authorization');
-    // let token = "960234efdd27a217cc4e816b36f86926";
-    let token = "";
-
+    let token = localStorage.getItem('authorization');
     let postdata =
     {
         sig: sig,
@@ -66,34 +102,34 @@ export const getRequestData = (req: any) => {
         public: pub
     };
 
-    console.log("参数：",postdata)
+    console.log("参数：", postdata)
 
-    return {
-        "sig": "6db91ac9c24e5f522e6632d57f3c4eaa",
-        "accesstoken": "",
-        "extend": {
-          "net": "wifi",
-          "device": "huaweiP10",
-          "macid": "770738c7ba6834c6c2f578783718d416",
-          "tz_name": "Asia/Shanghai",
-          "tz_delta": "GMT+8"
-        },
-        "request": {
-          "uid": "10000000",
-          "method": "sysversion#getsysversion"
-        },
-        "public": {
-          "channel": "WP_PC_001",
-          "version": 2700,
-          "packid": 200,
-          "lang": "en"
-        }
-      }
+    // return {
+    //     "sig": "4cc40dec187d396c74630995d5ff6621",
+    //     "accesstoken": "3f3ad3cbd5a26e47513e917fcd3a1993",
+    //     "extend": {
+    //         "net": "wifi",
+    //         "device": "huaweiP10",
+    //         "macid": "c45804c73b5d4ca21f6644a3a2d6ffb6",
+    //         "tz_name": "Asia/Shanghai",
+    //         "tz_delta": "GMT+8"
+    //     },
+    //     "request": {
+    //         "method": "pokerabout#get_enter_desk_info",
+    //         "desk_id": "880524",
+    //         "uid": "10000021",     
+    //         "get_type": 1,
+    //     },
+    //     "public": {
+    //         "channel": "WP_PC_001",
+    //         "version": 2700,
+    //         "packid": 200,
+    //         "lang": "en"
+    //     }
+    // }
 
     return postdata;
 }
-
-
 
 export const getRequestPublic = () => {
     let dic = {
@@ -146,9 +182,6 @@ function makeFormat(obj: any) {
     return obj;
 }
 
-
-
-
 function getRequestSignMap2(request: any) {
     let dic: any = {}
     let pub: any = getRequestPublic()
@@ -188,19 +221,14 @@ function objKeySort(arys: any) {
 
     return newObj;
 }
-
-
-
-function urlEncodeString(data:any) {
+function urlEncodeString(data: any) {
     let str = data;
-        if (data.indexOf('#') != -1 || data.indexOf('+') != -1 || data.indexOf('/') != -1 || data.indexOf('?') != -1 || 
-            data.indexOf('%') != -1 || data.indexOf('&') != -1 || data.indexOf('=') != -1)
-        {
-            str = data.replace(/([\#|\+|\/|\?|\%|\#|\&|\=])/g, ($1:any) =>
-            {
-                return encodeURIComponent($1);
-            });
-        }
+    if (data.indexOf('#') != -1 || data.indexOf('+') != -1 || data.indexOf('/') != -1 || data.indexOf('?') != -1 ||
+        data.indexOf('%') != -1 || data.indexOf('&') != -1 || data.indexOf('=') != -1) {
+        str = data.replace(/([\#|\+|\/|\?|\%|\#|\&|\=])/g, ($1: any) => {
+            return encodeURIComponent($1);
+        });
+    }
 
-        return str;
+    return str;
 }

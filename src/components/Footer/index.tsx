@@ -27,7 +27,7 @@ export default function () {
             // to:'/gameleaderboard'
         },
         {
-            title: '𝗙𝗿𝗶𝗲𝗻𝗱𝘀',
+            title: 'Friends',
             icon: FriendsIcon,
             to: '/frens'
         },
@@ -35,6 +35,7 @@ export default function () {
             title: 'Account',
             icon: gameIcon,
             to: '/account',
+             //to :'/poker',
         },
     ])
     useEffect(() => {

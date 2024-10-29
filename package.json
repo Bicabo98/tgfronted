@@ -29,6 +29,7 @@
     "eruda": "^2.11.3",
     "moment": "^2.30.1",
     "phaser": "^3.80.1",
+    "protobufjs": "^7.4.0",
     "react": "^18",
     "react-dom": "^18",
     "react-json-view": "^1.21.3",

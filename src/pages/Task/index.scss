@@ -1,5 +1,5 @@
 .task-page {
-  padding: 20px;
+  padding: 20px 10px;
   //background: linear-gradient(to top, #1b1a1a, #492626); /* 从下到上的渐变 */
   //min-height: 100vh;
   // animation: fadeIn 0.5s ease-in-out;
@@ -7,14 +7,11 @@
   .task-title {
     text-align: center;
     margin-bottom: 20px;
-    color:#000;
-
     background-image: url('/assets/common/task-title.png'); 
     background-size: cover; 
     background-position: center;
-
     border-radius: 5px;
-    padding: 20px; 
+    padding: 15px 5px; 
     position: relative; 
   
 
@@ -33,7 +30,7 @@
       .unit-img{
         width: 35px;
         height: 35px;
-        margin: 14px 0 12px 0;
+        margin: 18px 0 12px 0;
       }
       .score {
         font-size: 3em;
@@ -41,6 +38,7 @@
         margin-top: 10px;
         margin-left: 10px;
         color:#fff;
+        text-shadow: 3px 3px 1px rgba(0,0,0,0.25);
       }
     }
 
@@ -145,10 +143,10 @@
 
           .middle {
             .middle-name {
-              font-size: 1.2em;
-              //font-weight: bold;
+              font-size: 15px;
+              font-weight: bold;
               color: #ffffff;
-              font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+              font-family: 'PingFang-SC, PingFang-SC';
               margin-bottom: 10px;
 
               
@@ -158,6 +156,7 @@
               color: #FFD255;
               display: flex;
               align-items: center; 
+              margin-bottom: 8px;
 
               .unit-img {
                 width: 20px;

@@ -48,7 +48,8 @@ instance.interceptors.request.use(
       config.headers = {
         ...config.headers,
         'TG_ID': `${initData.user.id}`,
-        'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
+        // 'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
+        'TG_BEARER': 'query_id=AAFJOi4vAgAAAEk6Li9ICpCz&user=%7B%22id%22%3A5086526025%2C%22first_name%22%3A%22123%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22omegachaino%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730169992&hash=a9c3733219587f194917c0c5b9e62a6eca13f6fddfef6104642cbbd717a0b6e7',
         'Token_Source': 'MiniApp',
       }
       const authorization = localStorage.getItem('authorization');
@@ -61,7 +62,7 @@ instance.interceptors.request.use(
         }
       } 
 
-    }
+    } 
     removePending(config);
     addPending(config);
 

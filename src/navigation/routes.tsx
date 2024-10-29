@@ -17,6 +17,10 @@ const TaskPage = lazy(() => import('@/pages/Task'))
 const AccountPage = lazy(() => import('@/pages/Account'))
 const CareerPage = lazy(() => import('@/pages/Career'))
 
+const PokerPage = lazy(() => import('@/pages/Poker'))
+const CreateGame = lazy(() => import('@/pages/CreateGame'))
+
+
 interface Route {
   path: string;
   Component: ComponentType;
@@ -41,5 +45,9 @@ export const routes: Route[] = [
   { path: '/account', Component: AccountPage},
   { path: '/career', Component: CareerPage},
   // { path: '/account', Component: GamePage},
+
+
+  { path: '/poker', Component:PokerPage }, 
+  { path : '/creategame', Component:CreateGame},
 
 ];

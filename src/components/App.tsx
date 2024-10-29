@@ -82,6 +82,7 @@ export const App: FC = () => {
   const loginSuccessful = async (res: any,initData:any) => {
     localStorage.setItem('authorization', res.data.token)
     localStorage.setItem('id', res.data.user_id)
+    //localStorage.setItem('useInfo', res.data.user_id)
     let loginRes = await loginReq(res.data.user_id)
     if (loginRes.code == 200) {
       // check sign in

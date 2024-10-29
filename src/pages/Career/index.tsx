@@ -5,15 +5,12 @@ import { setUserInfoAction } from '@/redux/slices/userSlice';
 import EventBus from '@/utils/eventBus';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import axios from 'axios';
 
 import { InfiniteScroll, List } from 'antd-mobile';
-
 
 function CareerPage() {
   const userInfo = useSelector((state: any) => state.user.info);
   console.log("careerpage:", userInfo);
-  const dispatch = useDispatch();
   const eventBus = EventBus.getInstance();
   const navigate = useNavigate();
   const [list, setList] = useState<any[]>([]);
@@ -154,7 +151,7 @@ function CareerPage() {
         <div className="text">Game History</div>
       </div>
 
-      {gameHistoryInfo && (
+      {gameHistoryInfo && activeGame === 'NLH' && (
         <div className="game-history">
           {gameHistoryInfo.game.map((item: any, index: number) => (
             <div className="game-item" key={index}>

@@ -1,0 +1,41 @@
+
+loading.png
+size: 512,256
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+bg-small
+  rotate: false
+  xy: 1, 1
+  size: 144, 144
+  orig: 144, 144
+  offset: 0, 0
+  index: -1
+heitao
+  rotate: false
+  xy: 147, 1
+  size: 124, 124
+  orig: 124, 124
+  offset: 0, 0
+  index: -1
+meihua
+  rotate: false
+  xy: 147, 127
+  size: 121, 125
+  orig: 121, 125
+  offset: 0, 0
+  index: -1
+hongtao
+  rotate: false
+  xy: 273, 1
+  size: 124, 112
+  orig: 124, 112
+  offset: 0, 0
+  index: -1
+fangkuai
+  rotate: false
+  xy: 270, 127
+  size: 120, 122
+  orig: 120, 122
+  offset: 0, 0
+  index: -1

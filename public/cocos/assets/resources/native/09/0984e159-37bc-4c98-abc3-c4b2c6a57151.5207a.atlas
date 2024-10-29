@@ -1,0 +1,111 @@
+
+Daku.png
+size: 170, 142
+format: RGBA8888
+filter: Linear, Linear
+repeat: none
+MAOZI
+  rotate: true
+  xy: 99, 61
+  size: 79, 37
+  orig: 79, 37
+  offset: 0, 0
+  index: -1
+bai
+  rotate: true
+  xy: 99, 28
+  size: 4, 3
+  orig: 4, 3
+  offset: 0, 0
+  index: -1
+bai2
+  rotate: false
+  xy: 103, 2
+  size: 4, 3
+  orig: 4, 3
+  offset: 0, 0
+  index: -1
+huzi
+  rotate: false
+  xy: 2, 6
+  size: 68, 19
+  orig: 68, 19
+  offset: 0, 0
+  index: -1
+mei
+  rotate: true
+  xy: 160, 121
+  size: 19, 8
+  orig: 19, 8
+  offset: 0, 0
+  index: -1
+mei2
+  rotate: true
+  xy: 155, 93
+  size: 20, 8
+  orig: 20, 8
+  offset: 0, 0
+  index: -1
+shui
+  rotate: false
+  xy: 72, 5
+  size: 29, 20
+  orig: 29, 20
+  offset: 0, 0
+  index: -1
+shui2
+  rotate: false
+  xy: 72, 5
+  size: 29, 20
+  orig: 29, 20
+  offset: 0, 0
+  index: -1
+tou
+  rotate: true
+  xy: 2, 27
+  size: 113, 95
+  orig: 113, 95
+  offset: 0, 0
+  index: -1
+xiaba
+  rotate: true
+  xy: 155, 79
+  size: 12, 8
+  orig: 13, 9
+  offset: 1, 0
+  index: -1
+yanlei
+  rotate: true
+  xy: 99, 34
+  size: 25, 65
+  orig: 25, 65
+  offset: 0, 0
+  index: -1
+yanlei2
+  rotate: true
+  xy: 104, 7
+  size: 25, 64
+  orig: 25, 64
+  offset: 0, 0
+  index: -1
+yanzhu
+  rotate: true
+  xy: 138, 90
+  size: 23, 15
+  orig: 23, 16
+  offset: 0, 1
+  index: -1
+yanzhu2
+  rotate: true
+  xy: 138, 65
+  size: 23, 15
+  orig: 24, 15
+  offset: 0, 0
+  index: -1
+zui
+  rotate: true
+  xy: 138, 115
+  size: 25, 20
+  orig: 25, 20
+  offset: 0, 0
+  index: -1
