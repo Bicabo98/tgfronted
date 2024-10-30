@@ -1,15 +1,11 @@
 import { useEffect, useState } from 'react';
 import './index.scss';
-import { getCheckInRewardListReq, userCheckReq } from '@/api/common';
-import { formatNumber } from '@/utils/common';
 import { Button } from 'antd-mobile';
 import { useDispatch } from 'react-redux';
 import { setUserInfoAction } from '@/redux/slices/userSlice';
 import EventBus from '@/utils/eventBus';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-import axios from 'axios';
-
 
 const remote_profile_url = "https://192.168.100.96:8889/images/";
 const url = "https://472b-183-14-30-201.ngrok-free.app";
@@ -32,23 +28,6 @@ function AccountPage() {
     // }, 2000);
   };
 
-  // 获取TG用户的头像照片
-  const getUserProfilephoto = async () => {
-    const profilePhotoUrl = `${remote_profile_url}${userInfo.id}.jpg`;
-    try {
-      const response = await axios.get(profilePhotoUrl);
-      if (response.status === 200) {
-        dispatch(setUserInfoAction({ ...userInfo, profilePhoto: profilePhotoUrl }));
-      }
-    } catch (error) {
-      console.error('Error fetching profile photo:', error);
-
-    }
-  };
-
-  const handleContinue = () => {
-    navigate('/');
-  };
 
   useEffect(() => {
     getUserInfo();

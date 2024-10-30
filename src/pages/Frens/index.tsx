@@ -23,7 +23,6 @@ export default function Friends() {
   const [total, setTotal] = useState(0)
   const [totalScore, setTotalScore] = useState(0)
   const hapticFeedback = useHapticFeedback()
-  const navigate = useNavigate()
   const [isShowInvite, setShowInvite] = useState(false)
 
   async function loadMore() {

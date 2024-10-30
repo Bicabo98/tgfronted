@@ -7,19 +7,20 @@ import { initUtils, useHapticFeedback } from '@telegram-apps/sdk-react';
 import { setUserInfoAction } from "@/redux/slices/userSlice";
 import { useTonWallet, useTonConnectModal, useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { useAdsgram } from '@/hooks/useAdsgram';
-import { callBackendAPI, getPokerCustomConf } from '@/utils/gameConfig';
+import { callBackendAPI } from '@/utils/gameConfig';
 import { useNavigate } from 'react-router-dom';
+
+import NetSerializer from '../../net/NetSerializer.js'
+import { hex_md5 } from '../../net/md5Tool.js'
 
 
 export default function CreateGame() {
   const navigate = useNavigate()
   const [isShowRules, setShowRules] = useState(false);
-  const [inputRoomName, setInputRoomName] = useState("Text Room")
+  const [inputRoomName, setInputRoomName] = useState("privateroom")
   const [showAdvancedSettings, setShowAdvancedSettings] = useState(false); // control show advancedsetting
 
-
   const [inputCreateGameMustValues, setInputCreateGameMustValues] = useState(["1", "2", ""]);   // Must values
-  const inputCreateGameRefs = useRef({});  // save create game input
 
   // Ante  Auto-starddle 
   const [inputCreateGameValues, setInputCreateGameValues] = useState(["", ""]);
@@ -28,8 +29,6 @@ export default function CreateGame() {
   const [auto_starddleMinPlacehoder, setAuto_starddleMinPlacehoder] = useState(2);
   const [auto_starddleMaxPlacehoder, setAuto_starddleMaxPlacehoder] = useState(20);
 
-  const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]); // save join room value
-  const inputRefs = useRef([]); // save join game input
   const wallet = useTonWallet();
   const dispatch = useDispatch();
   const utils = initUtils();
@@ -129,6 +128,124 @@ export default function CreateGame() {
   //Create game
   const handleCreateGame = () => {
 
+    //const openid = localStorage.getItem('id')
+    //const token = localStorage.getItem('authorization')
+    const openid = 131
+    const token = "9db364ee0ece0a7eb45bdc0b2e6b82db"
+
+    const net = new NetSerializer();
+    net.loadProto("texas_net.proto", function () {
+      // net.unpackMsg(data)
+    })
+
+    setTimeout(() => {
+      //const openid = localStorage.getItem('id')
+      //const token = localStorage.getItem('authorization')
+      const secret1 = "PW@s*OIf&6E8~^xv(U)895seULnj)Ks1"
+      const loginReq = {
+        sign: hex_md5(`${secret1}|${openid}|${token}`),
+        openid: openid.toString(),
+        access_token: token,
+        expire_date: "",
+        channel: "WP_H5_001",
+        version: 0,
+        os: "h5",
+        lang: "zh",
+        res_md5: "",
+        game_type: 0,
+      }
+      console.log(net.packMsg(19, loginReq, 0,openid))
+      const ws = new WebSocket("ws://192.168.100.201:22032")
+      ws.binaryType = "arraybuffer";
+      ws.onmessage = (msg) => {
+        console.log("receive msg:", msg)
+        const data = net.unpackMsg(msg.data)
+        console.log("unpack msg", data)
+        if (data && data.ret && data.ret.cmd == 19 && data.ret.ret == 0) {
+          const conf = {
+            "src_deskid": 0,
+            "dst_desk_id": 0,
+            "need_password": 0,
+            "password": "",
+            "enter_source": 0,
+            "new_desk": 1,
+            "name": inputRoomName,
+            "must_spend": 0,
+            "last_time": 21600,
+            "buyin_limit_multi": 0,
+            "just_view": 0,
+            "roomid": 10006,
+            "discussion_id": 0,
+            "group_id": 0,
+            "group_name": "",
+            "insurance": 0,
+            "straddle": 0,
+            "op_time": 0,
+            "dst_openid": "",
+            "call_time": 1,
+            "seat_limit": 9,
+            "carry_min": 50000,
+            "carry_max": 200000,
+            "need_authority": 0,
+            "need_protocolpool": 1,
+            "need_multiplecard": 0,
+            "key_type": -1,
+            "location_limit": 0,
+            "bury_card": 1,
+            "alliance_id": 0,
+            "player_stats_protection": 0,
+            "table_stats_protection": 0,
+            "auto_start_switch": 1,
+            "auto_start_number": 9,
+            "clone_table_switch": 0,
+            "need_verify": 0,
+            "vpip_info": { "restriction_rate": 0, "maintenance_rate": 0, "hands_threshold": 0 },
+            "ofc_play_mode": 2,
+            "has_joker": 1,
+            "multi_desk": 0,
+            "force_flag_display": 0,
+            "web3_enter_desk_info": {
+              "is_personal_game": true,
+              "is_plo_bet_limit": false,
+              "is_manager_approval_game": false,
+              "rake_mode": 1,
+              "rake_percentage": 0,
+              "rake_limit": 0,
+              "small_blind": 100,
+              "big_blind": 200,
+              "straddle_multiple": 0,
+              "ante_multiple": 0,
+              "token_info": {},
+              "extend_info": {
+                "random_seat": 0,
+                "spectator_mute": 0,
+                "squid_info": { "squid_game_on_off": 0, "minimum_players": 3, "ante_per_squid": 1 },
+                "post_bb": 0,
+                "voice_chatting": 0
+              },
+              "is_delayed_hand": false
+            },
+            "force_show_cards_switch": 1,
+            "show_rest_cards_switch": 1,
+            "auto_round_down": 0,
+            "game_duration": tableDuration * 6,
+            "game_category": 2,
+            "player_total_hands": 200,
+            "player_vpip_times": minTableVpipValues[1]
+          }
+          console.log("desk conf", conf)
+          // send create desk
+          ws.send(net.packMsg(1010, conf, 0,openid))
+        }
+      }
+      ws.onopen = () => {
+        ws.send(net.packMsg(19, loginReq, undefined,openid))
+      }
+      ws.onerror = (err) => {
+        console.log("ws error:", err)
+      }
+    }, 500)
+
   };
 
   const handleAdvancedSettingsToggle = () => {
@@ -136,9 +253,7 @@ export default function CreateGame() {
   };
 
   const handleActiveClick = (game: any) => {
-
     //setActiveGame(game);
-
   };
 
 
@@ -146,8 +261,6 @@ export default function CreateGame() {
   const handleFeesModeClick = (item: any) => {
     setActiveFeesMode(item);
 
-    
-    
   };
 
   const handleMinTableVpipValue = (index: any, value: any) => {
@@ -250,7 +363,7 @@ export default function CreateGame() {
     newInputCreateGameValues[index] = value
     setInputCreateGameValues(newInputCreateGameValues);
   }
-  
+
 
   return (
     <main>

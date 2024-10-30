@@ -32,7 +32,7 @@ function CheckInPage() {
       
       dispatch(setUserInfoAction(mergedData))
       setTimeout(() => {
-        eventBus.emit('showCongrates', { time: 1500, visible: true })
+        eventBus.emit('showCongrates', { time: 3000, visible: true })
       }, 1100);
     }
 
@@ -44,15 +44,13 @@ function CheckInPage() {
       // let mergedData =  {
       //   ...userInfo,
       //   ...testdata
-      // }
+      // } 
       // console.log("checkin mergedData:",mergedData)
       // setCheckObj(mergedData)
       // dispatch(setUserInfoAction(mergedData))
       // setTimeout(() => {
-      //   eventBus.emit('showCongrates', { time: 2000, visible: true })
+      //   eventBus.emit('showCongrates', { time: 3000, visible: true })
       // }, 1100);
-    
-
   }
 
   const handleContinue = () => {

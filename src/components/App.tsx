@@ -18,7 +18,7 @@ import {
 } from 'react-router-dom';
 import { routes } from '@/navigation/routes';
 import Footer from './Footer';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createTokenReq, getSystemReq, getTokenReq, loginReq } from '@/api/common';
 import { setSystemAction, setUserInfoAction } from '@/redux/slices/userSlice';
 import Congrates from './Congrates';
@@ -35,6 +35,7 @@ export const App: FC = () => {
   const [viewport] = initViewport();
   const [miniApp] = initMiniApp()
   const launchParams = retrieveLaunchParams()
+  const userInfo = useSelector((state: any) => state.user.info);
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
@@ -47,7 +48,6 @@ export const App: FC = () => {
     setLoading(true)
 
     //let test = await callBackendAPI()
-
     // 测试签到页面
     //navigate('/checkIn')
 
@@ -63,52 +63,66 @@ export const App: FC = () => {
         resArray = await (createTokenReq(initData.user))
         console.log("resArray:", resArray)
         if (resArray.code == 200) {
-          loginSuccessful(resArray,initData)
+          loginSuccessful(resArray, initData)
         }
         else if (resArray == undefined) {
+          console.log("enter here")
           let getReq = await getTokenReq(initData.user.id)
           if (getReq.code == 200) {
-            loginSuccessful(getReq,initData)
+            loginSuccessful(getReq, initData)
+          }
+        }
+        else {
+          console.log("enter here 2")
+          let getReq = await getTokenReq(initData.user.id)
+          if (getReq.code == 200) {
+            loginSuccessful(getReq, initData)
           }
         }
       }
       setLoading(false)
     } catch {
+      //  应该显示网页错误或者404页面
+      console.log("抛出异常")
       setLoading(false)
     }
   }
 
 
-  const loginSuccessful = async (res: any,initData:any) => {
+  const loginSuccessful = async (res: any, initData: any) => {
+    
     localStorage.setItem('authorization', res.data.token)
     localStorage.setItem('id', res.data.user_id)
-    //localStorage.setItem('useInfo', res.data.user_id)
+    localStorage.setItem('server_info', JSON.stringify(res.data.server_info))
+
     let loginRes = await loginReq(res.data.user_id)
     if (loginRes.code == 200) {
       // check sign in
+      console.log("loginRes:",loginRes)
       let signRes = await signinReq(res.data.user_id)
       if (signRes.code == 200) {
-        console.log("signRes:",signRes)
+        console.log("signRes:", signRes)
         if (!signRes.data.sign_in) {
           // Today not sign in,update user sign in
-          let data = {
+          let data: any = {
             user_id: res.data.user_id,
-            name: loginRes.data.username,
+            username: loginRes.data.username,
             score: loginRes.data.score,
           }
+          localStorage.setItem('userinfo', data)
           let mergedData = {
             ...res.data,
             ...data,
             ...signRes.data,
           };
           dispatch(setUserInfoAction(mergedData))
-          navigate('/checkIn')
+          console.log("渲染setuserinfoaction加载完成")
         } else {
           // Dont show checkIn page
           let mergedData = {
             ...loginRes.data,
             user_id: res.data.user_id,
-            
+            sign_in: signRes.data.sign_in,
           }
           dispatch(setUserInfoAction(mergedData))
         }
@@ -116,7 +130,7 @@ export const App: FC = () => {
 
       // binding friend
       if (initData.initData.startParam != "" && initData.initData.startParam != undefined && initData.initData.startParam != res.data.user_id) {
-        console.log("initData.initData.startParam=",initData.initData.startParam)
+        console.log("initData.initData.startParam=", initData.initData.startParam)
         let bindingReq = await bindReq({
           inviter: Number(initData.initData.startParam),
           invitee: Number(res.data.user_id)
@@ -125,9 +139,6 @@ export const App: FC = () => {
       }
     }
   }
-
-
-
 
   const expandViewPort = async () => {
     const vp = await viewport;
@@ -159,6 +170,14 @@ export const App: FC = () => {
     // bindThemeParamsCSSVars(tp);
     expandViewPort()
   }, [])
+
+
+  useEffect(() => {
+    if (Object.keys(userInfo).length > 0 && !userInfo.sign_in) {
+      console.log("即将进入签到页面");
+      navigate('/checkIn');
+    }
+  }, [userInfo, navigate]);
 
   return (
     <AppRoot

@@ -16,12 +16,8 @@ function TaskPage() {
   const [loading, setLoading] = useState(true)
   const [selectedType, setSelectedType] = useState<string>('all')
   const navigate = useNavigate()
-
   const handleDoTask = async (item: any, index: number, cIndex: number) => {
     console.log("test do task: item:", item)
-    console.log("index:", index)
-    console.log("cIndex:", cIndex)
-
     if (item.status !== 'Done' && item.status !== 'Claim') {
       const _list = JSON.parse(JSON.stringify(list))
       _list[index][cIndex].loading = true
@@ -29,66 +25,40 @@ function TaskPage() {
       // 社交任务
       if (item.mission_type == 'Social') {
         if (item.name == 'Follow hummer on X') {
-          //utils.openTelegramLink('https://t.me/zheshiwodeceshifreechanel')
           utils.openLink("https://twitter.com/home?lang=zh")
-        } else if (item.name == 'Subscription hummer on channel') {
-          utils.openTelegramLink('https://t.me/zheshiwodeceshifreechanel')
+
+          setTimeout(() => {
+            const updatedList = [..._list];
+            _list[index][cIndex].loading = false
+            _list[index][cIndex].status = "Claim"
+            setList(updatedList)
+          }, 3000);
+
+        } else if (item.name == 'Subscription hummer on channel' || item.name == 'Join hummer on chat group') {
+          utils.openTelegramLink(JSON.parse(item.metadata).link)
+
+          setTimeout(() => {
+            const updatedList = [..._list];
+            _list[index][cIndex].loading = false
+            _list[index][cIndex].status = "Check"
+            setList(updatedList)
+          }, 3000);
+
+          // 向后端发送已完成但未领取
+          //const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
         }
 
-        _list[index][cIndex].status = "Claim"
-        _list[index][cIndex].loading = false
 
-        // 向后端发送已完成但未领取
-        const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
-
-      } else if (item.mission_type == 'Daily') {
-        if (item.id == 3) {
-          //navigate('/checkIn')
-        }
-        _list[index][cIndex].status = "Claim"
-        _list[index][cIndex].loading = false
-      } else if (item.mission_type == 'Poker') {
+      }
+      else if (item.mission_type == 'Poker') {
         if (item.name == '') {
 
         }
       }
 
-      // 后端做任务
-      // const res = await handleTakReq(item)
-
-      // if (res.code === 0) {
-      //   const _list = JSON.parse(JSON.stringify(list))
-      //   _list[index][cIndex].status = res.data.status
-      //   _list[index][cIndex].loading = false
-      //   setTimeout(() => {
-      //     setList(_list)
-      //   }, 10000)
-      // } else {
-      //   Toast.show({ content: res.msg, position: 'top' })
-      //   const _list = JSON.parse(JSON.stringify(list))
-      //   _list[index][cIndex].loading = false
-      //   setList(_list)
-      // }
-
-      if (item.status == null) {
-        if (localStorage.getItem('h5PcRoot') === '1' || launchParams.platform === 'tdesktop') {
-          if (item.linkType === 'self') {
-            navigate(item.link)
-          } else {
-            window.open(item.link)
-          }
-        } else {
-          if (item.linkType.includes('telegram')) {
-            utils.openLink(item.link)
-          } else if (item.linkType === 'outside') {
-            location.href = item.link
-          } else if (item.linkType === 'self') {
-            navigate(item.link)
-          }
-        }
-      }
-    } else if (item.status == 'Claim') {
-      // 向后端发送已完成但未领取
+    }
+    else if (item.status == 'Claim') {
+      // 向后端发送领取状态
       const res = await handleTakReq({ user_id: userInfo.user_id, name: item.name })
       console.log("Claim res = ", res)
 
@@ -110,7 +80,7 @@ function TaskPage() {
     if (img.includes('Follow') || img.includes('on X')) {
       return 'twitter'
     }
-    if (img.includes('Subscription')) {
+    if (img.includes('Subscription') || (img.includes('chat group'))) {
       return 'channel'
     }
     if (img.includes('NLH')) {
@@ -120,7 +90,11 @@ function TaskPage() {
   }
 
   useEffect(() => {
-    setLoading(true)
+
+    setLoading(false)
+    if (!userInfo || userInfo.user_id === "") {
+      return;
+    }
 
     taskListReq().then(res => {
       if (res.code == 200) {
@@ -131,25 +105,25 @@ function TaskPage() {
           return item;
         });
 
+        console.log("userInfo = ", userInfo)
         taskListStatusReq(userInfo.user_id).then(res => {
           console.log("请求自己的任务状态：", res)
         })
-
-
-        console.log("task userInfo:", userInfo)
         const list = groupByType(res.data.mission_list)
         setList(list)
+        //setTasks(list)
         setLoading(true)
       }
     })
 
-  }, [])
+  }, [userInfo])
 
   const handleTabClick = (type: string) => {
     setSelectedType(type)
   }
 
   const filteredList = selectedType === 'all' ? list : list.filter((group: any) => group[0].mission_type === selectedType)
+  //const filteredTasks = selectedType === 'all' ? tasks : tasks.filter((group: any) => group[0].mission_type === selectedType)
 
   return (
     <div className='task-page fadeIn'>
@@ -157,7 +131,7 @@ function TaskPage() {
         <div className='desc'>My BP</div>
         <div className='task-score-title'>
           <img src='/assets/common/coin2x1.png' alt='tomato' className='unit-img' />
-          <div className="score">{userInfo.score}</div>
+          <div className="score">{userInfo?.score?.toLocaleString()}</div>
         </div>
       </div>
       <div className='task-tabs'>
@@ -195,9 +169,24 @@ function TaskPage() {
                       </div>
                     </div>
                     <div className='task-list-right'>
-                      <Button className={`task-list-right-btn ${'Start'}`} onClick={() => handleDoTask(citem, index, cindex)} loading={citem.loading}>
-                        {citem.status || 'Start'}
-                      </Button>
+                      {citem.status === 'Finished' ? (
+                        <img
+                          src="assets/common/task-done.png"
+                          alt={`Action for ${citem.status}`} 
+                          className="task-done-img"  
+                         
+                        />
+                      ) : (
+                        <Button
+                          className={`task-list-right-btn ${citem.status}`}
+                          onClick={() => handleDoTask(citem, index, cindex)}
+                          loading={citem.loading}
+                          style={{ cursor: 'pointer' }}
+                        >
+                          {citem.status}
+                        
+                        </Button>
+                      )}
                     </div>
                   </div>
                 )

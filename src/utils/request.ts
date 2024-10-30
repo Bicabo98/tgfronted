@@ -39,17 +39,11 @@ instance.interceptors.request.use(
   (config: any) => {
     if (typeof window !== 'undefined') {
       const initData = initInitData() as any;
-      // if (authorization) {
-      //   config.headers = {
-      //     ...config.headers,
-      //     'authorization': `Bearer ${authorization}`,
-      //   };
-      // }
       config.headers = {
         ...config.headers,
         'TG_ID': `${initData.user.id}`,
-        // 'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
-        'TG_BEARER': 'query_id=AAFJOi4vAgAAAEk6Li9ICpCz&user=%7B%22id%22%3A5086526025%2C%22first_name%22%3A%22123%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22omegachaino%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730169992&hash=a9c3733219587f194917c0c5b9e62a6eca13f6fddfef6104642cbbd717a0b6e7',
+        //'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
+        'TG_BEARER': 'query_id=AAGBofgMAwAAAIGh-AxgzynF&user=%7B%22id%22%3A6660071809%2C%22first_name%22%3A%22Megan%F0%9F%8D%85%22%2C%22last_name%22%3A%22Larson%22%2C%22username%22%3A%22rlqagxue%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730270469&hash=629b3f771c09e424cd47b7603068693e3e733deb19400b97770fae15034e6ccb',
         'Token_Source': 'MiniApp',
       }
       const authorization = localStorage.getItem('authorization');

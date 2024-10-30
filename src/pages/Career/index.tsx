@@ -5,10 +5,11 @@ import { setUserInfoAction } from '@/redux/slices/userSlice';
 import EventBus from '@/utils/eventBus';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from "react-redux";
-
-import { InfiniteScroll, List } from 'antd-mobile';
+import { initBackButton } from '@telegram-apps/sdk';
+import { getUserAllRecord } from '@/utils/gameConfig';
 
 function CareerPage() {
+  const [backButton] = initBackButton()
   const userInfo = useSelector((state: any) => state.user.info);
   console.log("careerpage:", userInfo);
   const eventBus = EventBus.getInstance();
@@ -16,12 +17,12 @@ function CareerPage() {
   const [list, setList] = useState<any[]>([]);
   const [careerInfo, setCareerInfo] = useState<any>(null);
   const [gameHistoryInfo, setGameHistoryInfo] = useState<any>(null);
-
   const [activeGame, setActiveGame] = useState('NLH');  //default active NLH
 
   const getUserCareerInfo = async () => {
     // 获取生涯数据
-    //const careerRes = await getCareer(userInfo)
+    const careerRestest = await getUserAllRecord()
+
     // 获取游戏记录
     //const gameRes = await getGameHistory(userInfo)
 
@@ -72,12 +73,11 @@ function CareerPage() {
   //   });
   // };
 
-  const handleContinue = () => {
-    navigate('/');
-  };
-
   useEffect(() => {
     getUserCareerInfo();
+    backButton.on('click',() => {
+      navigate('/account')
+    })
   }, []);
 
   return (

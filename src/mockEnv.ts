@@ -22,14 +22,14 @@ if (import.meta.env.DEV) {
   if (shouldMock) {
     const initDataRaw = new URLSearchParams([
       ['user', JSON.stringify({
-        id: 5086526025,
-        first_name: '123',
-        last_name: '',
-        username: "omegachaino",
+        id: 6660071809,
+        first_name: "Megan🍅",
+        last_name: "Larson",
+        username: "rlqagxue",
         language_code: "zh-hans",
         allows_write_to_pm: true,
       })],
-      ['hash', 'a9c3733219587f194917c0c5b9e62a6eca13f6fddfef6104642cbbd717a0b6e7'],
+      ['hash', '629b3f771c09e424cd47b7603068693e3e733deb19400b97770fae15034e6ccb'],
       ['auth_date', `${Math.round(new Date().getTime() / 1000)}`],
       ['start_param', `${btoa('77777777')}`],
       ['chat_type', 'sender'],

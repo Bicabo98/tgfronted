@@ -16,6 +16,12 @@ const KEY_SECRET3 = "E6RA4#b9sQkld8sz$qJh^BWjzsGbhM62";
 
 
 
+
+
+
+
+
+// 获取创建房间参数接口
 export const getPokerCustomConf = async () => {
     const _userId = localStorage.getItem('id')
     var requestData = {
@@ -33,10 +39,8 @@ export const getPokerCustomConf = async () => {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         });
-        
+    
         console.log("创建游戏数据config：",response)
-
-
         return response.data;
 
     } catch (error) {
@@ -44,11 +48,41 @@ export const getPokerCustomConf = async () => {
     }
 }
 
+// 获取用户生涯接口
+export const getUserAllRecord = async() => {
+    const _userId = localStorage.getItem('id')
+    var requestData = {
+        method: "userallrecord#get_user_stats",
+        uid: _userId,
+        game_type: "0",
+        desk_currency: 1
+    }
+    const postdata: any = getRequestData(requestData);
+    const postdata1: any = JSON.stringify(postdata)
+    const data = new FormData();
+    data.set("postdata", postdata1)
+
+    try {
+        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        });
+    
+        console.log("用户生涯数据config：",response)
+        return response.data;
+
+    } catch (error) {
+        console.error("Error calling backend API:", error);
+    }
+
+}
 
 
-
+// 加入房间接口
 export const callBackendAPI = async (deskId: any) => {
     const _userId = localStorage.getItem('id')
+
     var requestData = {
         method: "pokerabout#get_enter_desk_info",
         desk_id: deskId,
@@ -65,27 +99,42 @@ export const callBackendAPI = async (deskId: any) => {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         });
+
         const initData = initInitData() as any;
+        const server_info =  localStorage.getItem("server_info")
+        let info = JSON.parse(server_info as string)
         const mergeData = {
-            desk: response.data.data.desk,
-            tg_create: {
-                user_id: _userId,
-                token: localStorage.getItem('authorization')
-            },
-            tg_user: {
-                hash: initData.hash,
-                chatInstance: initData.chatInstance,
-                user: initData.user
-            }
+            serverinfo: info,
+            token: localStorage.getItem('authorization'),
+            user_id:_userId,
+            game_type:0,
+            first_name: initData.user.firstName,
+            desk_id:deskId,
+            share_url: "http://192.168.100.201:23456"
+            // tg_create: {
+            //     user_id: _userId,
+            //     token: localStorage.getItem('authorization')
+            // },
+            // tg_user: {
+            //     hash: initData.hash,
+            //     chatInstance: initData.chatInstance,
+            //     user: initData.user
+            // }
         }
         const mergedata = JSON.stringify(mergeData);
+        console.log("mergedata = ",mergedata);
         const params = JSON.parse(mergedata);
+        console.log("params =",params);
         return mergedata;
 
     } catch (error) {
         console.error("Error calling backend API:", error);
     }
 };
+
+
+
+
 
 
 export const getRequestData = (req: any) => {

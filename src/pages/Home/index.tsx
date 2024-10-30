@@ -26,10 +26,6 @@ export default function Home() {
   const dispatch = useDispatch();
   const utils = initUtils();
 
-
-
-
-
   useEffect(() => {
     if (wallet?.account) {
       bindWalletReq({ wallet: wallet?.account?.address }).then(res => {
@@ -54,11 +50,10 @@ export default function Home() {
       inputRefs.current[index + 1].focus(); // focus next input box
     }
     else if (index === inputRefs.current.length - 1 && newInputValues[index] !== "") {
-      // TODO 跳转到某个页面
+
       console.log("输入完成:", newInputValues);
       const deskId = newInputValues.join("")
       callBackendAPI(deskId).then((res: any) => {
-
         localStorage.setItem('joingame_data', res)
         navigate('/poker')
       })
