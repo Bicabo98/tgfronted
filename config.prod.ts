@@ -41,7 +41,7 @@ export default defineConfig({
     phaserMsg(),
   ],
   build: {
-    outDir: 'docs',
+    outDir: 'tg_poker',
     rollupOptions: {
       output: {
         manualChunks: {
@@ -66,7 +66,7 @@ export default defineConfig({
     proxy: {
       '/api': {
         // target: 'http://localhost:8085', // 目标服务器地址
-        target: '', // 目标服务器地址
+        target: 'https://122.248.197.217:8888', // 目标服务器地址
         changeOrigin: true, // 是否改变源地址
         rewrite: (path) => path.replace(/^\/api/, '/api/'), // 重写路径
       }

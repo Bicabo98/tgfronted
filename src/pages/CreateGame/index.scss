@@ -202,6 +202,29 @@
           position: relative;
         }
 
+        .slider-filled {  
+          position: absolute;  
+          top: 58px; 
+          left: 0;  
+          height: 7%;  
+          background: #00A995;  
+          border-radius: 5px 0 0 5px; 
+          z-index: -1;   
+          pointer-events: none; 
+        }
+
+        .slider-filled-2 {  
+          position: absolute;  
+          top: 35px; 
+          left: 0;  
+          height: 7%;  
+          background: #00A995;  
+          border-radius: 5px 0 0 5px; 
+          z-index: -1;   
+          pointer-events: none; 
+        }
+
+
         .slider::before {
           content: '';
           position: absolute;

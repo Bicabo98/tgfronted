@@ -34,12 +34,13 @@
       }
 
       .score {
-        font-size: 3em;
+        font-size: 45px;
         font-weight: bold;
         margin-top: 10px;
-        margin-left: 10px;
+        margin-left: 5px;
         color: #fff;
         text-shadow: 3px 3px 1px rgba(0, 0, 0, 0.25);
+        font-family: 'DINAlternate, DINAlternate;';
       }
     }
 
@@ -107,6 +108,7 @@
       }
 
       .task-list-item {
+        font-family: 'PingFang-SC, PingFang-SC';
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -148,10 +150,8 @@
               font-size: 15px;
               font-weight: bold;
               color: #ffffff;
-              font-family: 'PingFang-SC, PingFang-SC';
+              //font-family: 'PingFang-SC, PingFang-SC';
               margin-bottom: 10px;
-
-
             }
 
             .reward {
@@ -160,7 +160,7 @@
               display: flex;
               align-items: center;
               margin-bottom: 8px;
-              font-family: 'PingFang-SC, PingFang-SC';
+              //font-family: 'PingFang-SC, PingFang-SC';
 
               .unit-img {
                 width: 20px;
@@ -175,6 +175,7 @@
 
         .task-list-right {
 
+          font-family: 'PingFang-SC, PingFang-SC';
 
           .task-done-img {
             width: 20px;
@@ -184,6 +185,32 @@
 
           .task-list-right-btn {
             &.Start {
+              background-color: rgb(52, 219, 188);
+              color: rgb(0, 0, 0);
+              border-radius: 16px;
+              padding: 5px 14px;
+              border: 1px black;
+              font-weight: bold;
+            }
+            &.Check {
+              background-color: rgb(52, 219, 188);
+              color: rgb(0, 0, 0);
+              border-radius: 16px;
+              padding: 5px 14px;
+              border: 1px black;
+              font-weight: bold;
+            }
+
+            &.Claim {
+              background-color: rgb(52, 219, 188);
+              color: rgb(0, 0, 0);
+              border-radius: 16px;
+              padding: 5px 14px;
+              border: 1px black;
+              font-weight: bold;
+            }
+
+            &.WaitForCollect {
               background-color: rgb(52, 219, 188);
               color: rgb(0, 0, 0);
               border-radius: 16px;

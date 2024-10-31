@@ -1,0 +1,1 @@
+import{B as o}from"./index-sT5wyuMN.js";const e=o?window:void 0,t=["scroll","auto","overlay"];function n(o){return 1===o.nodeType}function r(o,r=e){let i=o;for(;i&&i!==r&&n(i);){if(i===document.body)return r;const{overflowY:o}=window.getComputedStyle(i);if(t.includes(o)&&i.scrollHeight>i.clientHeight)return i;i=i.parentNode}return r}export{r as g};

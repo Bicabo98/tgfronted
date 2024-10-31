@@ -21,7 +21,7 @@ function CareerPage() {
 
   const getUserCareerInfo = async () => {
     // 获取生涯数据
-    const careerRestest = await getUserAllRecord()
+    //const careerRestest = await getUserAllRecord()
 
     // 获取游戏记录
     //const gameRes = await getGameHistory(userInfo)

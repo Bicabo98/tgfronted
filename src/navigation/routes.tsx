@@ -1,5 +1,5 @@
 
-import { lazy, type ComponentType, type JSX } from 'react';
+import { lazy, type ComponentType } from 'react';
 
 const HomePage = lazy(() => import('@/pages/Home'))
 const WelcomePage = lazy(() => import('@/pages/Welcome'))

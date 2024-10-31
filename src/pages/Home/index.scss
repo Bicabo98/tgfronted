@@ -60,7 +60,7 @@
           width: 46px;
           height: 46px;
           top: 25%;
-          left:210px;
+          left: 210px;
         }
 
         .first-box-icon1 {
@@ -513,7 +513,7 @@
         display: flex;
       }
 
-    
+
 
       &.active {
         cursor: default;
@@ -521,19 +521,18 @@
       }
 
 
-      .input-group {
+      .join-input-group {
         display: flex;
         justify-content: space-between;
 
         input {
           height: 75px;
           width: 15%;
-          //margin-right: 8px; 
           padding: 8px;
-          border-radius: 16px;
-          //flex: 1;
-          border: white;
+          border-radius: 12px;
+          border: 1px solid white;
         }
+
 
         input:last-child {
           margin-right: 0;
@@ -544,8 +543,12 @@
           font-size: 40px;
           font-weight: bold;
           text-align: center;
+
         }
 
+        .digit-input:focus {
+          outline: none;
+        }
 
       }
     }

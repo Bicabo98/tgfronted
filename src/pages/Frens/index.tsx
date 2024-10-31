@@ -49,29 +49,29 @@ export default function Friends() {
 
   // Get invitee list
   const getList = async () => {
-    // const subUserListRes = await getSubUserListReq(userInfo.user_id)
-    // if (subUserListRes.code == 200) {
-    //   setTotal(subUserListRes.data.list.length)
-    //   let allScore = getAllInviteScore(subUserListRes.data.list)
-    //   setTotalScore(allScore)
-    //   console.log("邀请res:", subUserListRes)
+    const subUserListRes = await getSubUserListReq(userInfo.user_id)
+    if (subUserListRes.code == 200) {
+      setTotal(subUserListRes.data.list.length)
+      let allScore = getAllInviteScore(subUserListRes.data.list)
+      setTotalScore(allScore)
+      console.log("邀请res:", subUserListRes)
 
-    //   return subUserListRes.data.list
-    // }
-
-    let testdata = {
-      data: [
-        { name: "test1", bonus: 100 },
-        { name: "test1", bonus: 100 },
-        { name: "test1", bonus: 100 },
-        { name: "test1", bonus: 100 },
-      ]
+      return subUserListRes.data.list
     }
 
-    setTotalScore(400)
-    setTotal(4)
+    // let testdata = {
+    //   data: [
+    //     { name: "test1", bonus: 100 },
+    //     { name: "test1", bonus: 100 },
+    //     { name: "test1", bonus: 100 },
+    //     { name: "test1", bonus: 100 },
+    //   ]
+    // }
 
-    return testdata.data
+    // setTotalScore(400)
+    // setTotal(4)
+
+    // return testdata.data
 
   }
   const handleShare = () => {

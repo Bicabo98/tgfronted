@@ -1,0 +1,104 @@
+
+snail.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body_conch
+  rotate: false
+  xy: 80, 22
+  size: 52, 40
+  orig: 52, 40
+  offset: 0, 0
+  index: -1
+body_leftline
+  rotate: true
+  xy: 134, 26
+  size: 7, 12
+  orig: 7, 12
+  offset: 0, 0
+  index: -1
+body_main
+  rotate: false
+  xy: 2, 29
+  size: 76, 33
+  orig: 76, 33
+  offset: 0, 0
+  index: -1
+body_mouth
+  rotate: false
+  xy: 134, 49
+  size: 19, 13
+  orig: 19, 13
+  offset: 0, 0
+  index: -1
+body_rightline
+  rotate: false
+  xy: 26, 2
+  size: 10, 11
+  orig: 10, 11
+  offset: 0, 0
+  index: -1
+leaf
+  rotate: false
+  xy: 2, 3
+  size: 22, 24
+  orig: 22, 24
+  offset: 0, 0
+  index: -1
+left_eyeball
+  rotate: false
+  xy: 187, 53
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+left_eyewhite
+  rotate: false
+  xy: 26, 15
+  size: 13, 12
+  orig: 13, 12
+  offset: 0, 0
+  index: -1
+left_lowereyelid
+  rotate: false
+  xy: 57, 20
+  size: 14, 7
+  orig: 14, 7
+  offset: 0, 0
+  index: -1
+left_uppereyelid
+  rotate: false
+  xy: 155, 53
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1
+right_eyeball
+  rotate: false
+  xy: 198, 53
+  size: 9, 9
+  orig: 9, 9
+  offset: 0, 0
+  index: -1
+right_eyewhite
+  rotate: false
+  xy: 134, 35
+  size: 13, 12
+  orig: 13, 12
+  offset: 0, 0
+  index: -1
+right_lowereyelid
+  rotate: false
+  xy: 171, 54
+  size: 14, 8
+  orig: 14, 8
+  offset: 0, 0
+  index: -1
+right_uppereyelid
+  rotate: false
+  xy: 41, 18
+  size: 14, 9
+  orig: 14, 9
+  offset: 0, 0
+  index: -1

@@ -27,7 +27,10 @@ import Loading from './Loading';
 import PriceComp from './Price';
 import { signinReq, updateSigninReq } from '@/api/signin';
 import { bindReq } from '@/api/bind';
-import { callBackendAPI, getRequestData } from '@/utils/gameConfig';
+import { callBackendAPI, getPokerCustomConf, getRequestData } from '@/utils/gameConfig';
+
+
+import CryptoJS from "crypto-js"
 
 export const App: FC = () => {
   const [backButton] = initBackButton()
@@ -47,6 +50,9 @@ export const App: FC = () => {
   const login = async () => {
     setLoading(true)
 
+ 
+    
+
     //let test = await callBackendAPI()
     // 测试签到页面
     //navigate('/checkIn')
@@ -59,7 +65,9 @@ export const App: FC = () => {
         const data = { ...initData.initData, ...user }
         console.log("App.tsx:", initData.initData)
         console.log("initData.user:", initData.user)
+
         console.log("telegram initdata:", window.Telegram.WebView.initParams.tgWebAppData)
+
         resArray = await (createTokenReq(initData.user))
         console.log("resArray:", resArray)
         if (resArray.code == 200) {
@@ -90,15 +98,18 @@ export const App: FC = () => {
 
 
   const loginSuccessful = async (res: any, initData: any) => {
-    
+
     localStorage.setItem('authorization', res.data.token)
     localStorage.setItem('id', res.data.user_id)
     localStorage.setItem('server_info', JSON.stringify(res.data.server_info))
 
     let loginRes = await loginReq(res.data.user_id)
+
+    let test = await getPokerCustomConf()
+
     if (loginRes.code == 200) {
       // check sign in
-      console.log("loginRes:",loginRes)
+      console.log("loginRes:", loginRes)
       let signRes = await signinReq(res.data.user_id)
       if (signRes.code == 200) {
         console.log("signRes:", signRes)
@@ -123,6 +134,7 @@ export const App: FC = () => {
             ...loginRes.data,
             user_id: res.data.user_id,
             sign_in: signRes.data.sign_in,
+
           }
           dispatch(setUserInfoAction(mergedData))
         }

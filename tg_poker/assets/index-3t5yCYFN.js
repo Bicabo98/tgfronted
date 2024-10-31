@@ -1,0 +1,1 @@
+import{r}from"./index-sT5wyuMN.js";function n(n){var t=r.useRef(n);return t.current=n,t}var t=function(t){var u=n(t);r.useEffect((function(){return function(){u.current()}}),[])};export{n as a,t as u};

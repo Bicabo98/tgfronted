@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite --host --force --config config.dev.ts",
+    "dev1": "vite --host --force --config config.prod.ts",
     "build": "tsc && set GH_PAGES=false && vite build --config config.prod.ts",
     "build:dev": "tsc && vite build",
     "preview": "vite preview",

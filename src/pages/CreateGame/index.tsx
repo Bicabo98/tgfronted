@@ -12,9 +12,12 @@ import { useNavigate } from 'react-router-dom';
 
 import NetSerializer from '../../net/NetSerializer.js'
 import { hex_md5 } from '../../net/md5Tool.js'
-
+import EventBus from '@/utils/eventBus';
+import CryptoJS from "crypto-js"
 
 export default function CreateGame() {
+  const eventBus = EventBus.getInstance()
+  const [isCreateLoading, setCreateIsLoading] = useState(false);
   const navigate = useNavigate()
   const [isShowRules, setShowRules] = useState(false);
   const [inputRoomName, setInputRoomName] = useState("privateroom")
@@ -47,7 +50,27 @@ export default function CreateGame() {
   const [tablePlayer, setTablePlayer] = useState(9);
   const [tableDuration, setTableDuration] = useState(6);
   const [tableAutoStart, setTableAutoStart] = useState(2);
-  const [toggleStates, setToggleStates] = useState({
+
+  type ToggleStateKey =
+    | 'standupGame'
+    | 'disableDecimal'
+    | 'insurance'
+    | 'runMultipleTimes'
+    | 'buyinApproval'
+    | 'voiceChatting'
+    | 'lookRemainingCards'
+    | 'rabbitHunt'
+    | 'postBB'
+    | 'autoMuck'
+    | 'delayedHand'
+    | 'gpsRestriction'
+    | 'randomSeat'
+    | 'spectatorMute'
+    | 'hidePlayerStats'
+    | 'hidePlayerProfit'
+    | 'minTableVpip';
+
+  const [toggleStates, setToggleStates] = useState<{ [key in ToggleStateKey]: boolean }>({
     standupGame: false,
     disableDecimal: false,
     insurance: false,
@@ -69,7 +92,7 @@ export default function CreateGame() {
 
   const [activeGame, setActiveGame] = useState('NLH');  //default active NLH
   const [activeFeesMode, setActiveFeesMode] = useState('Fees-free');
-  const [showMinTableVPIP, setShowMinTableVPIP] = useState(false);
+  const [showMinTableVPIP, setShowMinTableVPIP] = useState<boolean>(false);
   const [minTableVpipValues, setMinTableVpipValues] = useState([15, 0]);
 
 
@@ -86,6 +109,36 @@ export default function CreateGame() {
     setTablePlayer(newTableSize)
   }
 
+
+  const buttonStyle = isCreateLoading
+    ? {
+      backgroundColor: '#ccc', 
+      cursor: 'not-allowed',
+    }
+    : {
+      width: '100%',
+      margin: '30px',
+      padding: '20px 20px',
+      border: 'none',
+      borderRadius: '10px',
+      backgroundColor: '#00A995',
+      color: '#fff',
+      cursor: 'pointer',
+      textAlign: 'center',
+      fontFamily: 'PingFang-SC, PingFang-SC',
+      fontSize: '18px',
+    };
+
+
+
+
+
+  const handleTableDuration = (e: any) => {
+    const newTableDuration = parseInt(e, 10);
+    setTableDuration(newTableDuration)
+
+  }
+
   const handleAutoStart = (e: any) => {
     const newAutoStart = parseInt(e, 10);
     if (newAutoStart <= tablePlayer) {
@@ -97,12 +150,11 @@ export default function CreateGame() {
     return tableAutoStart === 1 ? 'Close' : tableAutoStart;
   };
 
-  const handleToggle = (id: any) => {
+  const handleToggle = (id: ToggleStateKey) => {
     var test = {
       ...toggleStates,
       [id]: !toggleStates[id],
     }
-    console.log("toggleStates:", test)
 
     setToggleStates((prevState) => ({
       ...prevState,
@@ -116,6 +168,10 @@ export default function CreateGame() {
 
 
 
+  useEffect(() => {
+
+  })
+
 
   useEffect(() => {
     if (wallet?.account) {
@@ -124,14 +180,12 @@ export default function CreateGame() {
       });
     }
   }, [wallet]);
-
   //Create game
   const handleCreateGame = () => {
 
-    //const openid = localStorage.getItem('id')
-    //const token = localStorage.getItem('authorization')
-    const openid = 131
-    const token = "9db364ee0ece0a7eb45bdc0b2e6b82db"
+    eventBus.emit('loading',true)
+    const openid = localStorage.getItem('id')
+    const token = localStorage.getItem('authorization')
 
     const net = new NetSerializer();
     net.loadProto("texas_net.proto", function () {
@@ -139,12 +193,10 @@ export default function CreateGame() {
     })
 
     setTimeout(() => {
-      //const openid = localStorage.getItem('id')
-      //const token = localStorage.getItem('authorization')
       const secret1 = "PW@s*OIf&6E8~^xv(U)895seULnj)Ks1"
       const loginReq = {
         sign: hex_md5(`${secret1}|${openid}|${token}`),
-        openid: openid.toString(),
+        openid: openid!.toString(),
         access_token: token,
         expire_date: "",
         channel: "WP_H5_001",
@@ -154,8 +206,11 @@ export default function CreateGame() {
         res_md5: "",
         game_type: 0,
       }
-      console.log(net.packMsg(19, loginReq, 0,openid))
-      const ws = new WebSocket("ws://192.168.100.201:22032")
+      console.log(net.packMsg(19, loginReq, 0, Number(openid)))
+      const server_info = localStorage.getItem("server_info")
+      let info = JSON.parse(server_info as string)
+      // console.log("数据=",info.game_server)
+      const ws = new WebSocket(info.game_server)
       ws.binaryType = "arraybuffer";
       ws.onmessage = (msg) => {
         console.log("receive msg:", msg)
@@ -235,11 +290,35 @@ export default function CreateGame() {
           }
           console.log("desk conf", conf)
           // send create desk
-          ws.send(net.packMsg(1010, conf, 0,openid))
+          ws.send(net.packMsg(1010, conf, 0, Number(openid)))
+        }
+
+        if (data?.ret.cmd == 1010 && data.ret.ret == 0) {
+          callBackendAPI(data.desk_id).then((res: any) => {
+            eventBus.emit('loading',false)
+            localStorage.setItem('joingame_data', res)
+            navigate('/poker')
+
+            // let result: any = ""
+            // const key = CryptoJS.enc.Base64.parse('YCFIyMTG5NTYxYzlmZTA2OA==')
+            // var iv = CryptoJS.enc.Base64.parse('YCFyMTG5NTYxYzlmZTA2OA==')
+            // result = CryptoJS.AES.encrypt(res, key, {
+            //   iv: iv,
+            //   mode: CryptoJS.mode.CBC,
+            //   padding: CryptoJS.pad.Pkcs7
+            // });
+            // result = result.ciphertext.toString()
+
+            //console.log("进入游戏后的加密后的数据 = ", result)
+
+            //
+
+
+          })
         }
       }
       ws.onopen = () => {
-        ws.send(net.packMsg(19, loginReq, undefined,openid))
+        ws.send(net.packMsg(19, loginReq, undefined, Number(openid)))
       }
       ws.onerror = (err) => {
         console.log("ws error:", err)
@@ -472,8 +551,11 @@ export default function CreateGame() {
                         value={minBuyin}
                         onChange={(e) => handleMinBuyinChange(e.target.value)}
                         className="slider"
-                        style={{ '--filled-width': `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}
+                      //style={{ '--filled-width': `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}
                       />
+                      <div className="slider-filled" style={{ width: `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}></div>
+
+
                       <div className="slider-values">
                         <span className="min-value">{sliderMinMinBuyin}</span>
                         <span className="current-value" style={{ left: `${(minBuyin / sliderMinMaxBuyin) * 100}%` }}>{minBuyin}</span>
@@ -492,8 +574,11 @@ export default function CreateGame() {
                         value={maxBuyin}
                         onChange={(e) => handleMaxBuyinChange(e.target.value)}
                         className="slider"
-                        style={{ '--filled-width': `${(maxBuyin / sliderMaxMaxBuyin) * 100}%` }}
+                      //style={{ '--filled-width': `${(maxBuyin / sliderMaxMaxBuyin) * 100}%` }}
                       />
+                      <div className="slider-filled" style={{ width: `${(maxBuyin / sliderMaxMaxBuyin) * 100}%` }}></div>
+
+
                       <div className="slider-values">
                         <span className="min-value">{sliderMaxMinBuyin}</span>
                         <span className="current-value" style={{ left: `${(maxBuyin / sliderMaxMaxBuyin) * 100}%` }}>{maxBuyin}</span>
@@ -512,8 +597,10 @@ export default function CreateGame() {
                         value={tablePlayer}
                         onChange={(e) => handleTableSize(e.target.value)}
                         className="slider"
-                        style={{ '--filled-width': `${((tablePlayer - 2) / 7) * 100}%` }}
+                      //style={{ '--filled-width': `${((tablePlayer - 2) / 7) * 100}%` }}
                       />
+                      <div className="slider-filled" style={{ width: `${((tablePlayer - 2) / 7) * 100}%` }}></div>
+
                       <div className="slider-values">
                         <span className="min-value">2</span>
                         <span className="current-value" style={{ left: `${((tablePlayer - 2) / 7) * 100}%`, top: '-55px' }}>{tablePlayer}</span>
@@ -531,10 +618,12 @@ export default function CreateGame() {
                         max="6"
                         step="0.5"
                         value={tableDuration}
-                        onChange={(e) => setTableDuration(e.target.value)}
+                        // onChange={(e) => setTableDuration(e.target.value)}
+                        onChange={(e) => handleTableDuration(e.target.value)}
                         className="slider"
-                        style={{ '--filled-width': `${((tableDuration - 0.5) / 5.5) * 100}%` }}
+                      // style={{ '--filled-width': `${((tableDuration - 0.5) / 5.5) * 100}%` }}
                       />
+                      <div className="slider-filled" style={{ width: `${((tableDuration - 0.5) / 5.5) * 100}%` }}></div>
                       <div className="slider-values">
                         <span className="min-value">0.5</span>
                         <span className="current-value" style={{ left: `${((tableDuration - 0.5) / 5.5) * 100}%` }}>{tableDuration}</span>
@@ -553,8 +642,9 @@ export default function CreateGame() {
                         // onChange={handleSliderChange}
                         onChange={(e) => handleAutoStart(e.target.value)}
                         className="slider"
-                        style={{ '--filled-width': `${((tableAutoStart - 0.35) / 6) * 100}%` }}
+                      // style={{ '--filled-width': `${((tableAutoStart - 0.35) / 6) * 100}%` }}
                       />
+                      <div className="slider-filled" style={{ width: `${((tableAutoStart - 0.35) / 6) * 100}%` }}></div>
                       <div className="slider-values">
                         <span className="min-value">Close</span>
                         <span className="current-value" style={{ left: `${((tableAutoStart - 0.35) / 6) * 100}%` }}>{getDisplayValue()}</span>
@@ -591,8 +681,10 @@ export default function CreateGame() {
                               value={minimumPlayers}
                               onChange={(e) => setMinimumPlayers(parseInt(e.target.value))}
                               className="slider"
-                              style={{ '--filled-width': `${((minimumPlayers - 3) / 6) * 100}%` }}
+                            //style={{ '--filled-width': `${((minimumPlayers - 3) / 6) * 100}%` }}
                             />
+                            <div className="slider-filled" style={{ width: `${((minimumPlayers - 3) / 6) * 100}%` }}></div>
+
                             <div className="slider-values">
                               <span className="min-value">3</span>
                               <span className="current-value" style={{ left: `${((minimumPlayers - 3) / 6) * 100}%` }}>{minimumPlayers}</span>
@@ -611,8 +703,10 @@ export default function CreateGame() {
                               value={antePerSquid}
                               onChange={(e) => setAntePerSquid(parseInt(e.target.value))}
                               className="slider"
-                              style={{ '--filled-width': `${((antePerSquid - 1) / 1) * 100}%` }}
+                            //style={{ '--filled-width': `${((antePerSquid - 1) / 1) * 100}%` }}
                             />
+                            <div className="slider-filled" style={{ width: `${((antePerSquid - 1) / 1) * 100}%` }}></div>
+
                             <div className="slider-values">
                               <span className="min-value">1</span>
                               <span className="current-value" style={{ left: `${((antePerSquid - 1) / 1) * 100}%` }}>{antePerSquid}</span>
@@ -778,8 +872,8 @@ export default function CreateGame() {
                                 <input
                                   type="checkbox"
                                   id="ramdomSet"
-                                  checked={toggleStates.ramdomSet}
-                                  onChange={() => handleToggle('ramdomSet')}
+                                  checked={toggleStates.randomSeat}
+                                  onChange={() => handleToggle('randomSeat')}
                                 />
                                 <span className="slider" />
                               </label>
@@ -859,11 +953,12 @@ export default function CreateGame() {
                                     value={minTableVpipValues[0]}
                                     onChange={(e) => handleMinTableVpipValue(0, e.target.value)}
                                     className="slider"
-                                    style={{ '--filled-width': `${((minTableVpipValues[0] - 15) / 55) * 100}%` }}
+                                  //style={{ '--filled-width': `${((minTableVpipValues[0] - 15) / 55) * 100}%` }}
                                   />
+                                  <div className="slider-filled-2" style={{ width: `${((minTableVpipValues[0] - 15) / 55) * 100}%` }}></div>
+
                                   <div className="slider-values">
                                     <span className="min-value">15</span>
-                                    {/* <span className="current-value" style={{ left: `${(minTableVpipValues[0] / 70) * 100}%` }}>{minTableVpipValues[0]}</span> */}
                                     <span className="current-value" style={{ left: `${((minTableVpipValues[0] - 15) / 55) * 100}%` }}>{minTableVpipValues[0]}</span>
                                     <span className="max-value">70</span>
                                   </div>
@@ -879,8 +974,10 @@ export default function CreateGame() {
                                     value={minTableVpipValues[1]}
                                     onChange={(e) => handleMinTableVpipValue(1, e.target.value)}
                                     className="slider"
-                                    style={{ '--filled-width': `${(minTableVpipValues[1] / 100) * 100}%` }}
+                                  //style={{ '--filled-width': `${(minTableVpipValues[1] / 100) * 100}%` }}
                                   />
+                                  <div className="slider-filled-2" style={{ width: `${(minTableVpipValues[1] / 100) * 100}%` }}></div>
+
                                   <div className="slider-values">
                                     <span className="min-value">0</span>
                                     <span className="current-value" style={{ left: `${(minTableVpipValues[1] / 100) * 100}%` }}>{minTableVpipValues[1]}</span>
@@ -918,6 +1015,9 @@ export default function CreateGame() {
                         </>
                       )}
                       <button onClick={handleCreateGame}>Confirm</button>
+                      {/* <button onClick={handleCreateGame} style={buttonStyle}>
+                        {isCreateLoading ? 'Loading...' : 'Confirm'}
+                      </button> */}
                     </div>
                   </div>
                 )}

@@ -1,0 +1,174 @@
+
+lighter.png
+size: 1024,512
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+cigar
+  rotate: true
+  xy: 2, 25
+  size: 29, 69
+  orig: 29, 69
+  offset: 0, 0
+  index: -1
+five
+  rotate: false
+  xy: 39, 2
+  size: 34, 21
+  orig: 34, 21
+  offset: 0, 0
+  index: -1
+frame
+  rotate: false
+  xy: 914, 447
+  size: 32, 63
+  orig: 32, 63
+  offset: 0, 0
+  index: -1
+lighter
+  rotate: false
+  xy: 948, 468
+  size: 36, 42
+  orig: 36, 42
+  offset: 0, 0
+  index: -1
+lighter_cover
+  rotate: false
+  xy: 2, 2
+  size: 35, 21
+  orig: 35, 21
+  offset: 0, 0
+  index: -1
+lighter_link
+  rotate: false
+  xy: 914, 436
+  size: 20, 9
+  orig: 20, 9
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00000
+  rotate: false
+  xy: 2, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00001
+  rotate: false
+  xy: 2, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00002
+  rotate: false
+  xy: 154, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00003
+  rotate: false
+  xy: 2, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00004
+  rotate: false
+  xy: 154, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00005
+  rotate: false
+  xy: 306, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00006
+  rotate: false
+  xy: 154, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00007
+  rotate: false
+  xy: 306, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00008
+  rotate: false
+  xy: 458, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00009
+  rotate: false
+  xy: 306, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00010
+  rotate: false
+  xy: 458, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00011
+  rotate: false
+  xy: 610, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00012
+  rotate: false
+  xy: 458, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00013
+  rotate: false
+  xy: 610, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00014
+  rotate: false
+  xy: 762, 360
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00015
+  rotate: false
+  xy: 610, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00016
+  rotate: false
+  xy: 762, 208
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1
+smoke/Elements - Smoke 019 Shot Right noCT noRSZ_00017
+  rotate: false
+  xy: 762, 56
+  size: 150, 150
+  orig: 150, 150
+  offset: 0, 0
+  index: -1

@@ -16,8 +16,8 @@ const KEY_SECRET3 = "E6RA4#b9sQkld8sz$qJh^BWjzsGbhM62";
 
 
 
-
-
+const game_server_etwork = 'http://192.168.100.201:8109/vpoker/service.php';        // 内网
+//const game_server_etwork = "https://122.248.197.217:8109/vpoker/service.php";       // 外网
 
 
 
@@ -34,13 +34,21 @@ export const getPokerCustomConf = async () => {
     data.set("postdata", postdata1)
 
     try {
-        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
+        const response = await axios.post(game_server_etwork, data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         });
-    
-        console.log("创建游戏数据config：",response)
+
+        // const response = await axios.post('https://122.248.197.217:8109/vpoker/service.php', data, {
+        //     headers: {
+        //         'Content-Type': 'application/x-www-form-urlencoded'
+        //     },
+        // });
+
+
+
+        console.log("创建游戏数据config：", response)
         return response.data;
 
     } catch (error) {
@@ -49,7 +57,7 @@ export const getPokerCustomConf = async () => {
 }
 
 // 获取用户生涯接口
-export const getUserAllRecord = async() => {
+export const getUserAllRecord = async () => {
     const _userId = localStorage.getItem('id')
     var requestData = {
         method: "userallrecord#get_user_stats",
@@ -63,13 +71,13 @@ export const getUserAllRecord = async() => {
     data.set("postdata", postdata1)
 
     try {
-        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
+        const response = await axios.post(game_server_etwork, data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         });
-    
-        console.log("用户生涯数据config：",response)
+
+        console.log("用户生涯数据config：", response)
         return response.data;
 
     } catch (error) {
@@ -94,47 +102,41 @@ export const callBackendAPI = async (deskId: any) => {
     const data = new FormData();
     data.set("postdata", postdata1)
     try {
-        const response = await axios.post('http://192.168.100.201:8109/vpoker/service.php', data, {
+        const response = await axios.post(game_server_etwork, data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             },
         });
 
+
+        console.log("加入房间回调response=",response)
+
+        // If table is not exist or get error code .. 
+        // Return error
+        if (response.data.code == -11056 || response.data.data == 'Table is not exist') {
+            return response.data.code
+        }
+
         const initData = initInitData() as any;
-        const server_info =  localStorage.getItem("server_info")
+        const server_info = localStorage.getItem("server_info")
         let info = JSON.parse(server_info as string)
         const mergeData = {
             serverinfo: info,
             token: localStorage.getItem('authorization'),
-            user_id:_userId,
-            game_type:0,
+            user_id: _userId,
+            game_type: 0,
             first_name: initData.user.firstName,
-            desk_id:deskId,
+            desk_id: deskId,
             share_url: "http://192.168.100.201:23456"
-            // tg_create: {
-            //     user_id: _userId,
-            //     token: localStorage.getItem('authorization')
-            // },
-            // tg_user: {
-            //     hash: initData.hash,
-            //     chatInstance: initData.chatInstance,
-            //     user: initData.user
-            // }
         }
         const mergedata = JSON.stringify(mergeData);
-        console.log("mergedata = ",mergedata);
         const params = JSON.parse(mergedata);
-        console.log("params =",params);
         return mergedata;
 
     } catch (error) {
         console.error("Error calling backend API:", error);
     }
 };
-
-
-
-
 
 
 export const getRequestData = (req: any) => {

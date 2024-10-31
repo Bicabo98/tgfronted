@@ -1,0 +1,13 @@
+
+effect_xipaidonghua.png
+size: 92,70
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+12
+  rotate: false
+  xy: 2, 2
+  size: 88, 66
+  orig: 92, 70
+  offset: 2, 2
+  index: -1

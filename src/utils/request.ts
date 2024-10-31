@@ -43,7 +43,7 @@ instance.interceptors.request.use(
         ...config.headers,
         'TG_ID': `${initData.user.id}`,
         //'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
-        'TG_BEARER': 'query_id=AAGBofgMAwAAAIGh-AxgzynF&user=%7B%22id%22%3A6660071809%2C%22first_name%22%3A%22Megan%F0%9F%8D%85%22%2C%22last_name%22%3A%22Larson%22%2C%22username%22%3A%22rlqagxue%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730270469&hash=629b3f771c09e424cd47b7603068693e3e733deb19400b97770fae15034e6ccb',
+        'TG_BEARER': 'query_id=AAFJOi4vAgAAAEk6Li8GtOoJ&user=%7B%22id%22%3A5086526025%2C%22first_name%22%3A%22123%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22omegachaino%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730366671&hash=03a5a3940e58d53e9afae17b8946d7c51e808041cb7ccb2bbd5addf5899a9ce1',
         'Token_Source': 'MiniApp',
       }
       const authorization = localStorage.getItem('authorization');
@@ -55,7 +55,6 @@ instance.interceptors.request.use(
           'Authorization':`Bearer ${authorization}`,
         }
       } 
-
     } 
     removePending(config);
     addPending(config);

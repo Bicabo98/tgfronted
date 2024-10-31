@@ -19,7 +19,8 @@ function CheckInPage() {
   const navigate = useNavigate()
   const checkIn = async () => {
 
-    const checkinRes = await updateSigninReq({ name: userInfo.name, user_id: userInfo.user_id })
+    console.log("userInfo=",userInfo)
+    const checkinRes = await updateSigninReq({ name: userInfo.username, user_id: userInfo.user_id })
     if (checkinRes.code == 200) {
       var newScore = userInfo.score + checkinRes.data.score
       let mergedData =  {
@@ -57,8 +58,9 @@ function CheckInPage() {
     navigate('/')
   }
   useEffect(() => {
+    console.log("checkin")
     checkIn()
-  }, [])
+  }, [userInfo])
 
 
   useEffect(() => {

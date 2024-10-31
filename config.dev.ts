@@ -28,11 +28,11 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/api/binancePrice/': {
-        target: 'https://api.binance.com/api/v3/ticker', // 本地开发
-        changeOrigin: true, // 是否改变源地址
-        rewrite: (path) => path.replace(/^\/api\/binancePrice/, ''), // 重写路径
-      },
+      // '/api/binancePrice/': {
+      //   target: 'https://api.binance.com/api/v3/ticker', // 本地开发
+      //   changeOrigin: true, // 是否改变源地址
+      //   rewrite: (path) => path.replace(/^\/api\/binancePrice/, ''), // 重写路径
+      // },
       '/apis': {
         target: 'https://192.168.100.96:8888', // 本地开发
         changeOrigin: true, // 是否改变源地址

@@ -40,15 +40,15 @@ import React, { useEffect, useState } from 'react';
   
 const CocosViewer = () => {  
   const [isCocosVisible, setIsCocosVisible] = useState(true); 
-  const [cocosSrc, setCocosSrc] = useState('http://localhost:5173/cocos/index.html'); 
+  const [cocosSrc, setCocosSrc] = useState('/cocos/index.html'); 
   
   useEffect(() => {  
     const data = localStorage.getItem('joingame_data');  
     if (data) {  
       // const encodedData = encodeURIComponent(data);  
       //console.log("encodedData:",encodedData)
-      console.log("poker的data = ",data)
-      setCocosSrc(`http://localhost:5173/cocos/index.html?data=${data}`);  
+      console.log("poker的data = ",`/cocos/index.html?data=${data}`)
+      setCocosSrc(`/cocos/index.html?data=${data}`);  
     }  
   }, []); 
   
