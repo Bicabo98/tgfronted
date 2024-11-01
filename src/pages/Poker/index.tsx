@@ -66,7 +66,7 @@ const CocosViewer = () => {
             style={{ width: '100%', height: '100%', border: 'none' }}  
             onLoad={() => console.log('Cocos content loaded')}  
           />  
-          <button onClick={hideCocos} style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>关闭Cocos内容</button>  
+          {/* <button onClick={hideCocos} style={{ position: 'absolute', top: 10, right: 10, zIndex: 1000 }}>关闭Cocos内容</button>   */}
         </div>  
       )}  
     </div>  

@@ -66,7 +66,7 @@
 
           .label {
             font-weight: bold;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             //margin-bottom: 10px;
             color: #BEC4D5;
           }
@@ -101,7 +101,7 @@
           .label {
             font-weight: 500;
             margin-bottom: 10px;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             font-size: 10px;
             line-height: 14px;
             color:rgba($color: #fff, $alpha: 0.6);
@@ -111,28 +111,28 @@
             font-weight: bold;
             margin-bottom: 10px;
             color: #34DBBC;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
           }
 
           .label-winrate {
             font-weight: bold;
             margin-bottom: 10px;
             color: #FFD255;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
           }
 
           .label-pfr {
             font-weight: bold;
             margin-bottom: 10px;
             color: #02D9FF;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
           }
 
           .label-af {
             font-weight: bold;
             margin-bottom: 10px;
             color: #CCBAFF;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
           }
         }
       }
@@ -160,7 +160,7 @@
     .text {
       font-weight: bold;
       font-size: 15px;
-      font-family: 'PingFang-SC, PingFang-SC';
+      font-family: 'PingFang SC';
       color:#BEC4D5;
     }
   }
@@ -194,7 +194,7 @@
 
           .roomname {
             font-weight: bold;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             font-size: 14px;
           }
 
@@ -203,7 +203,7 @@
             border-radius: 10px;
             color:black;
             font-size: 14px;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             margin-left: 10px;
             padding: 0 8px;
             box-sizing: border-box;
@@ -231,7 +231,7 @@
           }
           .turn-context-text {
             color:#BEC4D5;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             margin-left: 6px;
           }
         }
@@ -247,7 +247,7 @@
             align-items: center;
 
             .playercount-text {
-              font-family: 'PingFang-SC, PingFang-SC';
+              font-family: 'PingFang SC';
               margin-left: 6px;
               color:#BEC4D5;
             }
@@ -258,7 +258,7 @@
             align-items: center;
             margin-left: 8px;
             .owner-text {
-              font-family: 'PingFang-SC, PingFang-SC';
+              font-family: 'PingFang SC';
               margin-left: 6px;
               color:#BEC4D5;
               margin-bottom: 2px;
@@ -270,7 +270,7 @@
             align-items: center;
             margin-left: 8px;          
             .timestamp-text {
-              font-family: 'PingFang-SC, PingFang-SC';
+              font-family: 'PingFang SC';
               margin-left: 6px;
               color:#BEC4D5;
               margin-bottom: 2px;
@@ -290,7 +290,7 @@
       .profit {
         font-weight: bold;
         margin-bottom: 50px;
-        font-family: 'PingFang-SC, PingFang-SC';
+        font-family: 'PingFang SC';
         font-size: 15px;
 
         &.win {

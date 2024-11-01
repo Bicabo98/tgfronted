@@ -26,7 +26,7 @@ export default function CreateGame() {
   const [inputCreateGameMustValues, setInputCreateGameMustValues] = useState(["1", "2", ""]);   // Must values
 
   // Ante  Auto-starddle 
-  const [inputCreateGameValues, setInputCreateGameValues] = useState(["", ""]);
+  const [inputCreateGameValues, setInputCreateGameValues] = useState(["0", "0"]);
   const [anteMinPlacehoder, setMinAntePlacehoder] = useState(0);
   const [anteMaxPlacehoder, setMaxAntePlacehoder] = useState(100);
   const [auto_starddleMinPlacehoder, setAuto_starddleMinPlacehoder] = useState(2);
@@ -91,9 +91,19 @@ export default function CreateGame() {
   });
 
   const [activeGame, setActiveGame] = useState('NLH');  //default active NLH
-  const [activeFeesMode, setActiveFeesMode] = useState('Fees-free');
+  const [activeFeesMode, setActiveFeesMode] = useState(1);
   const [showMinTableVPIP, setShowMinTableVPIP] = useState<boolean>(false);
   const [minTableVpipValues, setMinTableVpipValues] = useState([15, 0]);
+
+  // show fees mode
+  const [activePotFeesMode, setActivePotFeesMode] = useState(false)
+  // show Profit fees mode
+  const [activeProfitFeesMode, setActiveProfitFeesMode] = useState(false)
+
+  // rake_percentage
+  const [rake_ratio, setRakeRatio] = useState(0);
+  //  rake_limit
+  const [rake_limit, setRakeLimit] = useState(0);
 
 
   // minumum players
@@ -110,33 +120,13 @@ export default function CreateGame() {
   }
 
 
-  const buttonStyle = isCreateLoading
-    ? {
-      backgroundColor: '#ccc', 
-      cursor: 'not-allowed',
-    }
-    : {
-      width: '100%',
-      margin: '30px',
-      padding: '20px 20px',
-      border: 'none',
-      borderRadius: '10px',
-      backgroundColor: '#00A995',
-      color: '#fff',
-      cursor: 'pointer',
-      textAlign: 'center',
-      fontFamily: 'PingFang-SC, PingFang-SC',
-      fontSize: '18px',
-    };
-
-
-
-
-
   const handleTableDuration = (e: any) => {
-    const newTableDuration = parseInt(e, 10);
+    let newTableDuration = parseInt(e, 10);
+    if (newTableDuration == 0) {
+      newTableDuration = 0.5
+    }
+    console.log("newTableDuration = ", newTableDuration)
     setTableDuration(newTableDuration)
-
   }
 
   const handleAutoStart = (e: any) => {
@@ -168,10 +158,6 @@ export default function CreateGame() {
 
 
 
-  useEffect(() => {
-
-  })
-
 
   useEffect(() => {
     if (wallet?.account) {
@@ -183,7 +169,10 @@ export default function CreateGame() {
   //Create game
   const handleCreateGame = () => {
 
-    eventBus.emit('loading',true)
+
+  
+
+    eventBus.emit('loading', true)
     const openid = localStorage.getItem('id')
     const token = localStorage.getItem('authorization')
 
@@ -210,7 +199,7 @@ export default function CreateGame() {
       const server_info = localStorage.getItem("server_info")
       let info = JSON.parse(server_info as string)
       // console.log("数据=",info.game_server)
-      const ws = new WebSocket(info.game_server)
+      const ws = new WebSocket(info.h5_game)
       ws.binaryType = "arraybuffer";
       ws.onmessage = (msg) => {
         console.log("receive msg:", msg)
@@ -229,32 +218,32 @@ export default function CreateGame() {
             "last_time": 21600,
             "buyin_limit_multi": 0,
             "just_view": 0,
-            "roomid": 10006,
+            "roomid": 10005,
             "discussion_id": 0,
             "group_id": 0,
             "group_name": "",
-            "insurance": 0,
-            "straddle": 0,
+            "insurance": toggleStates['insurance'] ? 1 : 0,
+            "straddle": parseInt(inputCreateGameValues[1]),
             "op_time": 0,
             "dst_openid": "",
             "call_time": 1,
-            "seat_limit": 9,
-            "carry_min": 50000,
-            "carry_max": 200000,
+            "seat_limit": tablePlayer,
+            "carry_min": minBuyin,
+            "carry_max": maxBuyin,
             "need_authority": 0,
             "need_protocolpool": 1,
-            "need_multiplecard": 0,
+            "need_multiplecard": toggleStates['runMultipleTimes'] ? 1 : 0,
             "key_type": -1,
             "location_limit": 0,
-            "bury_card": 1,
+            "bury_card": toggleStates['autoMuck'] ? 1 : 0,
             "alliance_id": 0,
-            "player_stats_protection": 0,
+            "player_stats_protection": toggleStates['hidePlayerStats'] ? 1 : 0,
             "table_stats_protection": 0,
             "auto_start_switch": 1,
-            "auto_start_number": 9,
+            "auto_start_number": tableAutoStart,
             "clone_table_switch": 0,
             "need_verify": 0,
-            "vpip_info": { "restriction_rate": 0, "maintenance_rate": 0, "hands_threshold": 0 },
+            "vpip_info": { "restriction_rate": minTableVpipValues[0], "maintenance_rate": minTableVpipValues[1], "hands_threshold": 0 },
             "ofc_play_mode": 2,
             "has_joker": 1,
             "multi_desk": 0,
@@ -262,32 +251,106 @@ export default function CreateGame() {
             "web3_enter_desk_info": {
               "is_personal_game": true,
               "is_plo_bet_limit": false,
-              "is_manager_approval_game": false,
-              "rake_mode": 1,
+              "is_manager_approval_game": toggleStates['buyinApproval'] ? true : false,
+              "rake_mode": activeFeesMode,
               "rake_percentage": 0,
               "rake_limit": 0,
-              "small_blind": 100,
-              "big_blind": 200,
-              "straddle_multiple": 0,
-              "ante_multiple": 0,
+              "small_blind": parseInt(inputCreateGameMustValues[0]),
+              "big_blind": parseInt(inputCreateGameMustValues[1]),
+              "straddle_multiple": parseInt(inputCreateGameValues[1]) * 100,
+              "ante_multiple": parseInt(inputCreateGameValues[0]) * 100,
               "token_info": {},
               "extend_info": {
-                "random_seat": 0,
-                "spectator_mute": 0,
-                "squid_info": { "squid_game_on_off": 0, "minimum_players": 3, "ante_per_squid": 1 },
-                "post_bb": 0,
-                "voice_chatting": 0
+                "random_seat": toggleStates['randomSeat'] ? 1 : 0,
+                "spectator_mute": toggleStates['spectatorMute'] ? 1 : 0,
+                "squid_info": { "squid_game_on_off": toggleStates['standupGame'] ? 1 : 0, "minimum_players": minimumPlayers, "ante_per_squid": antePerSquid },
+                "post_bb": toggleStates['postBB'] ? 1 : 0,
+                "voice_chatting": toggleStates['voiceChatting'] ? 1 : 0
               },
-              "is_delayed_hand": false
+              "is_delayed_hand": toggleStates['delayedHand'] ? true: false
             },
             "force_show_cards_switch": 1,
-            "show_rest_cards_switch": 1,
+            "show_rest_cards_switch": toggleStates['rabbitHunt'] ? 1 : 0,
             "auto_round_down": 0,
-            "game_duration": tableDuration * 6,
+            "game_duration": tableDuration * 60,
             "game_category": 2,
             "player_total_hands": 200,
-            "player_vpip_times": minTableVpipValues[1]
+            "player_vpip_times": 100
           }
+
+          // const conf = {
+          //   "src_deskid": 0,
+          //   "dst_desk_id": 0,
+          //   "need_password": 0,
+          //   "password": "",
+          //   "enter_source": 0,
+          //   "new_desk": 1,
+          //   "name": "Private game",
+          //   "must_spend": 0,
+          //   "last_time": 21600,
+          //   "buyin_limit_multi": 0,
+          //   "just_view": 0,
+          //   "roomid": 10005,
+          //   "discussion_id": 0,
+          //   "group_id": 0,
+          //   "group_name": "",
+          //   "insurance": 0,
+          //   "straddle": 0,
+          //   "op_time": 0,
+          //   "dst_openid": "",
+          //   "call_time": 1,
+          //   "seat_limit": 9,
+          //   "carry_min": 50000,
+          //   "carry_max": 200000,
+          //   "need_authority": 0,
+          //   "need_protocolpool": 1,
+          //   "need_multiplecard": 0,
+          //   "key_type": -1,
+          //   "location_limit": 0,
+          //   "bury_card": 1,
+          //   "alliance_id": 0,
+          //   "player_stats_protection": 0,
+          //   "table_stats_protection": 0,
+          //   "auto_start_switch": 1,
+          //   "auto_start_number": 2,
+          //   "clone_table_switch": 0,
+          //   "need_verify": 0,
+          //   "vpip_info": { "restriction_rate": 0, "maintenance_rate": 0, "hands_threshold": 0 },
+          //   "ofc_play_mode": 2,
+          //   "has_joker": 1,
+          //   "multi_desk": 0,
+          //   "force_flag_display": 0,
+          //   "web3_enter_desk_info": {
+          //     "is_personal_game": true,
+          //     "is_plo_bet_limit": false,
+          //     "is_manager_approval_game": false,
+          //     "rake_mode": 1,
+          //     "rake_percentage": 0,
+          //     "rake_limit": 0,
+          //     "small_blind": 100,
+          //     "big_blind": 200,
+          //     "straddle_multiple": 0,
+          //     "ante_multiple": 0,
+          //     "token_info": {},
+          //     "extend_info": {
+          //       "random_seat": 0,
+          //       "spectator_mute": 0,
+          //       "squid_info": { "squid_game_on_off": 0, "minimum_players": 3, "ante_per_squid": 1 },
+          //       "post_bb": 0,
+          //       "voice_chatting": 0
+          //     },
+          //     "is_delayed_hand": false
+          //   },
+          //   "force_show_cards_switch": 1,
+          //   "show_rest_cards_switch": 1,
+          //   "auto_round_down": 0,
+          //   "game_duration": 360,
+          //   "game_category": 2,
+          //   "player_total_hands": 200,
+          //   "player_vpip_times": 100
+          // }
+
+
           console.log("desk conf", conf)
           // send create desk
           ws.send(net.packMsg(1010, conf, 0, Number(openid)))
@@ -295,26 +358,17 @@ export default function CreateGame() {
 
         if (data?.ret.cmd == 1010 && data.ret.ret == 0) {
           callBackendAPI(data.desk_id).then((res: any) => {
-            eventBus.emit('loading',false)
-            localStorage.setItem('joingame_data', res)
-            navigate('/poker')
+            eventBus.emit('loading', false);
+            //const resString = JSON.stringify(res);
+            const resBase64 = btoa(res);
 
-            // let result: any = ""
-            // const key = CryptoJS.enc.Base64.parse('YCFIyMTG5NTYxYzlmZTA2OA==')
-            // var iv = CryptoJS.enc.Base64.parse('YCFyMTG5NTYxYzlmZTA2OA==')
-            // result = CryptoJS.AES.encrypt(res, key, {
-            //   iv: iv,
-            //   mode: CryptoJS.mode.CBC,
-            //   padding: CryptoJS.pad.Pkcs7
-            // });
-            // result = result.ciphertext.toString()
+            console.log("resBase64resBase64resBase64====",resBase64)
 
-            //console.log("进入游戏后的加密后的数据 = ", result)
-
-            //
-
-
+            localStorage.setItem('joingame_data', resBase64);
+            navigate('/poker');
           })
+
+
         }
       }
       ws.onopen = () => {
@@ -339,6 +393,18 @@ export default function CreateGame() {
   // active fees mod button
   const handleFeesModeClick = (item: any) => {
     setActiveFeesMode(item);
+    if (item == 1) {
+      setActivePotFeesMode(false)
+      setActiveProfitFeesMode(false)
+    }
+    else if (item == 2) {
+      setActivePotFeesMode(true)
+      setActiveProfitFeesMode(false)
+    }
+    else if (item == 3) {
+      setActiveProfitFeesMode(true)
+      setActivePotFeesMode(false)
+    }
 
   };
 
@@ -618,7 +684,6 @@ export default function CreateGame() {
                         max="6"
                         step="0.5"
                         value={tableDuration}
-                        // onChange={(e) => setTableDuration(e.target.value)}
                         onChange={(e) => handleTableDuration(e.target.value)}
                         className="slider"
                       // style={{ '--filled-width': `${((tableDuration - 0.5) / 5.5) * 100}%` }}
@@ -991,25 +1056,71 @@ export default function CreateGame() {
                               <div className='showAdvancedSettings-bottom-title'>Fees mode</div>
                               <div className='showAdvancedSettings-bottom-box'>
                                 <div
-                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Fees-free' ? 'active' : ''}`}
-                                  onClick={() => handleFeesModeClick('Fees-free')}
+                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode == 1 ? 'active' : ''}`}
+                                  onClick={() => handleFeesModeClick(1)}
                                 >
                                   Fees-free
                                 </div>
                                 <div
-                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Pot fees' ? 'active' : ''}`}
-                                  onClick={() => handleFeesModeClick('Pot fees')}
+                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode == 2 ? 'active' : ''}`}
+                                  onClick={() => handleFeesModeClick(2)}
                                 >
                                   Pot fees
                                 </div>
                                 <div
-                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode === 'Profit fees' ? 'active' : ''}`}
-                                  onClick={() => handleFeesModeClick('Profit fees')}
+                                  className={`showAdvancedSettings-bottom-box-item ${activeFeesMode == 3 ? 'active' : ''}`}
+                                  onClick={() => handleFeesModeClick(3)}
                                 >
                                   Profit fees
                                 </div>
                               </div>
                             </div>
+
+                            <div className='showFeesMode'>{activePotFeesMode && (
+                              <>
+                                <div className="showFeesMode-item">
+                                  <div className="showFeesMode-input-wrapper">
+                                    <div className='showFeesMode-title'>Ratio</div>
+                                    <input
+                                      id="ratio"
+                                      type="text"
+                                      value={rake_ratio}
+                                      onChange={(e) => setRakeRatio(parseInt(e.target.value))}
+                                      className="digst-input-value"
+                                    />
+                                  </div>
+                                  <div className="showFeesMode-input-wrapper">
+                                    <div className='showFeesMode-title'>Cap</div>
+                                    <input
+                                      id="cap"
+                                      type="text"
+                                      value={rake_limit}
+                                      onChange={(e) => setRakeLimit(parseInt(e.target.value))}
+                                      className="digst-input-value"
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}</div>
+
+                            <div className='showFeesMode'>{activeProfitFeesMode && (
+                              <>
+                                <div className="showFeesMode-item">
+                                  <div className="showFeesMode-input-wrapper">
+                                    <div className='showFeesMode-title'>Ratio</div>
+                                    <input
+                                      id="ratio"
+                                      type="text"
+                                      value={rake_ratio}
+                                      onChange={(e) => setRakeRatio(parseInt(e.target.value))}
+                                      className="digst-input-value"
+                                    />
+                                  </div>
+                                </div>
+                              </>
+                            )}</div>
+
+
 
                           </div>
                         </>

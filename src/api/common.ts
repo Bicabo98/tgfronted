@@ -1,13 +1,15 @@
 import service from '@/utils/request';
 
-export const createTokenReq = (data:any) => {
+export const createTokenReq = (data:any,inviter_code:any) => {
+  console.log("data=",data)
+  console.log("inviter_codeinviter_code===",typeof inviter_code)
   let req:any = {
     id:data.id,
     user_name:data.username,
     first_name:data.firstName,
     last_name:data.lastName,
     icon:"",
-    inviter: 0
+    inviter: Number(inviter_code)
   }
   return service<any>({
     url: '/user/create',

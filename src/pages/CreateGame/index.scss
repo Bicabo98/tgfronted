@@ -53,7 +53,7 @@
         flex-direction: column;
 
         .NLH-title {
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           color: #BEC4D5;
           font-size: 14px;
           font-weight: 300;
@@ -62,7 +62,7 @@
 
         .digst-input-value {
           color: white;
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           font-weight: 300;
         }
       }
@@ -86,7 +86,7 @@
         flex-direction: column;
         align-items: left;
         color: white;
-        font-family: 'PingFang-SC, PingFang-SC';
+        font-family: 'PingFang SC';
       }
 
       .create-game-prompt {
@@ -163,7 +163,7 @@
           display: block;
           margin-bottom: 4px;
           color: #BEC4D5;
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           font-size: 14px;
           font-weight: 300;
           margin-top: 10px;
@@ -179,7 +179,7 @@
         }
 
         .current-value {
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           top: -55px;
           transform: translateX(-80%);
           color: #34DBBC;
@@ -202,26 +202,26 @@
           position: relative;
         }
 
-        .slider-filled {  
-          position: absolute;  
-          top: 58px; 
-          left: 0;  
-          height: 7%;  
-          background: #00A995;  
-          border-radius: 5px 0 0 5px; 
-          z-index: -1;   
-          pointer-events: none; 
+        .slider-filled {
+          position: absolute;
+          top: 58px;
+          left: 0;
+          height: 7%;
+          background: #00A995;
+          border-radius: 5px 0 0 5px;
+          z-index: -1;
+          pointer-events: none;
         }
 
-        .slider-filled-2 {  
-          position: absolute;  
-          top: 35px; 
-          left: 0;  
-          height: 7%;  
-          background: #00A995;  
-          border-radius: 5px 0 0 5px; 
-          z-index: -1;   
-          pointer-events: none; 
+        .slider-filled-2 {
+          position: absolute;
+          top: 35px;
+          left: 0;
+          height: 7%;
+          background: #00A995;
+          border-radius: 5px 0 0 5px;
+          z-index: -1;
+          pointer-events: none;
         }
 
 
@@ -263,7 +263,7 @@
           margin-top: 5px;
           font-size: 14px;
           color: #FFFFFF;
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           font-weight: 300;
           padding: 0 5px;
           margin-bottom: 20px;
@@ -293,7 +293,7 @@
           color: #fff;
           cursor: pointer;
           text-align: center;
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           font-size: 18px;
         }
       }
@@ -334,7 +334,7 @@
           background: rgba($color: #fff, $alpha: 0.1);
           padding: 10px 5px;
           font-size: 16px;
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           border: 0px;
         }
 
@@ -368,7 +368,7 @@
             font-weight: bold;
             //margin-left: 15px;
             font-size: 15px;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             color: #BEC4D5;
           }
 
@@ -428,7 +428,7 @@
           flex-direction: column;
 
           .showAdvancedSettings-bottom-title {
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             color: #BEC4D5;
             font-size: 14px;
             //font-weight: 300;
@@ -440,17 +440,8 @@
             justify-content: space-between;
             margin-top: 10px;
             font-size: 14px;
-            font-family: 'PingFang-SC, PingFang-SC';
+            font-family: 'PingFang SC';
             color: white;
-
-            // .showAdvancedSettings-bottom-box-item {
-            //   background: #00A995;
-            //   padding: 15px 20px;
-            //   border-radius: 12px;
-            //   color:white;
-            //   font-family: 'PingFang-SC, PingFang-SC';
-            //   font-size: 14px;
-            // }
 
             .showAdvancedSettings-bottom-box-item {
               background: rgba($color: #fff, $alpha: 0.1);
@@ -464,6 +455,88 @@
             }
 
 
+          }
+        }
+
+
+        // .showFeesMode {  
+        //   display: flex;  
+        //   flex-direction: row;  
+        //   justify-content: space-between;  
+        // }  
+          
+        // .showFeesMode-item {  
+        //   display: flex;  
+        //   align-items: center; /* 确保内部元素垂直居中 */  
+        //   flex-direction: column; /* 如果需要垂直布局标题和输入框（但根据你的代码，这应该是水平的，所以这里可能是多余的） */  
+        // }  
+          
+        // .showFeesMode-input-wrapper {  
+        //   display: flex;  
+        //   flex-direction: column; /* 这里应该是行方向，但因为你的布局是标题在上，输入框在下，所以保持为列方向 */  
+        //   align-items: flex-start; /* 确保标题和输入框在水平方向的开始位置对齐（如果需要左对齐的话） */  
+        //   width: 100%; /* 或者设置一个具体的宽度，以确保不会溢出其父容器 */  
+        // }  
+          
+        // .showFeesMode-input-wrapper input {  
+        //   height: 40px;  
+        //   width: 100%; /* 或者设置一个具体的宽度，以匹配设计需求 */  
+        //   padding: 8px;  
+        //   border-radius: 8px;  
+        //   border: 1px solid white; /* 你原来写的是 border: white; 这通常不是有效的边框样式 */  
+        // }  
+          
+        // .showFeesMode-title {  
+        //   font-family: 'PingFang SC';  
+        //   color: #BEC4D5;  
+        //   font-size: 14px;  
+        //   font-weight: 300;  
+        //   margin-bottom: 8px; /* 添加一些底部外边距以分隔标题和输入框 */  
+        // }  
+          
+        // .digst-input-value { /* 修正类名错误 */  
+        //   color: white;  
+        //   font-family: 'PingFang SC';  
+        //   font-weight: 300;  
+        // }
+
+
+        .showFeesMode {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+
+          .showFeesMode-item {
+            display: flex;
+            align-items: center;
+          }
+
+          .showFeesMode-input-wrapper {
+            flex-direction: row;
+            align-items: flex-start;
+            width: 100%;
+            input {
+              height: 40px;
+              width: 65%;
+              padding: 8px;
+              border-radius: 8px;
+              border: white;
+            }
+            .showFeesMode-title {
+              font-family: 'PingFang SC';
+              color: #BEC4D5;
+              font-size: 14px;
+              font-weight: 300;
+              align-items: center;
+              justify-content: center;
+  
+            }
+  
+            .shoeFeesMode-digst-input-value {
+              color: white;
+              font-family: 'PingFang SC';
+              font-weight: 300;
+            }
           }
         }
       }
@@ -506,7 +579,7 @@
         display: flex;
       }
 
-    
+
 
       &.active {
         cursor: default;
@@ -533,7 +606,7 @@
         }
 
         .digit-input {
-          font-family: 'PingFang-SC, PingFang-SC';
+          font-family: 'PingFang SC';
           font-size: 40px;
           font-weight: bold;
           text-align: center;

@@ -49,10 +49,6 @@ export const App: FC = () => {
 
   const login = async () => {
     setLoading(true)
-
- 
-    
-
     //let test = await callBackendAPI()
     // 测试签到页面
     //navigate('/checkIn')
@@ -62,13 +58,20 @@ export const App: FC = () => {
       let resArray: any;
       if (initData && initData.user && initData.user.id) {
         const user = initData.initData.user
-        const data = { ...initData.initData, ...user }
+        //const data = { ...initData.initData, ...user }
+        let inviter_code = 0;
         console.log("App.tsx:", initData.initData)
-        console.log("initData.user:", initData.user)
-
+        console.log("initData.user:", initData)
         console.log("telegram initdata:", window.Telegram.WebView.initParams.tgWebAppData)
 
-        resArray = await (createTokenReq(initData.user))
+        if (initData.initData.startParam != "" && initData.initData.startParam != undefined) {
+
+          inviter_code = initData.initData.startParam
+        }
+        console.log("测试")
+
+        resArray = await (createTokenReq(initData.user, inviter_code))
+
         console.log("resArray:", resArray)
         if (resArray.code == 200) {
           loginSuccessful(resArray, initData)
@@ -89,10 +92,11 @@ export const App: FC = () => {
         }
       }
       setLoading(false)
-    } catch {
+    } catch (e) {
       //  应该显示网页错误或者404页面
-      console.log("抛出异常")
+      console.log("抛出异常",e)
       setLoading(false)
+      
     }
   }
 
@@ -102,10 +106,11 @@ export const App: FC = () => {
     localStorage.setItem('authorization', res.data.token)
     localStorage.setItem('id', res.data.user_id)
     localStorage.setItem('server_info', JSON.stringify(res.data.server_info))
+    localStorage.setItem('invite_url', res.data.invite_url)
 
     let loginRes = await loginReq(res.data.user_id)
 
-    let test = await getPokerCustomConf()
+    //let test = await getPokerCustomConf()
 
     if (loginRes.code == 200) {
       // check sign in
@@ -141,14 +146,17 @@ export const App: FC = () => {
       }
 
       // binding friend
-      if (initData.initData.startParam != "" && initData.initData.startParam != undefined && initData.initData.startParam != res.data.user_id) {
-        console.log("initData.initData.startParam=", initData.initData.startParam)
-        let bindingReq = await bindReq({
-          inviter: Number(initData.initData.startParam),
-          invitee: Number(res.data.user_id)
-        });
-        console.log("绑定结果：", bindingReq)
-      }
+      // if (initData.initData.startParam != "" && initData.initData.startParam != undefined && initData.initData.startParam != res.data.user_id) {
+      //   console.log("initData.initData.startParam=", initData.initData.startParam)
+      //   let bindingReq = await bindReq({
+      //     inviter: Number(initData.initData.startParam),
+      //     invitee: Number(res.data.user_id)
+      //   });
+      //   console.log("绑定结果：", bindingReq)
+      // }
+
+
+
     }
   }
 

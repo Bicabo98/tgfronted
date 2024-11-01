@@ -14,9 +14,12 @@ export default function Friends() {
   const utils = initUtils()
   const [isCopy, setIsCopy] = useState(false)
   // Telegram invite url
-  const link = `https://t.me/privatepokerbot/gamepoker?startapp=${(userInfo.user_id)}`;
-  var invite_text = "🔥🐹🔥 Come to Earn the Poker point here! 💸🏆💰 I've found a platform where you can play poker. Check out your Telegram profile and claim your USDT rewards🎁 now!👆🏻 ❤️  "
+  const invite_url = localStorage.getItem('invite_url') as string
+  const link = invite_url + `${(userInfo.user_id)}`;
+  
+  //const link = `https://t.me/privatepokerbot/gamepoker?startapp=${(userInfo.user_id)}`;
 
+  var invite_text = "🌟 Join me on PokerTown, and let’s play and earn together! 🌟Use my invite link to join the fun—you’ll earn platform points for every friend you bring! Dive into exciting games like Texas Hold'em, Truco, and Yummy,"
   const [friendsList, setFriendsList] = useState<any[]>([])
   const [page, setPage] = useState(1)
   const [hasMore, setHasMore] = useState(true)

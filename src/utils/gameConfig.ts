@@ -16,8 +16,50 @@ const KEY_SECRET3 = "E6RA4#b9sQkld8sz$qJh^BWjzsGbhM62";
 
 
 
-const game_server_etwork = 'http://192.168.100.201:8109/vpoker/service.php';        // 内网
-//const game_server_etwork = "https://122.248.197.217:8109/vpoker/service.php";       // 外网
+//const game_server_etwork = 'http://192.168.100.201:8109/vpoker/service.php';        // 内网
+const game_server_etwork = "https://122.248.197.217:8109/vpoker/service.php";       // 外网
+
+
+
+
+// 获取玩家正在房间列表
+export const getHallCashGameList = async () => {
+    const _userId = localStorage.getItem('id')
+    var requestData = {
+        game_type:-1,
+        blid_li:[],
+        straddle:0,
+        hide_player_stats:0,
+        hide_table_stats:0,
+        restrict_gps_ip:0,
+        hide_full_desk:0,
+        password:0,
+        ofc_blind_li:[],
+        is_only_show_single_table:0,
+        is_token_only:0,
+        token_switch:1,
+        from_index:0,
+        method: "pokerabout#get_hall_cash_desk_list",
+        uid: _userId,
+    }
+    const postdata: any = getRequestData(requestData);
+    const postdata1: any = JSON.stringify(postdata)
+    const data = new FormData();
+    data.set("postdata", postdata1)
+    try {
+        const response = await axios.post(game_server_etwork, data, {
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+        });
+        console.log("获取玩家最近房间数据config：", response)
+        return response.data;
+
+    } catch (error) {
+        console.error("Error calling backend API:", error);
+    }
+}
+
 
 
 
@@ -45,8 +87,6 @@ export const getPokerCustomConf = async () => {
         //         'Content-Type': 'application/x-www-form-urlencoded'
         //     },
         // });
-
-
 
         console.log("创建游戏数据config：", response)
         return response.data;
@@ -108,9 +148,7 @@ export const callBackendAPI = async (deskId: any) => {
             },
         });
 
-
-        console.log("加入房间回调response=",response)
-
+        console.log("加入房间回调response=", response)
         // If table is not exist or get error code .. 
         // Return error
         if (response.data.code == -11056 || response.data.data == 'Table is not exist') {
@@ -127,7 +165,8 @@ export const callBackendAPI = async (deskId: any) => {
             game_type: 0,
             first_name: initData.user.firstName,
             desk_id: deskId,
-            share_url: "http://192.168.100.201:23456"
+            // share_url: "http://192.168.100.201:23456"
+            share_url: info.desk_share_url
         }
         const mergedata = JSON.stringify(mergeData);
         const params = JSON.parse(mergedata);

@@ -21,6 +21,7 @@ function FrensDetailPage() {
     if (mySelf) {
       let res = await getMyScoreHistoryReq(userInfo.user_id)
       if (res.code == 200) {
+        console.log("历史记录的res=",res)
         setPage((page => page + 1))
         setList(res.data.list)
         return res.data.list
@@ -96,7 +97,8 @@ function FrensDetailPage() {
                     item.name
                   )}
                 </div>
-                <div className='score-detail-time'>2023-10-19-21:03:51</div>
+                <div className='score-detail-time'>{moment(item.create_time * 1000).format('YYYY.MM.DD HH:mm')}</div>
+                {/* <div className="score-detail-time"> {moment(item.create_time * 1000).format('DD/MM/YYYY HH:mm')}</div> */}
               </div>
               <div className='score-detail-right'>
                 <>
@@ -105,16 +107,13 @@ function FrensDetailPage() {
                 </>
               </div>
             </div>
-         
           </List.Item>
-        
         })
 
       }
     </List>
     <InfiniteScroll loadMore={loadMore} hasMore={hasMore} />
     <BackTop scrollName={'content'} />
-
   </div>
 }
 

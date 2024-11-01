@@ -26,6 +26,16 @@ export const taskListStatusReq = (userId: Number) => {
   });
 }
 
+export const handlePokerStatus = (userId:Number) => {
+  const params = new URLSearchParams({
+    user_id: userId.toString(),
+  })
+  return service<any>({
+    url: '/poker/status',
+    method: 'GET',
+    params,
+  });
+}
 
 export const handleTakReq = (data: any) => {
   return service<any>({

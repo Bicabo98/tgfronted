@@ -7,17 +7,19 @@ import { initUtils, useHapticFeedback } from '@telegram-apps/sdk-react';
 import { setUserInfoAction } from "@/redux/slices/userSlice";
 import { useTonWallet, useTonConnectModal, useTonAddress, useTonConnectUI } from "@tonconnect/ui-react";
 import { useAdsgram } from '@/hooks/useAdsgram';
-import { callBackendAPI } from '@/utils/gameConfig';
+import { callBackendAPI, getHallCashGameList } from '@/utils/gameConfig';
 import { useNavigate } from 'react-router-dom';
-
+import moment from 'moment'
 
 export default function Home() {
   const navigate = useNavigate()
-
   const [inputValues, setInputValues] = useState(["", "", "", "", "", ""]); // save join room value
+  const [recentGame, setRecentGame] = useState<any>([])
   const inputRefs = useRef<Array<HTMLInputElement | null>>(Array(inputValues.length).fill(null));
   const wallet = useTonWallet();
   const dispatch = useDispatch();
+
+  const userInfo = useSelector((state: any) => state.user.info);
 
   useEffect(() => {
     if (wallet?.account) {
@@ -27,9 +29,46 @@ export default function Home() {
     }
   }, [wallet]);
 
+
+  useEffect(() => {
+    
+    console.log("11111111111u1serInfo=",userInfo)
+    if(userInfo) {
+      getHallCashGameList().then(res => {
+        if (res.code == 1) {
+          setRecentGame(res.data.hall_desk)
+        }
+        console.log("山扎")
+      })
+    }
+
+  }, [])
+
   //Create game
   const handleCreateGame = () => {
     navigate('/creategame')
+  };
+
+  const getInitials = (name: string) => {
+    if (!name) return 'U';
+    const names = name.split(' ');
+    const initials = names.map(n => n[0]).join('');
+    return initials.slice(0, 2).toUpperCase();
+  };
+
+
+
+  const stringToColor = (str: string) => {
+    let hash = 0;
+    for (let i = 0; i < str.length; i++) {
+      hash = str.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    let color = '#';
+    for (let i = 0; i < 3; i++) {
+      const value = (hash >> (i * 8)) & 0xFF;
+      color += ('00' + value.toString(16)).substr(-2);
+    }
+    return color;
   };
 
 
@@ -58,10 +97,17 @@ export default function Home() {
           // Join room failed
           return
         }
-        localStorage.setItem('joingame_data', res)
+
+
+        const resBase64 = btoa(res);
+
+        console.log("resBase64resBase64resBase64====",resBase64)
+
+        localStorage.setItem('joingame_data', resBase64);
+
+        //localStorage.setItem('joingame_data', res)
         navigate('/poker')
       })
-
     }
   };
 
@@ -113,6 +159,56 @@ export default function Home() {
               ))}
             </div>
           </div>
+
+          {recentGame.length != 0 && (
+            <div className='separator'>
+              <div className="vertical-line"></div>
+              <div className="text">Ring</div>
+            </div>
+          )}
+
+          {/* recent game */}
+          {recentGame.length != 0 && (
+            <div className="recent-game-list">
+              {recentGame.map((item: any, index: number) => (
+                <div className="game-item" key={index}>
+
+                  {/* <div className="avatar"></div> */}
+                  <div className="user-profile-icon" style={{ background: stringToColor(item.share_creator_name || 'User') }}>
+                    {getInitials(item.share_creator_name || 'User')}
+                  </div>
+                  <div className="game-info">
+                    <div className='game-info-title'>
+                      <div className="roomname">{item.event_name}</div>
+                    </div>
+                    <div className="turn-context">
+                      <img src={`/assets/common/career-turn.png`} alt='tomato' className='turn-context-icon' />
+                      <div className='turn-context-text'>
+                        {item.small_blind}/{(item.small_blind * 2)}
+                      </div>
+                    </div>
+                    <div className='game-item-bottom'>
+                      <div className='playercount'>
+                        <img src={`/assets/common/career-playercount.png`} alt='tomato' className='icon' />
+                        <div className="playercount-text">{item.players_num}</div>
+                      </div>
+                      <div className='owner'>
+                        <img src={`/assets/common/career-owner.png`} alt='owner icon' className='icon' />
+                        <div className="owner-text">
+                          {item.share_creator_name.length > 6 ? item.owner.substring(0, 6) + "..." : item.share_creator_name}
+                        </div>
+                      </div>
+                      <div className='timestamp'>
+                        <img src={`/assets/common/career-time.png`} alt='tomato' className='icon' />
+                        <div className="timestamp-text"> {moment(item.begin_time * 1000).format('DD/MM/YYYY HH:mm')}</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="game-info-gametype">NLH</div>
+                </div>
+              ))}
+            </div>
+          )}
 
         </div>
       </div>

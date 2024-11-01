@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import './index.scss'
-import { taskListReq, handleTakReq, taskListStatusReq, handleBotCheck } from '@/api/task'
+import { taskListReq, handleTakReq, taskListStatusReq, handleBotCheck, handlePokerStatus } from '@/api/task'
 import { initUtils } from '@telegram-apps/sdk'
 import { Button, Skeleton, Toast } from 'antd-mobile'
 import { useNavigate } from 'react-router-dom'
@@ -19,8 +19,9 @@ function TaskPage() {
   const utils = initUtils();
   const [list, setList] = useState<any>([])
   const [loading, setLoading] = useState(true)
-  const [selectedType, setSelectedType] = useState<string>('all')
+  const [selectedType, setSelectedType] = useState<string>('Poker')
   const navigate = useNavigate()
+  const [playCount, setPlayerCount] = useState()
 
 
   const handleDoTask = async (item: any, index: number, cIndex: number) => {
@@ -41,7 +42,7 @@ function TaskPage() {
             setList(updatedList)
           }, 3000);
 
-        } 
+        }
         else if (item.name == 'Subscription hummer on channel' || item.name == 'Join hummer on chat group') {
           utils.openTelegramLink(JSON.parse(item.metadata).link)
 
@@ -106,15 +107,30 @@ function TaskPage() {
     }
   }
 
-  const groupByType = (arr: any) => {
+  // const groupByType = (arr: any) => {
+  //   console.log("arr = ",arr)
+  //   return Object.values(
+  //     arr.reduce((acc: any, item: any) => {
+  //       const type = item.mission_type
+  //       if (!acc[type]) acc[type] = []
+  //       acc[type].push(item)
+  //       return acc
+  //     }, {})
+  //   )
+  // }
+
+  const groupByType = (arr: any[]) => {
     return Object.values(
-      arr.reduce((acc: any, item: any) => {
-        const type = item.mission_type
-        if (!acc[type]) acc[type] = []
-        acc[type].push(item)
-        return acc
+      arr.reduce((acc: { [key: string]: any[] }, item: any) => {
+        const type = item.mission_type;
+        // 过滤掉 'Bonus' 和 'Daily'  
+        if (type !== 'Bonus' && type !== 'Daily') {
+          if (!acc[type]) acc[type] = [];
+          acc[type].push(item);
+        }
+        return acc;
       }, {})
-    )
+    );
   }
 
   const getImgSrc = (img: string) => {
@@ -168,6 +184,14 @@ function TaskPage() {
             setLoading(true);
           }
         });
+
+        handlePokerStatus(userInfo.user_id).then(statusRes => {
+          if (statusRes.code == 200) {
+            //console.log("任务statusRes=", statusRes)
+            setPlayerCount(statusRes.data)
+
+          }
+        })
       }
     });
 
@@ -178,7 +202,8 @@ function TaskPage() {
     setSelectedType(type)
   }
 
-  const filteredList = selectedType === 'all' ? list : list.filter((group: any) => group[0].mission_type === selectedType)
+  // const filteredList = selectedType === 'all' ? list : list.filter((group: any) => group[0].mission_type === selectedType)
+  const filteredList = list.filter((group: any) => group[0].mission_type === selectedType)
 
   return (
     <div className='task-page fadeIn'>
@@ -187,19 +212,29 @@ function TaskPage() {
         <div className='task-score-title'>
           <img src='/assets/common/coin2x1.png' alt='tomato' className='unit-img' />
           <div className="score">{userInfo?.score?.toLocaleString()}</div>
-          {/* <div className="score">{10810}</div> */}
         </div>
       </div>
       <div className='task-tabs'>
-        {list.map((group: any, index: number) => (
+        {/* {list.map((group: any, index: number) => (
+          <div
+            key={index}
+            className={`task-tab ${selectedType === group[0].mission_type ? 'active' : 'unactive'}`} 
+            onClick={() => handleTabClick(group[0].mission_type)}
+          >
+            {group[0].mission_type} task({group.length})
+          </div>
+        ))} */}
+
+        {list.map((group:any, index:number) => (
           <div
             key={index}
             className={`task-tab ${selectedType === group[0].mission_type ? 'active' : 'unactive'}`}
             onClick={() => handleTabClick(group[0].mission_type)}
           >
-            {group[0].mission_type}({group.length})
+            {group[0].mission_type === 'Poker' ? `Game task(${group.length})` : `${group[0].mission_type} task(${group.length})`}
           </div>
         ))}
+
       </div>
       <div className='task-list'>
         {loading ? [...Array(5)].map((_, index) => {
@@ -212,7 +247,7 @@ function TaskPage() {
                 return (
                   <div key={cindex} className='task-list-item'>
                     {citem.mission_type !== 'Social' && (
-                      <div className='task-list-top-left-corner'>5/10</div>
+                      <div className='task-list-top-left-corner'>{playCount}/10</div>
                     )}
                     <div className='task-list-left'>
                       <img src={`/assets/common/${getImgSrc(citem.name)}.png`} alt='tomato' className='middle-icon' />

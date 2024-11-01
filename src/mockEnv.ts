@@ -29,9 +29,9 @@ if (import.meta.env.DEV) {
         language_code: "zh-hans",
         allows_write_to_pm: true,
       })],
-      ['hash', 'd38ffdec1e8ccd73c0c74259955a8bf771c4a79317b4e84a6934af9ce9aaba28'],
+      ['hash', '32df61a0ce019c40f03c6800720d51b43f070e98476b24db1fd9a7b8306cc253'],
       ['auth_date', `${Math.round(new Date().getTime() / 1000)}`],
-      ['start_param', `${btoa('77777777')}`],
+      ['start_param', `0`],
       ['chat_type', 'sender'],
       ['chat_instance', '8428209589180549439'],
     ]).toString();
