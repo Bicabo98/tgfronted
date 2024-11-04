@@ -54,6 +54,7 @@ export const handleBotCheck = (chat_id: any, tg_id: any, user_id: any, mission_n
     mission_name: mission_name,
     checkType:checkType,
   })
+  console.log("params = ",params)
   return service<any>({
     url: '/bot/checked',
     method: 'GET',

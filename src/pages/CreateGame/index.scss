@@ -23,6 +23,7 @@
         display: flex;
         justify-content: center;
         margin-bottom: 20px;
+        padding: 0 6px;
       }
 
       .game-button {
@@ -464,20 +465,20 @@
         //   flex-direction: row;  
         //   justify-content: space-between;  
         // }  
-          
+
         // .showFeesMode-item {  
         //   display: flex;  
         //   align-items: center; /* 确保内部元素垂直居中 */  
         //   flex-direction: column; /* 如果需要垂直布局标题和输入框（但根据你的代码，这应该是水平的，所以这里可能是多余的） */  
         // }  
-          
+
         // .showFeesMode-input-wrapper {  
         //   display: flex;  
         //   flex-direction: column; /* 这里应该是行方向，但因为你的布局是标题在上，输入框在下，所以保持为列方向 */  
         //   align-items: flex-start; /* 确保标题和输入框在水平方向的开始位置对齐（如果需要左对齐的话） */  
         //   width: 100%; /* 或者设置一个具体的宽度，以确保不会溢出其父容器 */  
         // }  
-          
+
         // .showFeesMode-input-wrapper input {  
         //   height: 40px;  
         //   width: 100%; /* 或者设置一个具体的宽度，以匹配设计需求 */  
@@ -485,7 +486,7 @@
         //   border-radius: 8px;  
         //   border: 1px solid white; /* 你原来写的是 border: white; 这通常不是有效的边框样式 */  
         // }  
-          
+
         // .showFeesMode-title {  
         //   font-family: 'PingFang SC';  
         //   color: #BEC4D5;  
@@ -493,7 +494,7 @@
         //   font-weight: 300;  
         //   margin-bottom: 8px; /* 添加一些底部外边距以分隔标题和输入框 */  
         // }  
-          
+
         // .digst-input-value { /* 修正类名错误 */  
         //   color: white;  
         //   font-family: 'PingFang SC';  
@@ -515,6 +516,7 @@
             flex-direction: row;
             align-items: flex-start;
             width: 100%;
+
             input {
               height: 40px;
               width: 65%;
@@ -522,6 +524,7 @@
               border-radius: 8px;
               border: white;
             }
+
             .showFeesMode-title {
               font-family: 'PingFang SC';
               color: #BEC4D5;
@@ -529,9 +532,9 @@
               font-weight: 300;
               align-items: center;
               justify-content: center;
-  
+
             }
-  
+
             .shoeFeesMode-digst-input-value {
               color: white;
               font-family: 'PingFang SC';
@@ -616,4 +619,16 @@
       }
     }
   }
+
+  .create-game-comming {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+    //background-color: #000;
+    font-size: 40px;
+    color: white;
+    align-items: center;
+  }
+
 }

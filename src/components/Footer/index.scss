@@ -2,31 +2,64 @@
   background: rgba($color: #ffffff, $alpha: 0.1);
   padding: 1rem 2rem 0.8rem 2rem;
   border-top: 1px solid #111;
-  border-radius: 47px; 
+  border-radius: 47px;
   //margin-bottom: 15px; 
   margin: 15px;
   font-family: 'PingFangSC, PingFang SC';
+
   .list {
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+
+
     .menu {
       text-align: center;
       cursor: pointer;
+
+      .home-btn {
+        width: 22px;
+        height: 20px;
+      }
+
+      .earn-btn {
+        width: 20px;
+        height: 18px;
+      }
+
+      .friends-btn {
+        width: 19px;
+        height: 23px;
+      }
+
+      .account-btn {
+        width: 15px;
+        height: 18px;
+      }
+
+
     }
+
     .active {
-      svg {
+      img {
+        //color: #34DBBC;
+        //background-color: #34DBBC;
         fill: #34DBBC;
       }
+
       p {
         color: #34DBBC;
       }
     }
-    svg {
+
+    img {
       width: 26px;
       height: 26px;
-      fill: rgba($color: #ffffff, $alpha: 0.5);
+
+      color: #34DBBC;
     }
+
     p {
       color: rgba($color: #ffffff, $alpha: 0.5);
       margin: 0;
@@ -35,7 +68,7 @@
     }
   }
 
-  
+
 
 
 }

@@ -22,6 +22,7 @@ function FrensDetailPage() {
       let res = await getMyScoreHistoryReq(userInfo.user_id)
       if (res.code == 200) {
         console.log("历史记录的res=",res)
+        res.data.list.sort((a:any, b:any) => b.create_time - a.create_time);
         setPage((page => page + 1))
         setList(res.data.list)
         return res.data.list
@@ -94,7 +95,7 @@ function FrensDetailPage() {
                       {safeJSONParse(item.description, {}).username}
                     </>
                   ) : (
-                    item.name
+                    (item.name == 'SignIn' ? 'Finish check in' : item.name)
                   )}
                 </div>
                 <div className='score-detail-time'>{moment(item.create_time * 1000).format('YYYY.MM.DD HH:mm')}</div>

@@ -75,7 +75,7 @@ function CareerPage() {
 
   useEffect(() => {
     getUserCareerInfo();
-    backButton.on('click',() => {
+    backButton.on('click', () => {
       navigate('/account')
     })
   }, []);
@@ -146,10 +146,13 @@ function CareerPage() {
         </div>
       )}
 
-      <div className='separator'>
-        {/* <div className="vertical-line"></div> */}
-        <div className="text">Game History</div>
-      </div>
+      {activeGame === 'NLH' && careerInfo && (
+        <div className='separator'>
+          {/* <div className="vertical-line"></div> */}
+          <div className="text">Game History</div>
+        </div>
+      )}
+
 
       {gameHistoryInfo && activeGame === 'NLH' && (
         <div className="game-history">
@@ -176,10 +179,10 @@ function CareerPage() {
                     <img src={`/assets/common/career-playercount.png`} alt='tomato' className='icon' />
                     <div className="playercount-text">{item.playercount}</div>
                   </div>
-                  <div className='owner'> 
+                  <div className='owner'>
                     <img src={`/assets/common/career-owner.png`} alt='owner icon' className='icon' />
                     <div className="owner-text">
-                      {item.owner.length > 6 ? item.owner.substring(0, 6)+"..." : item.owner}
+                      {item.owner.length > 6 ? item.owner.substring(0, 6) + "..." : item.owner}
                     </div>
                   </div>
                   <div className='timestamp'>
@@ -196,6 +199,17 @@ function CareerPage() {
           ))}
         </div>
       )}
+
+
+
+      {activeGame !== 'NLH' && (
+        <div className='create-game-comming'>
+          Comming soon...
+        </div>
+      )}
+
+
+
     </div>
   );
 }

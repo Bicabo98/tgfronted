@@ -29,7 +29,7 @@ if (import.meta.env.DEV) {
         language_code: "zh-hans",
         allows_write_to_pm: true,
       })],
-      ['hash', '32df61a0ce019c40f03c6800720d51b43f070e98476b24db1fd9a7b8306cc253'],
+      ['hash', '534c3fd68af867fc942e881bcad9a95f5f6551ab1203b142b032565e644445fb'],
       ['auth_date', `${Math.round(new Date().getTime() / 1000)}`],
       ['start_param', `0`],
       ['chat_type', 'sender'],

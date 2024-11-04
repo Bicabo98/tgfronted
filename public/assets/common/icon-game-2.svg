@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="22px" height="20px" viewBox="0 0 22 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon-game-2</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.5">
+        <g id="Frends备份-2" transform="translate(-51, -746)" stroke="#FFFFFF">
+            <g id="bottom-bar" transform="translate(3, 731)">
+                <g id="Game-1" transform="translate(17, 7)">
+                    <g id="编组" transform="translate(32, 9)">
+                        <rect id="矩形" stroke-width="2" x="6" y="0" width="14" height="18" rx="4"></rect>
+                        <path d="M0,0 C2.209139,-4.05812251e-16 4,1.790861 4,4 L4,14 C4,16.209139 2.209139,18 2.4492936e-16,18 L0,18 L0,18" id="矩形备份-4" stroke-width="2" stroke-linecap="round" transform="translate(2, 9) scale(-1, 1) translate(-2, -9)"></path>
+                        <path d="M11.7142857,5 C12.6610596,5 13.4285714,5.76751186 13.4285714,6.71428571 L13.428,7.571 L14.2857143,7.57142857 C15.2324881,7.57142857 16,8.33894043 16,9.28571429 C16,10.2324881 15.2324881,11 14.2857143,11 L10.4577891,10.9998607 C10.4480609,10.9999535 10.4383216,11 10.4285714,11 L10,11 L10,6.71428571 C10,5.76751186 10.7675119,5 11.7142857,5 Z" id="形状结合" fill="#FFFFFF" stroke-linejoin="round" transform="translate(13, 8) rotate(-45) translate(-13, -8)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

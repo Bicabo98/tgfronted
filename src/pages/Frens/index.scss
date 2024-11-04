@@ -59,6 +59,7 @@
     font-style: normal;
     text-align: left;
     font-weight: bold;
+    margin-top: 20px;
   }
 
   .friends-title2 {
@@ -146,11 +147,17 @@
     margin-right: 5px;
   }
 
-  .friend-box-image {
+  .friend-box-image-left{
+    width: 22px;
+    height: 19px;
+  }
+
+  
+  .friend-box-image-right {
     // max-width: 100%;
     // height: auto; 
-    width: 26px;
-    height: 25px;
+    width: 21px;
+    height: 20px;
   }
 
   .friend-box-text.left {

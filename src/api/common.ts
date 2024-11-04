@@ -1,16 +1,18 @@
 import service from '@/utils/request';
 
 export const createTokenReq = (data:any,inviter_code:any) => {
-  console.log("data=",data)
-  console.log("inviter_codeinviter_code===",typeof inviter_code)
+
   let req:any = {
     id:data.id,
-    user_name:data.username,
+    user_name:data.username || "",
+    //user_name:data.firstName,
     first_name:data.firstName,
     last_name:data.lastName,
     icon:"",
     inviter: Number(inviter_code)
   }
+  console.log("data=",req)
+  console.log("邀请码====",inviter_code)
   return service<any>({
     url: '/user/create',
     method: 'POST',

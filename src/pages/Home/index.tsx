@@ -9,7 +9,8 @@ import { useTonWallet, useTonConnectModal, useTonAddress, useTonConnectUI } from
 import { useAdsgram } from '@/hooks/useAdsgram';
 import { callBackendAPI, getHallCashGameList } from '@/utils/gameConfig';
 import { useNavigate } from 'react-router-dom';
-import moment from 'moment'
+import moment from 'moment';
+import EventBus from '@/utils/eventBus';
 
 export default function Home() {
   const navigate = useNavigate()
@@ -18,6 +19,7 @@ export default function Home() {
   const inputRefs = useRef<Array<HTMLInputElement | null>>(Array(inputValues.length).fill(null));
   const wallet = useTonWallet();
   const dispatch = useDispatch();
+  const eventBus = EventBus.getInstance()
 
   const userInfo = useSelector((state: any) => state.user.info);
 
@@ -31,15 +33,37 @@ export default function Home() {
 
 
   useEffect(() => {
-    
-    console.log("11111111111u1serInfo=",userInfo)
-    if(userInfo) {
+
+    if (userInfo) {
+      console.log("开始渲染home页面")
+      let shouldJoinGame = localStorage.getItem("inviterJoinGame")
+      if (shouldJoinGame == 'true') {
+        let inviter_desk = localStorage.getItem('deskID')
+        localStorage.setItem("inviterJoinGame", "false")
+        callBackendAPI(inviter_desk).then((res: any) => {
+          if (res == -11056) {
+            eventBus.emit('loading', false);
+            Toast.show({
+              content: 'Table is not exist !!!',
+              duration: 3000
+            })
+            // Join room failed
+            return
+          }
+          const resBase64 = btoa(res);
+          console.log("从邀请链接加入房间base64加密后的数据=", resBase64)
+          localStorage.setItem('joingame_data', resBase64);
+          eventBus.emit('loading', false);
+          navigate('/poker')
+        })
+      }
+
       getHallCashGameList().then(res => {
         if (res.code == 1) {
           setRecentGame(res.data.hall_desk)
         }
-        console.log("山扎")
       })
+
     }
 
   }, [])
@@ -54,6 +78,28 @@ export default function Home() {
     const names = name.split(' ');
     const initials = names.map(n => n[0]).join('');
     return initials.slice(0, 2).toUpperCase();
+  };
+
+
+  const handleGameItemClick = (deskId: number) => {
+    console.log('点击桌子的ID=', deskId);
+    eventBus.emit('loading', true);
+    callBackendAPI(deskId).then((res: any) => {
+      if (res == -11056) {
+        Toast.show({
+          content: 'Table is not exist !!!',
+          duration: 3000
+        })
+        // Join room failed
+        return
+      }
+      const resBase64 = btoa(res);
+      console.log("加入房间base64加密后的数据=", resBase64)
+      localStorage.setItem('joingame_data', resBase64);
+      eventBus.emit('loading', false);
+      //localStorage.setItem('joingame_data', res)
+      navigate('/poker')
+    })
   };
 
 
@@ -86,9 +132,11 @@ export default function Home() {
 
     }
     else if (index === inputRefs.current.length - 1 && newInputValues[index] !== "") {
+      eventBus.emit('loading', true);
       const deskId = newInputValues.join("")
       callBackendAPI(deskId).then((res: any) => {
         setInputValues(["", "", "", "", "", ""])
+        eventBus.emit('loading', false);
         if (res == -11056) {
           Toast.show({
             content: 'Table is not exist !!!',
@@ -97,12 +145,8 @@ export default function Home() {
           // Join room failed
           return
         }
-
-
         const resBase64 = btoa(res);
-
-        console.log("resBase64resBase64resBase64====",resBase64)
-
+        console.log("resBase64resBase64resBase64====", resBase64)
         localStorage.setItem('joingame_data', resBase64);
 
         //localStorage.setItem('joingame_data', res)
@@ -163,7 +207,7 @@ export default function Home() {
           {recentGame.length != 0 && (
             <div className='separator'>
               <div className="vertical-line"></div>
-              <div className="text">Ring</div>
+              <div className="text">My Game</div>
             </div>
           )}
 
@@ -171,9 +215,7 @@ export default function Home() {
           {recentGame.length != 0 && (
             <div className="recent-game-list">
               {recentGame.map((item: any, index: number) => (
-                <div className="game-item" key={index}>
-
-                  {/* <div className="avatar"></div> */}
+                <div className="game-item" key={index} onClick={() => handleGameItemClick(item.desk_id)}>
                   <div className="user-profile-icon" style={{ background: stringToColor(item.share_creator_name || 'User') }}>
                     {getInitials(item.share_creator_name || 'User')}
                   </div>

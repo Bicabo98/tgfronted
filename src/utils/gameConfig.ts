@@ -16,8 +16,8 @@ const KEY_SECRET3 = "E6RA4#b9sQkld8sz$qJh^BWjzsGbhM62";
 
 
 
-//const game_server_etwork = 'http://192.168.100.201:8109/vpoker/service.php';        // 内网
-const game_server_etwork = "https://122.248.197.217:8109/vpoker/service.php";       // 外网
+const game_server_etwork = 'http://192.168.100.201:8109/vpoker/service.php';        // 内网
+//const game_server_etwork = "https://122.248.197.217:8109/vpoker/service.php";       // 外网
 
 
 
@@ -130,7 +130,6 @@ export const getUserAllRecord = async () => {
 // 加入房间接口
 export const callBackendAPI = async (deskId: any) => {
     const _userId = localStorage.getItem('id')
-
     var requestData = {
         method: "pokerabout#get_enter_desk_info",
         desk_id: deskId,
@@ -163,7 +162,7 @@ export const callBackendAPI = async (deskId: any) => {
             token: localStorage.getItem('authorization'),
             user_id: _userId,
             game_type: 0,
-            first_name: initData.user.firstName,
+            //first_name: initData.user.firstName,
             desk_id: deskId,
             // share_url: "http://192.168.100.201:23456"
             share_url: info.desk_share_url

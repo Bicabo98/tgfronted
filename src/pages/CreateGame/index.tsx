@@ -168,10 +168,6 @@ export default function CreateGame() {
   }, [wallet]);
   //Create game
   const handleCreateGame = () => {
-
-
-  
-
     eventBus.emit('loading', true)
     const openid = localStorage.getItem('id')
     const token = localStorage.getItem('authorization')
@@ -199,7 +195,9 @@ export default function CreateGame() {
       const server_info = localStorage.getItem("server_info")
       let info = JSON.parse(server_info as string)
       // console.log("数据=",info.game_server)
+
       const ws = new WebSocket(info.h5_game)
+
       ws.binaryType = "arraybuffer";
       ws.onmessage = (msg) => {
         console.log("receive msg:", msg)
@@ -255,8 +253,8 @@ export default function CreateGame() {
               "rake_mode": activeFeesMode,
               "rake_percentage": 0,
               "rake_limit": 0,
-              "small_blind": parseInt(inputCreateGameMustValues[0]),
-              "big_blind": parseInt(inputCreateGameMustValues[1]),
+              "small_blind": parseInt(inputCreateGameMustValues[0]) * 100,
+              "big_blind": parseInt(inputCreateGameMustValues[1]) * 100,
               "straddle_multiple": parseInt(inputCreateGameValues[1]) * 100,
               "ante_multiple": parseInt(inputCreateGameValues[0]) * 100,
               "token_info": {},
@@ -267,7 +265,7 @@ export default function CreateGame() {
                 "post_bb": toggleStates['postBB'] ? 1 : 0,
                 "voice_chatting": toggleStates['voiceChatting'] ? 1 : 0
               },
-              "is_delayed_hand": toggleStates['delayedHand'] ? true: false
+              "is_delayed_hand": toggleStates['delayedHand'] ? true : false
             },
             "force_show_cards_switch": 1,
             "show_rest_cards_switch": toggleStates['rabbitHunt'] ? 1 : 0,
@@ -362,7 +360,7 @@ export default function CreateGame() {
             //const resString = JSON.stringify(res);
             const resBase64 = btoa(res);
 
-            console.log("resBase64resBase64resBase64====",resBase64)
+            console.log("resBase64resBase64resBase64====", resBase64)
 
             localStorage.setItem('joingame_data', resBase64);
             navigate('/poker');
@@ -386,7 +384,7 @@ export default function CreateGame() {
   };
 
   const handleActiveClick = (game: any) => {
-    //setActiveGame(game);
+    setActiveGame(game);
   };
 
 
@@ -1133,7 +1131,11 @@ export default function CreateGame() {
                   </div>
                 )}
 
-
+                {activeGame != 'NLH' && (
+                  <div className='create-game-comming'>
+                  Comming soon...
+                </div>
+                )}
               </>
             </div>
           </div>

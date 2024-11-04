@@ -43,7 +43,7 @@ instance.interceptors.request.use(
         ...config.headers,
         'TG_ID': `${initData.user.id}`,
         'TG_BEARER': `${window.Telegram.WebView.initParams.tgWebAppData}`,
-        //'TG_BEARER': 'query_id=AAFJOi4vAgAAAEk6Li-z4NV2&user=%7B%22id%22%3A5086526025%2C%22first_name%22%3A%22123%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22omegachaino%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730457093&hash=32df61a0ce019c40f03c6800720d51b43f070e98476b24db1fd9a7b8306cc253',
+        //'TG_BEARER': 'query_id=AAFJOi4vAgAAAEk6Li99zMHt&user=%7B%22id%22%3A5086526025%2C%22first_name%22%3A%22123%22%2C%22last_name%22%3A%22%22%2C%22username%22%3A%22omegachaino%22%2C%22language_code%22%3A%22zh-hans%22%2C%22allows_write_to_pm%22%3Atrue%7D&auth_date=1730685426&hash=534c3fd68af867fc942e881bcad9a95f5f6551ab1203b142b032565e644445fb',
         'Token_Source': 'MiniApp',
       }
       const authorization = localStorage.getItem('authorization');

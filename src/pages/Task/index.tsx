@@ -21,11 +21,16 @@ function TaskPage() {
   const [loading, setLoading] = useState(true)
   const [selectedType, setSelectedType] = useState<string>('Poker')
   const navigate = useNavigate()
-  const [playCount, setPlayerCount] = useState()
+  const [playCount, setPlayerCount] = useState(0)
+  const [taskTabPage, setTaskTabPage] = useState(0)
+  
 
 
   const handleDoTask = async (item: any, index: number, cIndex: number) => {
+    index = taskTabPage;
+    console.log("index,cIndex=",index,cIndex)
     console.log("test do task: item:", item)
+
     let _list = JSON.parse(JSON.stringify(list))
 
     if (item.status !== 'Done' && item.status !== 'Claim') {
@@ -56,6 +61,7 @@ function TaskPage() {
               const updatedList = [..._list];
               _list[index][cIndex].loading = false
               _list[index][cIndex].status = "Start"
+
               setList(updatedList)
             }
             else if (res.code == 200) {
@@ -87,13 +93,30 @@ function TaskPage() {
         }
       }
       else if (item.mission_type == 'Poker') {
-        if (item.name == '') {
 
-        }
+        navigate('/')
+
+        // let taskCount = JSON.parse(item.metadata).count
+        // console.log("taskCount = ",)
+        // if (playCount >= taskCount) {
+        //   const claimRes = await handleTakReq({ user_id: userInfo.user_id, name: item.name });
+        //   console.log("领取游戏任务的回调 = ", claimRes);
+        //   if (claimRes.code == 200) {
+        //     const updatedUserInfo = { ...userInfo, score: userInfo.score + item.score };
+        //     const updatedList = [..._list];
+        //     _list[index][cIndex].loading = false
+        //     _list[index][cIndex].status = "Finished"
+        //     setList(updatedList)
+        //     dispatch(setUserInfoAction(updatedUserInfo));
+        //   }
+        // }
+
+
+
       }
 
     }
-    else if (item.status == 'Claim') {
+    else if (item.status == 'Claim' && item.mission_type != 'Poker') {
       const claimRes = await handleTakReq({ user_id: userInfo.user_id, name: item.name });
       console.log("Claim res = ", claimRes);
       if (claimRes.code == 200) {
@@ -105,19 +128,22 @@ function TaskPage() {
         dispatch(setUserInfoAction(updatedUserInfo));
       }
     }
+    else if (item.mission_type == 'Poker' && item.status == 'Claim') {
+      let taskCount = JSON.parse(item.metadata).count
+      if (playCount >= taskCount) {
+        const claimRes = await handleTakReq({ user_id: userInfo.user_id, name: item.name });
+        console.log("领取游戏任务的回调 = ", claimRes);
+        if (claimRes.code == 200) {
+          const updatedUserInfo = { ...userInfo, score: userInfo.score + item.score };
+          const updatedList = [..._list];
+          _list[index][cIndex].loading = false
+          _list[index][cIndex].status = "Finished"
+          setList(updatedList)
+          dispatch(setUserInfoAction(updatedUserInfo));
+        }
+      }
+    }
   }
-
-  // const groupByType = (arr: any) => {
-  //   console.log("arr = ",arr)
-  //   return Object.values(
-  //     arr.reduce((acc: any, item: any) => {
-  //       const type = item.mission_type
-  //       if (!acc[type]) acc[type] = []
-  //       acc[type].push(item)
-  //       return acc
-  //     }, {})
-  //   )
-  // }
 
   const groupByType = (arr: any[]) => {
     return Object.values(
@@ -154,15 +180,14 @@ function TaskPage() {
     }
     taskListReq().then(res => {
       if (res.code == 200) {
-        console.log("任务请求res:", res)
+        console.log(" res.data.mission_list = ",  res.data)
         res.data.mission_list = res.data.mission_list.map((item: any) => {
           item.loading = false;
           item.status = 'Start';
           return item;
         });
-        console.log("userInfo = ", userInfo)
+       
         taskListStatusReq(userInfo.user_id).then(statusRes => {
-          console.log("请求自己的任务状态：", statusRes)
           if (statusRes.code == 200) {
             const statusMap = new Map();
             statusRes.data.list.forEach((statusItem: any) => {
@@ -180,52 +205,53 @@ function TaskPage() {
             });
 
             const list = groupByType(res.data.mission_list);
-            setList(list);
-            setLoading(true);
+            console.log("任务list=", list)
+
+            // 请求游玩poker次数
+            handlePokerStatus(userInfo.user_id).then(statusRes => {
+              if (statusRes.code == 200) {
+                setPlayerCount(statusRes.data)
+                //statusRes.data = 100
+                res.data.mission_list.map((item: any) => {
+                  if (JSON.parse(item.metadata).count && statusRes.data >= JSON.parse(item.metadata).count) {
+
+                    item.status = 'Claim'
+                  }
+                })
+              }
+              setList(list);
+              setLoading(true);
+            })
           }
         });
-
-        handlePokerStatus(userInfo.user_id).then(statusRes => {
-          if (statusRes.code == 200) {
-            //console.log("任务statusRes=", statusRes)
-            setPlayerCount(statusRes.data)
-
-          }
-        })
       }
     });
-
-
   }, [userInfo])
 
   const handleTabClick = (type: string) => {
+    if(type == 'Poker') {
+      setTaskTabPage(0)
+    } else if(type == 'Social') {
+      setTaskTabPage(1)
+    }
     setSelectedType(type)
   }
 
   // const filteredList = selectedType === 'all' ? list : list.filter((group: any) => group[0].mission_type === selectedType)
   const filteredList = list.filter((group: any) => group[0].mission_type === selectedType)
+  console.log("filteredList = ",filteredList)
 
   return (
     <div className='task-page fadeIn'>
       <div className='task-title'>
         <div className='desc'>My BP</div>
         <div className='task-score-title'>
-          <img src='/assets/common/coin2x1.png' alt='tomato' className='unit-img' />
+          <img src='/assets/comm/task-big-coin.png' alt='tomato' className='unit-img' />
           <div className="score">{userInfo?.score?.toLocaleString()}</div>
         </div>
       </div>
       <div className='task-tabs'>
-        {/* {list.map((group: any, index: number) => (
-          <div
-            key={index}
-            className={`task-tab ${selectedType === group[0].mission_type ? 'active' : 'unactive'}`} 
-            onClick={() => handleTabClick(group[0].mission_type)}
-          >
-            {group[0].mission_type} task({group.length})
-          </div>
-        ))} */}
-
-        {list.map((group:any, index:number) => (
+        {list.map((group: any, index: number) => (
           <div
             key={index}
             className={`task-tab ${selectedType === group[0].mission_type ? 'active' : 'unactive'}`}
@@ -247,7 +273,7 @@ function TaskPage() {
                 return (
                   <div key={cindex} className='task-list-item'>
                     {citem.mission_type !== 'Social' && (
-                      <div className='task-list-top-left-corner'>{playCount}/10</div>
+                      <div className='task-list-top-left-corner'>{playCount}/{citem.metadata ? JSON.parse(citem.metadata).count : 0}</div>
                     )}
                     <div className='task-list-left'>
                       <img src={`/assets/common/${getImgSrc(citem.name)}.png`} alt='tomato' className='middle-icon' />

@@ -33,8 +33,8 @@ function CheckInPage() {
       
       dispatch(setUserInfoAction(mergedData))
       setTimeout(() => {
-        eventBus.emit('showCongrates', { time: 3000, visible: true })
-      }, 1100);
+        eventBus.emit('showCongrates', { time: 1500, visible: true })
+      }, 1000);
     }
 
       // let testdata = {

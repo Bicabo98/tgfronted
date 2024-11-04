@@ -15,8 +15,9 @@ export default function Friends() {
   const [isCopy, setIsCopy] = useState(false)
   // Telegram invite url
   const invite_url = localStorage.getItem('invite_url') as string
-  const link = invite_url + `${(userInfo.user_id)}`;
-  
+  // const link = invite_url + `${(userInfo.user_id)}`;
+  const link = invite_url;
+
   //const link = `https://t.me/privatepokerbot/gamepoker?startapp=${(userInfo.user_id)}`;
 
   var invite_text = "🌟 Join me on PokerTown, and let’s play and earn together! 🌟Use my invite link to join the fun—you’ll earn platform points for every friend you bring! Dive into exciting games like Texas Hold'em, Truco, and Yummy,"
@@ -82,7 +83,7 @@ export default function Friends() {
     setShowInvite(true)
   }
 
-  const send = () =>{  
+  const send = () => {
     utils.shareURL(link, invite_text)
   }
 
@@ -107,7 +108,7 @@ export default function Friends() {
     <div className="friends-title">
       <img src="assets/common/invite-card.png" alt="Invite Friends Icon" className="friends-title-image" />
       <div className="friends-title-text">INVITE FRIENDS</div>
-      
+
       {/* <div className="friends-title-text">TO</div> */}
     </div>
     <div className="friends-title3">
@@ -127,11 +128,11 @@ export default function Friends() {
 
       <div className="friends-context">
         <div className="friend-box left">
-          <img src="assets/common/invite-frens.png" alt="Left Image" className="friend-box-image" />
+          <img src="assets/common/invite-frens.png" alt="Left Image" className="friend-box-image-left" />
           <div className="friend-box-text left">{total}</div>
         </div>
         <div className="friend-box right">
-          <img src="assets/common/invite-earn.png" alt="Right Image" className="friend-box-image" />
+          <img src="assets/common/invite-earn.png" alt="Right Image" className="friend-box-image-right" />
           <div className="friend-box-text right">{totalScore}&nbsp;BP</div>
         </div>
       </div>
@@ -167,7 +168,7 @@ export default function Friends() {
                       </>
                     </div>
                   </div>
-   
+
                 </List.Item>
               })
             }
@@ -177,7 +178,7 @@ export default function Friends() {
       <InfiniteScroll loadMore={loadMore} hasMore={hasMore} children={<div></div>} />
     </div>
     <div className="invite-btn">
-      <Button color="default" style={{flex: 1 }} onClick={() => handleShare()}>👆🏻 Invite Frens</Button>
+      <Button color="default" style={{ flex: 1 }} onClick={() => handleShare()}>👆🏻 Invite Frens</Button>
     </div>
 
     <Popup
@@ -195,23 +196,23 @@ export default function Friends() {
         <div className='popup-rule-wrapper'>
           <div className='popup-custom-button' onClick={() => send()}>
             <img src='/assets/common/invite-send.png' alt='Button 1 Image' className='popup-button-image' />
-           
+
             <div className="popyp-button-text">Send</div>
           </div>
 
           <div className='popup-custom-button' onClick={() => copy()}>
             {
               !isCopy ? <img src='/assets/common/invite-copy.png' alt='Button 1 Image' className='popup-button-image' /> :
-              <img src='/assets/common/task-done.png' alt='Button 1 Image' className='popup-button-image' />
+                <img src='/assets/common/task-done.png' alt='Button 1 Image' className='popup-button-image' />
             }
             {
-              !isCopy? <div className="popyp-button-text"> Copy Link</div> :
-              <div className="popyp-button-text"> Success !</div>
+              !isCopy ? <div className="popyp-button-text"> Copy Link</div> :
+                <div className="popyp-button-text"> Success !</div>
             }
-            
+
           </div>
           <div className='popup-custom-button' onClick={() => setShowInvite(false)}>
-          <div className="popyp-button-text"> Close</div>
+            <div className="popyp-button-text"> Close</div>
           </div>
         </div>
       </div>

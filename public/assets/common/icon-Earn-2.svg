@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="18px" viewBox="0 0 20 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon-Earn-2</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.5" stroke-linecap="round">
+        <g id="Account备份" transform="translate(-134, -745)" stroke="#FFFFFF" stroke-width="2">
+            <g id="bottom-bar" transform="translate(0, 729)">
+                <g id="Earn-2" transform="translate(102, 7)">
+                    <g id="编组-3" transform="translate(33, 10)">
+                        <ellipse id="椭圆形" cx="8.94117647" cy="3" rx="8.94117647" ry="3"></ellipse>
+                        <path d="M17.8823529,16 C17.8823529,14.3431458 13.8792519,13 8.94117647,13 C4.00310106,13 0,14.3431458 0,16" id="椭圆形备份-4" transform="translate(8.9412, 14.5) scale(1, -1) translate(-8.9412, -14.5)"></path>
+                        <path d="M17.8823529,11 C17.8823529,9.34314575 13.8792519,8 8.94117647,8 C4.00310106,8 0,9.34314575 0,11" id="椭圆形备份-5" transform="translate(8.9412, 9.5) scale(1, -1) translate(-8.9412, -9.5)"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

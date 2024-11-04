@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="15px" height="18px" viewBox="0 0 15 18" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon-Account-2</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.5">
+        <g id="Frends备份-2" transform="translate(-311, -747)" stroke="#FFFFFF" stroke-width="2">
+            <g id="bottom-bar" transform="translate(3, 731)">
+                <g id="Account-2" transform="translate(272, 7)">
+                    <g id="编组-2" transform="translate(37, 10)">
+                        <circle id="椭圆形备份-2" cx="6.5" cy="4.5" r="4.5"></circle>
+                        <path d="M0,16 C0.619047619,11.3333333 2.78571429,9 6.5,9 C10.2142857,9 12.3809524,11.3333333 13,16 L0,16 Z" id="路径备份" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
